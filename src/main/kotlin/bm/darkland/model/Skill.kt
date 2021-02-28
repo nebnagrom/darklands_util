@@ -1,0 +1,23 @@
+package bm.darkland.model
+
+data class Skill(val position: Int, val name: String, val shortName: String)
+
+val WEAPON_EDGED = Skill(0, "Edged Weapon skill", "wEdg")
+val WEAPON_IMPACT = Skill(1, "Impact Weapon skill", "wImp")
+val WEAPON_FLAIL = Skill(2, "Flail Weapon skill", "wFll")
+val WEAPON_POLE = Skill(3, "Polearm Weapon skill", "wPol")
+val WEAPON_THROWN = Skill(4, "Thrown Weapon skill", "wThr")
+val WEAPON_BOW = Skill(5, "Bow Weapon skill", "wBow")
+val WEAPON_MISSILE = Skill(6, "Missile Weapon skill", "wMsl")
+val ALCHEMY = Skill(7, "Alchemy skill", "alch")
+val RELIGIOUS = Skill(8, "Religious skill", "relg")
+val VIRTUE = Skill(9, "Virtue skill", "virt")
+val SPEAK_COMMON = Skill(10, "Speak Common skill", "spkC")
+val SPEAK_LATIN = Skill(11, "Speak Latin skill", "spkK")
+val READ_WRITE = Skill(12, "Read Write skill", "r_w")
+val HEAL = Skill(13, "Healing skill", "heal")
+val ARTIFICE = Skill(14, "Artifice skill", "artf")
+val STEALTH = Skill(15, "Stealth skill", "stlh")
+val STREET_WISE = Skill(16, "Streetwise skill", "strw")
+val RIDE = Skill(17, "Riding skill", "ride")
+val WOOD_WISE = Skill(18, "Woodwise skill", "wdws")
