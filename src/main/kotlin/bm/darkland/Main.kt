@@ -1,6 +1,7 @@
 package bm.darkland
 
 import bm.darkland.parser.CatalogueParser
+import bm.darkland.parser.GeneralListParser
 import java.io.File
 import java.nio.charset.Charset
 
@@ -9,7 +10,6 @@ const val FIRST_SAINT_OFFSET = 1;
 const val SAINT_SIZE = 168;
 
 fun main(args: Array<String>) {
-    println("hello world $args")
     val saintsFile = File("DARKLAND/DARKLAND.SNT");
     val imapsCatalogueFile = "DARKLAND/IMAPS.CAT"
     val einfoCatalogueFile = "DARKLAND/E00C.CAT"
@@ -30,11 +30,14 @@ fun main(args: Array<String>) {
 //    }
 
 //    val imapsCatalogue = catalogueParser.parse(imapsCatalogueFile)
-    val catalogue = catalogueParser.parse(einfoCatalogueFile)
+//    val catalogue = catalogueParser.parse(einfoCatalogueFile)
+//
+//    catalogue.entries.forEach {
+//        println("catalogue entry $it")
+//    }
 
-    catalogue.entries.forEach {
-        println("catalogue entry $it")
-    }
+    val generalListParser = GeneralListParser()
+    generalListParser.parseGeneralList("DARKLAND/")
 
 //    val numberOfSaints = numberOfSaintBytes[0].toUByte()
 //    println ("number of saints $numberOfSaints")

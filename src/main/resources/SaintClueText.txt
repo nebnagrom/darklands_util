@@ -1,0 +1,130 @@
+ST.ADRIAN[43v,15-99df,15%1:End+(7-15).Chr+(6-11).eachweaponskill+(15-29)
+ST.AGATHA[24v,20-80df,25%1:[fprayingfora man.End+(6-11).Ifprayingforawoman,End+(12-23),Chr+(6-11)
+ST AGNES[19v,10-99df,25%]:Partymustincludeatleastonefemaleforthisprayertosucceed(evenifnoneareinvolvedintheprayer).Chr+(10-29),LocalReparnearestcity+(10-20)
+ST AIDAN[23v,15-99df,25%]:Woodwise+(25-29).Ininteractionswithanimals,thissaintmaypreventattacks
+ST ALBERTTHEGREAT[39v,25-99df,60%1:Int+(8-15),Per+(6-11),Alch+(30-44),SpkL+(15-29),R&W+(15-29)
+ST ALCUIN[39v,15-99df,60%]:[nt+(6-11),SpkL+(20-39),R&W+(20-39).Prayersinencounterswithgovernmentand/ornoblescanimprovechancesofSliccess
+ST ALEXIS[28v,10-99df,40%1:Chr+(6-11),LocalRepatnearestciry+(10-20).1fpartyhaslessthan12pf,itreceives36-108pf
+ST Al'iDREW[Bv,5-50df,20%]:End+(6-11),Chr+(8-15)
+ST Al'iDREWTHETRlBlIl'iE[37v,20-99df,15%1:wEdg+(15-29),wImp+(15-29),wPol+(15-29),wThr+(15-29),wBow+(15-29)
+ST A'\lTIIO,,",Y[37v,20-99df,15%]:End+(4-9),Str+(5-10),Chr+(1-10),SpkL+(10-19),R&W+(20-39).Thesaintcansometimesweakendemons,buronlyduringinteractionsbeforehattie
+ST ANTHOl'iY01'PADUA[S9v,10-99df,65%1:Str+(4-7),Per+(6-11),Chr+(15-24),wImp+(10-19).SpkC+(20-29),SpkL+(10-19)
+ST AR'\lCLI'[65v,IS-99df,65%1:Str+(4-/).Per+(6-11),Int+(4-7).eachweaponskill+(10-19),SpkL+(6-11),R&W+(8-15).StrW+(6-11).Ride+(8-15)
+ST ApOLUl'iARIUS[78v,20-50df,70%]:Str+(2-4),End+(8-15)
+ST BARBARA[32v,20-50df,40%]:Artf+(15-29),wMsD+(20-39)
+ST BATHlLDIS[2lv,15-60df,20%]:Int+(4-8),Per+<3-6).Thissaintmayhelpyouescapefromprison,butfrequentlyitcostsa  largeamountofmoney
+ST BONW-\CE[25v,10-90df,10%]:Chr+(8-15),SpkC+(8-15),eachwcaponskill+00-19).Duringinteraction,thissaintmaybeabletopurifycertainevilsites
+ST CATHERINE(OFAI.EXAC\nRL\)[46v,30-70df,30%]:Chr+(8-15),1nt+(8-15),SpkC+(40-99)
+ST CATHERINEorSIE""[33v,IO-99df,25%]:Chr+(1-15),Per+(1-15),SpkC+(10-29).Ininteractionsshem~ryprovideinsightSintotheattitudesorfeelingsoforhers.
+ST.CECILIA[41v,25-99df,50%1:Chr+(3-10),ifpersonprayinghas:.lmusicalinstrument+(20-60)colocalreputation.Shecansaveapartyfromsuffocation,orallowthemtosurvivev,rirhoutbreathing.Thisisusefulinafewspecialsituations
+ST CEOLWULF[23v,15-99df,25%1:Per+0-5),Str+(6-11),1m+0-5),SpkL+(6-11),eachweaponskill+(6-11).
+ST CIIARITY[40v,10-50df,50%1:wFll+(15-29),Chr+(6-11),LocalRepatnearestcity+(10-20),andarmorthicknessagainstflamewcaponsincreasedby10
+ST CHRISTINATHEASTONISHING[54v,50-99df,50%1:Agl+(8-15),Chr+(1-10).Ininteractionsshecansometimesleviratethepartyoverobstaclesorawayfromtrouble,butshetendstosendtheparrytodesertedorrelativelyemptyplaces
+ST CHRISTOPHER[31v,15-99df,25%1:wBow+(6-11),StrW+(10-19),WdWs+(20-39).Ride+(25-74)
+ST CLARE[33v,30-70df,20%1:healsStr95%,healsEnd95%
+ST CLOTILDA[22v,10-99df,30%]:healsEnd25%,healsStr50%,Heal(skill)+(10-19),Chr+(6-11)
+ST CODIANOFCLOYNE[34v,15-99df,55%1:Chr+(8-15),SpkC+(30-89),SpkL+(6-11),R&W+(10-19)
+ST COLUIBA[36v,20-99df,60%1:End+(8-15),Str+(6-13),Chr+(4-7),Per-(5-9),wcaponcurrentlyinuseskill+(10-19).NotethatSt.Columbatemporarilyreducesperception
+ST COSMAS[15v,15-75df,30%1:healsEnd10%,healsStr10%,Heal(skill)+(40-79),Per+(4-7),andautomaticallygivesknowledgeofSt.Damian
+ST CRISP""[28v,25-99df,35%]:Improvesarmorqualityonbothlimbsandvicalsbyto
+ST CYPRIA'"[54v,25-99df,50%]:1m+(6-12),Alch+(6-12).Thesaintcansometimesweakendemons,butonlyduringinteractionsbeforebattle
+ST D,UIIAN[30v,25-80df,40%]:healsEnd100%,healsStr30%.andautomaricall~igiveskoOwledgeofSr.Cosmas
+ST D."VlD[30v,10-75df,25%]:I nr+(4-7),Chr+(1-6),Per+(6-11),Ride+(6-11),weaponcurrenclyinliseskill+(8-15)
+ST DE"IS[38v,25-99df,20%]:healsSrr100%,Chr+(15-44),SpkC+(25-49)
+ST DERFELGADAR"[57v,20-60df,45%]:healsEnd70%,Str+(5-14),weaponcurrenclyinuseskill+(20-59).ST,DEVOTA[26v,20-65df,10%]:healsEnd100%,healsStr20%,Chr+05-29).
+ST.DISMAS[53v,30-99df,45%];WdWs+(10-19),StrW+(20-39),Anf+(20-39).Agi+(10-19),Stlh+(10-19).Hemayhelpapartyescapefromprisonasaninteractionoption
+ST DOMIC'iIC[29v,20-99df,15%]:Int+(10-19),SpkC+(10-19),SpkL+(10-19),R&W+(20-39).Hecanhelpthepartydealwithsometravellingclergy(friars,hermits,etc.)
+ST DOROTHYOFMONTAU[52v,20-99df,50%]:Chr+(10-19),Per+(6-11),Heal(skil1)+(10-19).Ifthepersonprayedforlacksanedgedweapon,heorshereceivesa longsv,"ord
+ST DROGO[59v,15-99df,60%];Per+(6-11),Heal(skil1)+(10-19),WdWs+(20-39),andhelpspreventambushesforsevendays
+ST DUC'iSTAN[45v,30-60df,60%];Per+(6-11),Anf+(25-74),StrW+(6-11),Alch+(5-14),weaponcurrentlyinuscskil1+(6-11),armorthick-nessimprovesoneagainstflameweapons
+ST DYMPHNA[21v,20-75df,10%]:healsEnd30%,Agl+(4-7),Heal(skil1)+(10-19),Stlh+(15-29).Thesaintcansometimesweakendemons,butonlyduringinteractionsbeforebattle
+ST EDWARDTHECONFESSOR[5v,20-99df,10%];End+(4-7),Int+(6-11),Per+(8-15),eachweaponskil1+(6-11),Ride+(8-15).Eachcharacterinthepartywhosevirtueisbelow20hastheirvirtueincreasedto20.Ininteractionswithnobility,thissaintissometimeshelpful
+ST EUGIUS[29v,10-60df,25%];Arrf+(25-74),Alch+(8-15).(Therearenoweaponorarmorimprovements.)ST.EMYDIljS[31v,20-99df,55%];SpkC+(20-39),Chr+(15-29).Duringinteraction,thissaintmaybeabletopurif\'certainevilsites
+ST ENGELBERT[40v,15-99df,30%];Chr+(5-9),Ride+(10-19),SpkC+(6-11),WdWs+(10-19)
+ST ERASMUS[32v,15-50df,40%];Agl+(6-11),Per+(6-11),andarmorbecomesinpenetrabletoflameV\'Capons
+ST ERIC[42v,20-99df,25%]:S(f+(8-15),Chr+(4-7),SpkC+(6-11),Ride+(6~11),wcaponcurrentlyinuseskill+(15-24)
+ST ECSTACE[41v,30-99df,30%]:wEdg+(6-11),wThr+(6-11),wBow+(6-11),Ride+(10-19),WdWs+(40-69)
+ST FeLIXOFNOLA[37v,25-99df,30%]:Agl+(8-1.1),Stlh+(40-99),wdws+00-19).Duringinteractions,thissaintmayhelpanimprisonedpartyescape.ST,FINB,\!'[I7v,30-99df,45%]:Chr+(8-15),Per+(6-11),SpkL+(10-19).S1.Fr'''L\:'[24v,40-'!9df,.15%1:Agl+(8-15),Chr+(6-11),SpkC+(6-11),R&W+(6-11),S(fW+(4-7).Inaddition,thepartycancrossimpassablewaterfor24hours.
+ST.FLORIAN[l7v,25-99df,35%]:Riding+(6-11),weaponcur-rendyinuseskill+(6-11).IfthenearestcityisAustrian(wien,Graz,Passau,Salzburg,LinzorStcyr)LocalRep+(15-25).Inaddition,thepartycancrossimpassablewaterfor24hours
+ST FRANCISOFASS!SI[lOY,10-60%,1%]:healsEnd30%,healsStr10%,End+(6-11),Chr+(15-29),Per+(6-11).SpkC+(4-7),Heal(skill)+(10-19),Artf+(12-23),WdWs+(4-7)
+ST GABRIEL[56v,30-75df,45%]:Int+(10-29),Per+(10-29).Thisarchangelandsaintcansometimesclearthewayofobstacles
+ST GENEVIEVE[73v,40-99df,75%]:healsEnd30%,healsStr20%,andhelpspreventambushesforsevendays
+ST GEORGE[23v,40-99df,10%]:Str+(10-14),Agl+(5-9),eachweaponskill+(25-49),Ride+(25-49)
+ST GERLAC[34v,40-75df,50%]:healsEnd30%,healsStr20%,Heal(skill)+(20-39),weaponcurrentlyinuseskill+(15-24)
+ST GERTRUDEOFNIVELLES[26v,35-99df,30%]:Chr+(6-11),SpkL+(15-29),R&W+(15-29),WdWs+(15-29),Riding+(5-9).Ifthepanyisinthecouncryside,itisimmediatelymovedtotheoutskirtsofthenearestcity
+ST GILES[45v,35-99df,15%]:healsEnd40%,healsStr10%,Agl-(4-7),weaponcurrentlyinuseskill-(15-24),Stlh+(30-59),StrW+(50-89),wdws+(5-9).NotethatSt.Gilestemporarilyreducesagilityandcertainweaponsskills
+ST GILESOFPORTUGAL[64v,15-99df,60%]:Alch+(40-59),Arrf+(10-19),lot+(5-9),Per+(15-24).Inaddition,eachprayercausesa-Iwoundtostrength,and-1tovirtue,whichdonotwearoffafter24hours
+ST GODEHARO[39v.15-99df,55%1:healsEnd30%,SpkL+(20-39),R&W+(25-49)
+ST GODFREY[55v,25-99df,40%]:healsEnd20%,SpkC+(15-29),Artf+(10-19),andhelpspreventambushesforsevcndays.Duringinccr-actionsthissaintmaypreventfightswithotherpeople
+ST GOTTSCHALK[64v,25-50df,55%]:eachweaponskill+(15-29),ifnearestcityiswendish(Schleswig,LUbeck,Hamburg,Bremen,RosrockandWismar)LocalRep+(20-40)
+ST GREGORYTHAUIATURClSS[74v,30-99df,80%]:Chr+(8-15),Alch+(10-19),SpkC+(10-19),;\[(1'+(20-39).DuringinreractionsthissaintmaysometimescauseimpressivemiraclesthatsolvedesperateordiffLcultproblems
+ST HEDWIG[16v,15-75df,10%]:Heal(skill)+(20-29),if nearestcityisSilesian(FrankfurtanderOder,Brcslau,OlmctzandTcschen)LocalRep+(20-40).Duringinteractionsthissaintmayhelpyouperceivethethoughtsofnoblesorotherleaders.
+ST.HENRY[61v,30-99df,75%J;Int+(8-23),eachweaponskill+(10-19)
+ST HERIBERT[30v,20-99df,35%J;Chr+(10-19),Str+(4-7).Duringinteractionsthissaintmayhelpyouperceiveev"ilinpeasants
+ST HERVE[47v,15-99df,40%];Per+(15-29).Duringinteractionsthissaintmayallowyoutosensewhethertheotherpersonisgoodorevil
+ST HILDEGARD[l3v,25-99df,25%];Per+(20-59).Ina fewinter-actionsituations,thissaintallOwsyoutoglimpsesomethingofthefuture
+ST HuBERT[34v,50-99df,50%];wPol+(15-29),wThr+(15-29),wBow+(15-29),wlvIsD+(15-29),Stlh+(25-49),WdWs+(40-79).Thissaintsometimesallo\\'5youtoavoidtroubleinwoodlandencounters
+ST ILLTYD[63v,20-99df,65%];Chr+(15-29).SpkC+(10-19),Ride+(5-9),eachweaponskill+(10-19)
+ST ISlDORE[21v,10-99df,35%J;Chr+(8-15),SpkC+(5-9),StrW+(10-19).Thissaintmayhelpinteractionswithfarmersorpeasants
+ST ITA[85v,10-99df,70%];healsEnd50%,healsStr100%,Cht+(8-15),Heal(skill)+(20-39)
+ST JA'.1ESTHEGREATER[25v,12-50df,40%];healsEnd20%,healsStr10%,Str+(4-7),End+(4-7),Chr+(3-5),Virt+(20-34)
+ST JAr\lJARIUS[66v,35-75df,66%]:Ininteractions\'\,irhanimalsthissaintmaypreventanarrack
+ST Jow"OFBRIOU:"GTON[36v,1O-99df,15%];if prayingforaman,healsEnd30%andhealsStr10%;ifprayingforawoman,healsEnd100%,healsStr20%,End+(5-9),Str+(4-7)
+ST .I0HNCHRYSOSTOM[37v,10-50df,25%];Chr+(8-15),Per-(6-11),SpkC+(30-59),SpkL+(30-59).Notethatperceptionisacruallyreducedtemporarily
+ST JOHNCUMAClJS[20v,40-99df,30%];eachnon-weaponskillincreasedby+(1-4),plusthetarget'scurrentvirtue/5
+ST .I0HNNEPOLMUCHEN[22v,15-60df,30%J;Chr+(8-15),lnt+(6-11),SpkC+(20-39),SoW+(4-7).[fnearestcityis!'ragLocalRep+(35-55),ifnearestcityisanotherinBohemia(St.Joachimsthal,Blirglitz,Kuttenberg,Brlinn,Olmlitz)LocalRep+00-20).Duringinteractions,thissaintmayforcepeopletotellthetruth.Thiscanbevcryhelpfulinanumberofcountrysideencounters
+ST JOSEPH[27v,35-99df,35%J;Chr+(6-11),Artf+(.,0-59),StrW+(30-59)
+ST JeDE[15v,20-90df,5'ltd:eachattribLlte+(-+-8).weaponcur-rentlyinuscskill+05-24).eachnon-weaponskill+(6-11)
+ST JULIANTHEHOSPITALER[61v,40-99df,75%];Ride+(6-11),\\'dws+(20-39),Also,tbeparrycancrossimpassablewaterfor24hours.
+ST.KESSOG[31v,20-99df,25%]:healsEnd40%,healsStr20%,Chr+(6-1I),SpkC+(15-29),Heal(skill)+(10-19),Ride+(4-7)
+ST LASDISLAUS[51v,25-99df,60%]:Srr+(4-7),Agi+(.1-5),SpkC+(6-1I),Ride+(10-19)
+ST LAWRENCE[20v,30-99df,10%]:healsEnd100%,Chr+(12-19),SpkC+(10-19),StrW+(10-19)
+ST LAZARUS[SOy,50-99df,60%]:healsEnd30%,healsSrr100%
+ST LONGlNIUS[49v,30-99df,45%]:eachweaponskill+(10-19)
+ST LuCY[77v,40-99df,65%]:hcalsEnd100%,healsStr100%,Pcr+(6-11)
+ST LUKE[17v,20-99df,35%]:healsEnd50%,healsSrr.30%,Heal(skill)+(20-39)
+ST LlJTGARDlS[60v,35-99df,50%]:Chr+(6-11),Per+(8-15),Virt+(6-17),End+(5-9).Duringsomeinteractions,thissaintmaytranslate(fly)thepartyoverobstaclessuchaswalls
+ST MARGARET[46v,25-75df,45%]:healsEnd100%,healsSrr50%,eachattribute+(3-6),eachnon-vveaponskill+(5-10)
+ST MARGARETOFCORTONA[52v,25-99df,10%]:healsEnd100%,healsSrr40%,Heal(skill)+(20+39),SpkC+(10-19)
+ST MARK[35v,25-99df,40%]:Agi+(12-23),R&W+(15-29)
+ST MARTINOFTOURS[69v,25-99df,65%]:healsEnd.30%,healsSrr.30%,Chr+(8-15),Per+(12-19),SpkC+(25-49),Ride+(20-39LDuringinreracrionsthissaintmayallowyoutosense\...·hcrhertheotherpersonisgoodorevil
+ST MATTHEW[26y,20-S0df,25%]:Int+(8-15),SpkL+(15-29),R&W+(25-49)
+ST MAI;RICE[Sly,30-50df,70%]:wEdg+(20-39),Alch+(10-19)
+ST MICHAEL[72v,25-99df,55%]:   Heal(skill)+(20-39),Chr+(12-19),weaponscurrentlyinusc+20
+ST MILBURGA[71Y,35-99df,70%]:lIeal(skill)+(20-39),Chr+(10-19),forthenext24hoursallOwsthepartycomoveoverimpassablewater.Duringsomeinteractionsthissaintmaytranslate(fly)theparryoverobstaclessuchaswalls
+ST MOSESTilEBLACK[66y,10-99df,65%]:eachwcaponskill+(15-29),Srlh+(20-j9),WdWs+(10-19),Str\\'+(10-19)
+ST NICHOLAS[49v,25-99df,55%];End+(4-8),Chr+(6-11),wFIl+(15-29),LocalRepatnearestcity"+(10-20)
+ST NICOLASOFTOLENTINO[31v,25-60df,23%];healsEnd50%,healsSrr100%,Relg+(S-IS),Heal(skill)+(12-23)
+ST ODILIA[25v,20-99df,40%]:Per+(6-11),if nearestcityisinAlsace(StrassburgorBasel)thenLocalRep+(15-25).
+ST.000[47v,30-99df,60%J:Chr+(4-8).Per+(10-19),SpkC+(8-15),eachweaponskill+(8-22),ST.OLAF[18v,15-99df,20%]:healsEnd30%,eachweaponskill+(8-22),ST.PANTALEON[56v,25-99df,20%]:healsEnd30%.healsSrr30%,Chr+(6-11),Alch+(10-19),Heal(skill)+(15-29),Entirepartyarmorthicknessincreased10againstflamev./capons.Ifthepartyisinthecountryside,itisimmediatelymovedtotheoutskirtsofthenearestcity.Ininteractionswithanimalsthissaintmaypreventanattack
+ST PATRICK[22v,25-99df,15%]:Chr+(15-24),Str+(12-19),wEdg+(15-29),wImp+(15-29),wPol+(15-29),SpkC+(15-29),SpkL+(15-29),R&W+(15-29),andarmorthicknessincreasedby2  againstflameweapons
+ST PAULTHESIMPLE[70v,20-80df,60%]:healsEnd100%,healsStr100%,Inthalved(temporarily).However,insomeinteractions,thissaintmayhelpyou"secintothemind"ofanother
+ST PAULTHEApOSTLE[19v,27-52df,35%]:Int+(12-23),SpkC+(12-26),SpkL+(12-26),R&W+(15-29),Heal(skill)+(10-19),ST.PERPETlJA[16v,40-99df,10%]:Cht+(15-29),[nintetactionswithanimalsthissaintmaypreventanattack
+ST PETER[58v,25-75df,55%]:Srr+(12-19),Chr+(8-15),SpkC+(10-19),SpkL+(10-19),Heal(skill)+(10-19),wEdg+(15-29),burPethalved(temporarily).Ifimprisoned,thissaintmayaidtheparty'sescape
+ST PETEROFATROA[62v,25-99df,50%]:Int+(6-11),Per+(6-11),Alch+(10-19),Stih+(40-79),Ride+(10-19).However,LocalRepinnearestcity-(1-5)
+ST POLYCARP[l9v,10-75df,20%]:Improvesarmorthicknessby11andadds90toarmorqualityofentireparr')"whenattackedbyflameweapons
+ST RAPllAEL[75v,40-60df,70%]:healsEnd100%,healsStr100%,Agl+(8-15),Pet+(6-11),Heal(skill)+(50-99)
+ST R'\YMONUPENAFORT[67v,10-99df,50%]:1m+(1S-29),R&W+00-89).Inaddition,theparrycancrossimpassablewaterfor24hours.Thepatronsaintoflawyers,thissaint'sabilitytoarguereligiouslawcanbeusefulinafevvencounters
+ST RAYMO,",OLULL[29v.10-99df.35%]:1m+(12-19),Alch+(20-39),R&W+(30-59).Inaddition,ifEndand/orSrrarcabove9,theyarereducedto9 (i.e.,characeerreceivingthisbenefitisalsolikelytosuffertheequivalentofseriousvl/ouods)
+ST REI,",OLD[27v,25-99df,45%]:healsEnd30%,Alch+(6-17),Arrf+(35-69),Chr-(6-11).Thissaintisfrequcndyusefulinscalingwalls.
+ST.ROCH[l9v,40-90df,45%]:healsEnd20%,healsStr20%,Heal(skill)+(10-19),Artf+(8-15).ThissaintmayhelpyOllcuretheplague
+ST SABASTHEGOTH[64v,2S-99df,SO%]:healsEnd100%,healsStr100%,Chr+(10-19)
+ST SEBASTIAN[28v,IS-90df,10%]:healsEnd10%,healsStr10%,Agi+(12-19),wBow+(20-39),Ride+(10-19).Thissaintmayhelpyoucuretheplague
+ST STANISLAUS[42v,40-99df,65%]:healsEnd20%,healsStr10%,Chr+(6-11),SpkC+(30-49),SpkL+(20-39)
+ST STEPHEN[27v,2()-99df,30%]:Chr+(6-11),1m+(8-15),SpkC+(6-11),Ride+(10-19).weaponcurrentlyinuseskill+(15-29),if partyisinPressburgLocalRep+(15-25)
+ST SWITHBERT[SOv,30-99df,30%]:healsEnd20%,healsStr10%,Chr+(10-19),SpkC+(25-49)
+ST TARACHUS[SOY,40-99df,30%]:healsEnd40%,healsStr20%,Chr+(6-11).Ininteractionswithanimalsthissaintmaypreventanattack
+ST THALELAEUS"THEMERCIFUL"[62v,1O-99df,6S%]:healsEnd40%,healsStr20%,Heal(skill)+(30-59)
+ST THEODORETIRO[38v,25-99df,40%]:Chr+(6-11),End+(4-8),wFli+(15-29),weaponcurrentlyinuseskill+(15-24)
+ST THOMASTHEApOSTLE[24v,1O-6Sdf,24%]:Str+(4-8),End+(4-8),SpkC+(4-8),Heal(skill)+(10-19),Artf+(12-23),WdWs+(4-7)
+ST TUOMASAQUINAS[68v,IS-99df,65%]:Int+(12-23),SpkC+(12-26),SpkL+(12-26),R&W+(15-29),Heal(skill)+(10-19)
+ST VALENTINE[48v,10-S0df,4S%]:healsEnd10%,healsS"10%,Chr+(10-19),Stlh+(6-11),Heal(skill)+(6-11),SpkC+(6-11)
+ST VICTOROFMARSEILLES[6Sv,30-80df,40%]:healsEndIO()%,healsS"20%,Chr+(8-15),SpkC+(10-19).weaponcurremlyinuseskill+(15-24)ST.VITlJS[48v,40-99df,6S%J:Chr+(10-19),Agi+(12-23).Ifthepartyisinthecountryside,itisimmediatelymovedtotheoutskirtsofthenearestcity
+ST WENCESLALS[44v,3S-99df,60%]:.otr+(6-11),[nt+(8-13),Per+(6-11),Ride+(8-15),weaponcurrentlyinuseskill+(8-15).IfneareSfcityisinBohernia(Prag,St.]oachimsthal,BOrgliv.Kuttenbcrg,r~rlinn,Olm[irz)LocalRep+(15-24)
+ST WILFRID[2Sv,lS-6Sdf,15%]:healsEnd20%,Chr+(6-11),SpkC+(20-39),Artf+(6-11),andhelpspreventambushesforsevendays
+ST WILLEHAD[3Sv,20-99df,35%]:Agl+(8-15),Ride+(10-19),wdws+(8-15),andhelpspreventambushesforsevendavs.
+ST.WILLEBALD[SOy.2S-99df,55%]:Chr+( 10-19),SpkC+(25-49),WdWs+(6-11)
+ST WILLIBORORD[43v,IS-S0df,55%1:Chr+(10-19),SpkC+(20-39),WdWs+(8-15)
+ST WOLF(;ANG[24v,20-99df,35%]:Chr+(8-15),lnt+(6-11),SpkC+(20-39),Ride+(6-11),WdWs+(6-11)
+ST ZITA[23v,10-6Sdf,15%]:healsEnd20%,healsStr5%,Per+(6-11),StrvV+(6-11).Duringinteractionswithservants,thissaintmayhelpyougainadditionalinformation.
+
