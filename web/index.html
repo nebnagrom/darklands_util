@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darklands — Map of Greater Germany</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
+      height: 100%;
+      background: #0e0d0a;
+      color: #c8b882;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── City list sidebar ── */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #3a3020;
+      background: #0b0a08;
+    }
+
+    .sidebar-header {
+      padding: 14px 12px 10px;
+      border-bottom: 1px solid #3a3020;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #8a7550;
+      flex-shrink: 0;
+    }
+
+    .city-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0;
+    }
+
+    .city-list::-webkit-scrollbar { width: 6px; }
+    .city-list::-webkit-scrollbar-track { background: #0b0a08; }
+    .city-list::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+    .city-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 3px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #a89060;
+      transition: background 0.1s;
+    }
+
+    .city-item:hover { background: #1a1810; color: #d4b870; }
+
+    .city-item.selected {
+      background: #2a2210;
+      color: #f0d060;
+    }
+
+    .city-item .grid-ref {
+      font-size: 10px;
+      color: #5a4e30;
+      min-width: 22px;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .city-item.selected .grid-ref { color: #8a7040; }
+
+    /* ── Map panel ── */
+    .map-panel {
+      flex: 1;
+      overflow: auto;
+      position: relative;
+      background: #0a0908;
+    }
+
+    .map-panel::-webkit-scrollbar { width: 8px; height: 8px; }
+    .map-panel::-webkit-scrollbar-track { background: #0a0908; }
+    .map-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 4px; }
+
+    .map-container {
+      position: relative;
+      display: inline-block;
+      line-height: 0;
+    }
+
+    .map-container img {
+      display: block;
+      max-width: none;
+    }
+
+    /* ── SVG overlay (future) ── */
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const CITIES = [
+      {id:"aachen",name:"Aachen",grid:"A5",size:5,cath:true,univ:false},
+      {id:"augsburg",name:"Augsburg",grid:"D7",size:6,cath:true,univ:false},
+      {id:"bamberg",name:"Bamberg",grid:"D6",size:5,cath:true,univ:false},
+      {id:"basel",name:"Basel",grid:"A8",size:5,cath:true,univ:true},
+      {id:"berlin",name:"Berlin",grid:"E3",size:4,cath:false,univ:false},
+      {id:"brandenburg",name:"Brandenburg",grid:"E4",size:4,cath:true,univ:false},
+      {id:"braunschweig",name:"Braunschweig",grid:"C4",size:5,cath:true,univ:false},
+      {id:"bremen",name:"Bremen",grid:"C3",size:6,cath:true,univ:false},
+      {id:"breslau",name:"Breslau",grid:"G5",size:5,cath:true,univ:false},
+      {id:"bromberg",name:"Bromberg",grid:"H3",size:5,cath:false,univ:false},
+      {id:"brunn",name:"Brünn",grid:"G7",size:4,cath:true,univ:false},
+      {id:"burglitz",name:"Bürglitz",grid:"E6",size:4,cath:false,univ:false},
+      {id:"danzig",name:"Danzig",grid:"H1",size:7,cath:true,univ:false},
+      {id:"deventer",name:"Deventer",grid:"A3",size:4,cath:false,univ:false},
+      {id:"dortmund",name:"Dortmund",grid:"B4",size:4,cath:false,univ:false},
+      {id:"dresden",name:"Dresden",grid:"E5",size:6,cath:true,univ:false},
+      {id:"duisberg",name:"Duisberg",grid:"A4",size:5,cath:false,univ:false},
+      {id:"elburg",name:"Elburg",grid:"A3",size:5,cath:false,univ:false},
+      {id:"erfurt",name:"Erfurt",grid:"D5",size:5,cath:true,univ:true},
+      {id:"flensburg",name:"Flensburg",grid:"C1",size:3,cath:false,univ:false},
+      {id:"frankfurt-am-main",name:"Frankfurt am Main",grid:"B6",size:5,cath:true,univ:false},
+      {id:"frankfurt-an-der-oder",name:"Frankfurt an der Oder",grid:"F4",size:5,cath:true,univ:false},
+      {id:"freiberg",name:"Freiberg",grid:"E5",size:5,cath:true,univ:true},
+      {id:"freiberg-im-breisgau",name:"Freiberg-im-Breisgau",grid:"B8",size:5,cath:true,univ:true},
+      {id:"fulda",name:"Fulda",grid:"C5",size:4,cath:false,univ:false},
+      {id:"furstenberg",name:"Fürstenberg",grid:"E3",size:4,cath:false,univ:false},
+      {id:"gorlitz",name:"Görlitz",grid:"F5",size:5,cath:false,univ:false},
+      {id:"goslar",name:"Goslar",grid:"C4",size:4,cath:true,univ:false},
+      {id:"graz",name:"Graz",grid:"G8",size:5,cath:true,univ:false},
+      {id:"groningen",name:"Groningen",grid:"A2",size:3,cath:false,univ:false},
+      {id:"hall",name:"Hall",grid:"C7",size:4,cath:false,univ:false},
+      {id:"hamburg",name:"Hamburg",grid:"C2",size:7,cath:true,univ:false},
+      {id:"hannover",name:"Hannover",grid:"C3",size:5,cath:false,univ:false},
+      {id:"heidelberg",name:"Heidelberg",grid:"B6",size:5,cath:false,univ:true},
+      {id:"kassel",name:"Kassel",grid:"C5",size:5,cath:false,univ:false},
+      {id:"kempen",name:"Kempen",grid:"A4",size:4,cath:false,univ:false},
+      {id:"koblenz",name:"Koblenz",grid:"B5",size:4,cath:false,univ:false},
+      {id:"koln",name:"Köln",grid:"A5",size:8,cath:true,univ:true},
+      {id:"konstanz",name:"Konstanz",grid:"B8",size:4,cath:true,univ:false},
+      {id:"kufstein",name:"Kufstein",grid:"D8",size:4,cath:false,univ:false},
+      {id:"kuttenberg",name:"Kuttenberg",grid:"F6",size:3,cath:false,univ:false},
+      {id:"leer",name:"Leer",grid:"B2",size:3,cath:false,univ:false},
+      {id:"leipzig",name:"Leipzig",grid:"E4",size:6,cath:true,univ:true},
+      {id:"linz",name:"Linz",grid:"F7",size:4,cath:false,univ:false},
+      {id:"lubeck",name:"Lübeck",grid:"D2",size:7,cath:true,univ:false},
+      {id:"luneburg",name:"Lüneburg",grid:"C3",size:5,cath:false,univ:false},
+      {id:"luxemburg",name:"Luxemburg",grid:"A6",size:5,cath:true,univ:false},
+      {id:"magdeburg",name:"Magdeburg",grid:"D4",size:5,cath:true,univ:false},
+      {id:"mainz",name:"Mainz",grid:"B6",size:6,cath:true,univ:false},
+      {id:"marienburg",name:"Marienburg",grid:"H2",size:5,cath:false,univ:false},
+      {id:"munchen",name:"München",grid:"D8",size:6,cath:true,univ:false},
+      {id:"munster",name:"Münster",grid:"B4",size:5,cath:true,univ:false},
+      {id:"nancy",name:"Nancy",grid:"A7",size:5,cath:false,univ:false},
+      {id:"naskskov",name:"Naskskov",grid:"D1",size:3,cath:false,univ:false},
+      {id:"nordlingen",name:"Nördlingen",grid:"C7",size:5,cath:true,univ:false},
+      {id:"nurnberg",name:"Nürnberg",grid:"D6",size:7,cath:false,univ:false},
+      {id:"nymwegen",name:"Nymwegen",grid:"A4",size:4,cath:false,univ:false},
+      {id:"olmutz",name:"Olmütz",grid:"H6",size:4,cath:false,univ:false},
+      {id:"osnabruck",name:"Osnabrück",grid:"B3",size:5,cath:true,univ:false},
+      {id:"paderborn",name:"Paderborn",grid:"B4",size:4,cath:true,univ:false},
+      {id:"passau",name:"Passau",grid:"E7",size:5,cath:false,univ:false},
+      {id:"posen",name:"Posen",grid:"G3",size:4,cath:false,univ:false},
+      {id:"prag",name:"Prag",grid:"F6",size:6,cath:true,univ:true},
+      {id:"prenzlau",name:"Prenzlau",grid:"E3",size:5,cath:false,univ:false},
+      {id:"pressburg",name:"Pressburg",grid:"H8",size:5,cath:true,univ:true},
+      {id:"regensburg",name:"Regensburg",grid:"D7",size:6,cath:true,univ:false},
+      {id:"rostock",name:"Rostock",grid:"D2",size:5,cath:false,univ:true},
+      {id:"rottweil",name:"Rottweil",grid:"B7",size:4,cath:false,univ:false},
+      {id:"salzburg",name:"Salzburg",grid:"E8",size:5,cath:true,univ:false},
+      {id:"schleswig",name:"Schleswig",grid:"C1",size:5,cath:true,univ:false},
+      {id:"soest",name:"Soest",grid:"B4",size:3,cath:true,univ:false},
+      {id:"speyer",name:"Speyer",grid:"B6",size:5,cath:true,univ:false},
+      {id:"st-joachimsthal",name:"St. Joachimsthal",grid:"E5",size:3,cath:false,univ:false},
+      {id:"stettin",name:"Stettin",grid:"F2",size:3,cath:false,univ:false},
+      {id:"steyr",name:"Steyr",grid:"F8",size:4,cath:false,univ:false},
+      {id:"stralsund",name:"Stralsund",grid:"E2",size:5,cath:false,univ:false},
+      {id:"strassburg",name:"Strassburg",grid:"B7",size:7,cath:true,univ:false},
+      {id:"stuttgart",name:"Stuttgart",grid:"C7",size:5,cath:true,univ:false},
+      {id:"teschen",name:"Teschen",grid:"H6",size:4,cath:false,univ:false},
+      {id:"thorn",name:"Thorn",grid:"H3",size:5,cath:true,univ:false},
+      {id:"trier",name:"Trier",grid:"A6",size:6,cath:true,univ:false},
+      {id:"ulm",name:"Ulm",grid:"C7",size:7,cath:true,univ:false},
+      {id:"vordingborg",name:"Vordingborg",grid:"D1",size:3,cath:false,univ:false},
+      {id:"wien",name:"Wien",grid:"G8",size:6,cath:true,univ:true},
+      {id:"wesel",name:"Wesel",grid:"A4",size:4,cath:false,univ:false},
+      {id:"wismar",name:"Wismar",grid:"D2",size:4,cath:false,univ:false},
+      {id:"wittenberg",name:"Wittenberg",grid:"E4",size:5,cath:false,univ:true},
+      {id:"worms",name:"Worms",grid:"B6",size:6,cath:true,univ:false},
+      {id:"wurzburg",name:"Würzburg",grid:"C6",size:5,cath:true,univ:true},
+      {id:"xanten",name:"Xanten",grid:"A4",size:5,cath:true,univ:false},
+      {id:"zurich",name:"Zürich",grid:"B8",size:5,cath:true,univ:false},
+      {id:"zwolle",name:"Zwolle",grid:"A3",size:3,cath:false,univ:false},
+    ];
+  </script>
+
+  <script type="text/babel">
+    const { useState, useRef, useCallback } = React;
+
+    function CityList({ cities, selectedId, onSelect, listRef }) {
+      return (
+        <div className="sidebar">
+          <div className="sidebar-header">Index of Cities</div>
+          <div className="city-list" ref={listRef}>
+            {cities.map(city => (
+              <div
+                key={city.id}
+                className={"city-item" + (selectedId === city.id ? " selected" : "")}
+                data-city-id={city.id}
+                onClick={() => onSelect(city.id)}
+              >
+                <span>{city.name}</span>
+                <span className="grid-ref">{city.grid}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function MapPanel({ children }) {
+      return (
+        <div className="map-panel">
+          <div className="map-container">
+            <img
+              src="../src/main/resources/map_area_only.png"
+              alt="Darklands — Map of Greater Germany"
+            />
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [selectedId, setSelectedId] = useState(null);
+      const listRef = useRef(null);
+
+      const handleSelect = useCallback((id) => {
+        setSelectedId(id);
+        // Scroll city list to selected item
+        if (listRef.current) {
+          const el = listRef.current.querySelector(`[data-city-id="${id}"]`);
+          if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }, []);
+
+      return (
+        <div className="app">
+          <CityList
+            cities={CITIES}
+            selectedId={selectedId}
+            onSelect={handleSelect}
+            listRef={listRef}
+          />
+          <MapPanel>
+            {/* SVG overlay added in next task */}
+          </MapPanel>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

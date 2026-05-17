@@ -1,4 +1,9 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(wsl bash -c '/home/morgan/go/bin/bd *')"
+    ]
+  },
   "hooks": {
     "PreCompact": [
       {
