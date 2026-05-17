@@ -396,3 +396,4 @@
 {"id":"int-7c9fccf9","kind":"field_change","created_at":"2026-05-17T09:23:37.97229888Z","actor":"daemon","issue_id":"hq-wisp-jnoe5","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
 {"id":"int-4f639e39","kind":"field_change","created_at":"2026-05-17T09:28:08.713242825Z","actor":"morgan","issue_id":"hq-oy8","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
 {"id":"int-d79cef16","kind":"field_change","created_at":"2026-05-17T09:28:08.757761688Z","actor":"morgan","issue_id":"hq-bau","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
+{"id":"int-e0dd64bd","kind":"field_change","created_at":"2026-05-17T09:28:24.573391695Z","actor":"daemon","issue_id":"hq-wisp-aqu27","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
