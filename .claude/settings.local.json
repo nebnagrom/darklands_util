@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(wsl bash -lc 'cd /mnt/d/programming/darklands_util && git push origin main')",
+      "PowerShell(git *)",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git push 2>&1')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd prime 2>&1 | head -40')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd ready 2>&1')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd dolt start 2>&1')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd ready 2>&1')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd bootstrap 2>&1')"
+    ]
+  }
+}
