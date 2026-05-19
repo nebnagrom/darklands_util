@@ -105,12 +105,25 @@
       max-width: none;
     }
 
-    /* ── SVG overlay (future) ── */
+    /* ── SVG overlay ── */
     .map-overlay {
       position: absolute;
       top: 0;
       left: 0;
-      pointer-events: none;
+    }
+
+    @keyframes city-pulse {
+      0%, 100% { r: 7.5px; }
+      50%       { r: 9.5px; }
+    }
+
+    .city-marker { cursor: pointer; }
+    .city-marker circle { transition: fill 0.1s; }
+    .city-marker:hover circle { fill: #d4a820; }
+    .city-marker.selected circle {
+      fill: #f0d060;
+      r: 7.5px;
+      animation: city-pulse 1.8s ease-in-out infinite;
     }
   </style>
 </head>
@@ -118,6 +131,17 @@
   <div id="root"></div>
 
   <script>
+    const DEV = location.search.includes('dev');
+
+    function gridToPixel(grid) {
+      const col = grid.charCodeAt(0) - 65; // A=0 … H=7
+      const row = parseInt(grid[1]) - 1;   // 1=0 … 8=7
+      return {
+        px: Math.round((col + 0.5) * (1070 / 8)),
+        py: Math.round((row + 0.5) * (1048 / 8)),
+      };
+    }
+
     const CITIES = [
       {id:"aachen",name:"Aachen",grid:"A5",size:5,cath:true,univ:false},
       {id:"augsburg",name:"Augsburg",grid:"D7",size:6,cath:true,univ:false},
@@ -211,11 +235,11 @@
       {id:"xanten",name:"Xanten",grid:"A4",size:5,cath:true,univ:false},
       {id:"zurich",name:"Zürich",grid:"B8",size:5,cath:true,univ:false},
       {id:"zwolle",name:"Zwolle",grid:"A3",size:3,cath:false,univ:false},
-    ];
+    ].map(c => ({ ...c, ...gridToPixel(c.grid) }));
   </script>
 
   <script type="text/babel">
-    const { useState, useRef, useCallback } = React;
+    const { useState, useRef, useCallback, useEffect } = React;
 
     function CityList({ cities, selectedId, onSelect, listRef }) {
       return (
@@ -238,16 +262,77 @@
       );
     }
 
-    function MapPanel({ children }) {
+    function MapPanel({ cities, selectedId, onSelectCity, devMode }) {
+      const imgRef = useRef(null);
+      const svgRef = useRef(null);
+      const [imgSize, setImgSize] = useState(null);
+
+      const handleImgLoad = useCallback(() => {
+        const img = imgRef.current;
+        if (img) setImgSize({ w: img.offsetWidth, h: img.offsetHeight });
+      }, []);
+
+      useEffect(() => {
+        // Catch cases where image was already cached and onLoad already fired
+        if (imgRef.current && imgRef.current.complete) handleImgLoad();
+      }, [handleImgLoad]);
+
+      const handleSvgClick = useCallback((e) => {
+        if (!svgRef.current) return;
+        const pt = svgRef.current.createSVGPoint();
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+        const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
+        console.log(`px: ${Math.round(x)}, py: ${Math.round(y)}`);
+      }, []);
+
       return (
         <div className="map-panel">
           <div className="map-container">
             <img
+              ref={imgRef}
               src="../src/main/resources/darklands_map_only.png"
               alt="Darklands — Map of Greater Germany"
               style={{ width: '120%', height: 'auto' }}
+              onLoad={handleImgLoad}
             />
-            {children}
+            {imgSize && (
+              <svg
+                ref={svgRef}
+                className="map-overlay"
+                viewBox="0 0 1070 1048"
+                width={imgSize.w}
+                height={imgSize.h}
+                style={{
+                  pointerEvents: devMode ? 'all' : 'none',
+                  cursor: devMode ? 'crosshair' : 'default',
+                }}
+                onClick={devMode ? handleSvgClick : undefined}
+              >
+                {cities.map(city => (
+                  <g
+                    key={city.id}
+                    className={"city-marker" + (selectedId === city.id ? " selected" : "")}
+                    style={{ pointerEvents: 'all', cursor: devMode ? 'crosshair' : 'pointer' }}
+                    onClick={(e) => {
+                      if (devMode) return;
+                      e.stopPropagation();
+                      onSelectCity(city.id);
+                    }}
+                  >
+                    <title>{city.name}</title>
+                    <circle
+                      cx={city.px}
+                      cy={city.py}
+                      r={selectedId === city.id ? 7.5 : 5}
+                      fill={selectedId === city.id ? '#f0d060' : '#a08040'}
+                      stroke="#0e0d0a"
+                      strokeWidth="1.5"
+                    />
+                  </g>
+                ))}
+              </svg>
+            )}
           </div>
         </div>
       );
@@ -259,7 +344,6 @@
 
       const handleSelect = useCallback((id) => {
         setSelectedId(id);
-        // Scroll city list to selected item
         if (listRef.current) {
           const el = listRef.current.querySelector(`[data-city-id="${id}"]`);
           if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -274,9 +358,12 @@
             onSelect={handleSelect}
             listRef={listRef}
           />
-          <MapPanel>
-            {/* SVG overlay added in next task */}
-          </MapPanel>
+          <MapPanel
+            cities={CITIES}
+            selectedId={selectedId}
+            onSelectCity={handleSelect}
+            devMode={DEV}
+          />
         </div>
       );
     }
