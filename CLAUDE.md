@@ -82,7 +82,7 @@ bd <command>
 
 ### Notes
 
-- Hooks in `.claude/settings.json` use bare `bd prime` — correct for WSL-native sessions
+- Hooks in `.claude/settings.json` use `wsl bash -c '/home/morgan/go/bin/bd prime -C /mnt/d/programming/darklands_util'` — required for Windows (PowerShell) sessions
 - `.beads/` directory should be `chmod 700` (WSL warns otherwise)
 
 ## Build & Test

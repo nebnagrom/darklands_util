@@ -9,7 +9,7 @@
       {
         "hooks": [
           {
-            "command": "bd prime",
+            "command": "wsl bash -c '/home/morgan/go/bin/bd prime -C /mnt/d/programming/darklands_util'",
             "type": "command"
           }
         ],
@@ -20,7 +20,7 @@
       {
         "hooks": [
           {
-            "command": "bd prime",
+            "command": "wsl bash -c '/home/morgan/go/bin/bd prime -C /mnt/d/programming/darklands_util'",
             "type": "command"
           }
         ],

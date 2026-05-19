@@ -1,138 +1,138 @@
 Name,Virtue,Divine Favour,base success,status effects,detail text,special effects
 St. Adrian,43,15-99,15%,"End +(7-15), Chr +(6-11), each weapon skill +(15-29)",,
 St. Agatha,24,20-80,25%,"If praying for a man, End +(6-11). If praying for a woman, End +(12-23), Chr +(6-11)",,
-St. Agnes,19,10-99,25%,"Party must include at least one female for this prayer to succeed (even if none are involved in the prayer). Chr +(10-29), Local Rep at nearest city +(10-20)",,
-St. Aidan,23,15-99,25%,Woodwise +(25-29),"In interactions with animals, this saint may prevent attacks",
+St. Agnes,19,10-99,25%,"Party must include at least one female for this prayer to succeed (even if none are involved in the prayer). Chr +(10-29), Local Rep at nearest city +(10-20)",,reputation-general
+St. Aidan,23,15-99,25%,Woodwise +(25-29),"In interactions with animals, this saint may prevent attacks",prevent-animal-attack
 St. Albert the Great,39,25-99,60%,"Int +(8-15), Per +(6-11), Alch +(30-44), SpkL +(15-29), R&W +(15-29)",,
-St. Alcuin,39,15-99,60%,"Int +(6-11), SpkL +(20-39), R&W +(20-39)",Prayers in encounters with government and/or nobles can improve chances of success,
-St. Alexis,28,10-99,40%,"Chr +(6-11), Local Rep at nearest city +(10-20). If party has less than 12pf, it receives 36-108pf",,
+St. Alcuin,39,15-99,60%,"Int +(6-11), SpkL +(20-39), R&W +(20-39)",Prayers in encounters with government and/or nobles can improve chances of success,interaction-noble|interaction-government
+St. Alexis,28,10-99,40%,"Chr +(6-11), Local Rep at nearest city +(10-20). If party has less than 12pf, it receives 36-108pf",,reputation-general|give-gold
 St. Andrew,14,5-50,20%,"End +(6-11), Chr +(8-15)",,
 St. Andrew the Tribune,37,20-99,15%,"wEdg +(15-29), wImp +(15-29), wPol +(15-29), wThr +(15-29), wBow +(15-29)",,
-St. Anthony,37,20-99,15%,"End +(4-9), Str +(5-10), Chr +(1-10), SpkL +(10-19), R&W +(20-39)","The saint can sometimes weaken demons, but only during interactions before battle",
+St. Anthony,37,20-99,15%,"End +(4-9), Str +(5-10), Chr +(1-10), SpkL +(10-19), R&W +(20-39)","The saint can sometimes weaken demons, but only during interactions before battle",weaken-demons
 St. Anthony of Padua,59,10-99,65%,"Str +(4-7), Per +(6-11), Chr +(15-24), wImp +(10-19), SpkC +(20-29), SpkL +(10-19)",,
 St. Arnulf,65,15-99,65%,"Str +(4-7), Per +(6-11), Int +(4-7), each weapon skill +(10-19), SpkL +(6-11), R&W +(8-15), StrW +(6-11), Ride +(8-15)",,
 St. Apollinarius,78,20-50,70%,"Str +(2-4), End +(8-15)",,
 St. Barbara,32,20-50,40%,"Artf +(15-29), wMsD +(20-39)",,
-St. Bathildis,21,15-60,20%,"Int +(4-8), Per +(3-6)","This saint may help you escape from prison, but frequently it costs a large amount of money",
-St. Boniface,25,10-90,10%,"Chr +(8-15), SpkC +(8-15), each weapon skill +(10-19)","During interaction, this saint may be able to purify certain evil sites",
+St. Bathildis,21,15-60,20%,"Int +(4-8), Per +(3-6)","This saint may help you escape from prison, but frequently it costs a large amount of money",escape-prison
+St. Boniface,25,10-90,10%,"Chr +(8-15), SpkC +(8-15), each weapon skill +(10-19)","During interaction, this saint may be able to purify certain evil sites",purify-evil-site
 St. Catherine (of Alexandria),46,30-70,30%,"Chr +(8-15), Int +(8-15), SpkC +(40-99)",,
-St. Catherine of Siena,33,10-99,25%,"Chr +(1-15), Per +(1-15), SpkC +(10-29)",In interactions she may provide insights into the attitudes or feelings of others,
-St. Cecilia,41,25-99,50%,"Chr +(3-10), if person praying has a musical instrument +(20-60) to local reputation","She can save a party from suffocation, or allow them to survive without breathing. This is useful in a few special situations",
+St. Catherine of Siena,33,10-99,25%,"Chr +(1-15), Per +(1-15), SpkC +(10-29)",In interactions she may provide insights into the attitudes or feelings of others,interaction-read-thoughts
+St. Cecilia,41,25-99,50%,"Chr +(3-10), if person praying has a musical instrument +(20-60) to local reputation","She can save a party from suffocation, or allow them to survive without breathing. This is useful in a few special situations",reputation-general|survive-suffocation
 St. Ceolwulf,23,15-99,25%,"Per +(3-5), Str +(6-11), Int +(3-5), SpkL +(6-11), each weapon skill +(6-11)",,
-St. Charity,40,10-50,50%,"wFll +(15-29), Chr +(6-11), Local Rep at nearest city +(10-20), and armor thickness against flame weapons increased by",,
-St. Christina the Astonishing,54,50-99,50%,"Agl +(8-15), Chr +(1-10)","In interactions she can sometimes levitate the party over obstacles or away from trouble, but she tends to send the party to deserted or relatively empty places",
+St. Charity,40,10-50,50%,"wFll +(15-29), Chr +(6-11), Local Rep at nearest city +(10-20), and armor thickness against flame weapons increased by",,reputation-general|flame-resistance
+St. Christina the Astonishing,54,50-99,50%,"Agl +(8-15), Chr +(1-10)","In interactions she can sometimes levitate the party over obstacles or away from trouble, but she tends to send the party to deserted or relatively empty places",levitate-walls|negative-effect
 St. Christopher,31,15-99,25%,"wBow +(6-11), StrW +(10-19), WdWs +(20-39), Ride +(25-74)",,
-St. Clare,33,30-70,20%,"heals Str 95%, heals End 95%",,
-St. Clotilda,22,10-99,30%,"heals End 25%, heals Str 50%, Heal (skill) +(10-19), Chr +(6-11)",,
+St. Clare,33,30-70,20%,"heals Str 95%, heals End 95%",,heal
+St. Clotilda,22,10-99,30%,"heals End 25%, heals Str 50%, Heal (skill) +(10-19), Chr +(6-11)",,heal
 St. Colman of Cloyne,34,15-99,55%,"Chr +(8-15), SpkC +(30-89), SpkL +(6-11), R&W +(10-19)",,
-St. Columba,36,20-99,60%,"End +(8-15), Str +(6-13), Chr +(4-7), Per -(5-9), weapon currently in use skill +(10-19)",Note that St. Columba temporarily reduces perception,
-St. Cosmas,15,15-75,30%,"heals End 10%, heals Str 10%, Heal (skill) +(40-79), Per +(4-7), and automatically gives knowledge of St. Damian",,
+St. Columba,36,20-99,60%,"End +(8-15), Str +(6-13), Chr +(4-7), Per -(5-9), weapon currently in use skill +(10-19)",Note that St. Columba temporarily reduces perception,negative-effect
+St. Cosmas,15,15-75,30%,"heals End 10%, heals Str 10%, Heal (skill) +(40-79), Per +(4-7), and automatically gives knowledge of St. Damian",,heal|knowledge-saint
 St. Crispin,28,25-99,35%,Improves armor quality on both limbs and vitals by,,
-St. Cyprian,54,25-99,50%,"Int +(6-12), Alch +(6-12)","The saint can sometimes weaken demons, but only during interactions before battle",
-St. Damian,30,25-80,40%,"heals End 100%, heals Str 30%, and automatically gives knowledge of St. Cosmas",,
+St. Cyprian,54,25-99,50%,"Int +(6-12), Alch +(6-12)","The saint can sometimes weaken demons, but only during interactions before battle",weaken-demons
+St. Damian,30,25-80,40%,"heals End 100%, heals Str 30%, and automatically gives knowledge of St. Cosmas",,heal|knowledge-saint
 St. David,30,10-75,25%,"Int +(4-7), Chr +(1-6), Per +(6-11), Ride +(6-11), weapon currently in use skill +(8-15)",,
-St. Denis,38,25-99,20%,"heals Str 100%, Chr (15-44), SpkC +(25-49)",,
-St. Derfel Gadarn,57,20-60,45%,"heals End 70%, Str +(5-14), weapon currently in use skill +(20-59)",,
-St. Devota,26,20-65,10%,"heals End 100%, heals Str 20%, Chr +(15-29)",,
-St. Dismas,53,30-99,45%,"WdWs +(10-19), StrW +(20-39), Artf +(20-39), Agl +(10-19), Stlh +(10-19)",He may help a party escape from prison as an interaction option,
-St. Dominic,29,20-99,15%,"Int +(10-19), SpkC +(10-19), SpkL +(10-19), R&W +(20-39)","He can help the party deal with some travelling clergy (friars, hermits, etc.)",
-St. Dorothy of Montau,52,20-99,50%,"Chr +(10-19), Per +(6-11), Heal (skill) +(10-19)","If the person prayed for lacks an edged weapon, he or she receives a longsword",
-St. Drogo,59,15-99,60%,"Per +(6-11), Heal (skill) +(10-19), WdWs +(20-39), and helps prevent ambushes for seven days",,
-St. Dunstan,45,30-60,60%,"Per +(6-11), Artf +(25-74), StrW +(6-11), Alch +(5-14), weapon currently in use skill +(6-11), armor thickness improves one against flame weapons",,
-St. Dymphna,21,20-75,10%,"heals End 30%, Agl +(4-7), Heal (skill) +(10-19), Stlh +(15-29)","The saint can sometimes weaken demons, but only during interactions before battle",
-St. Edward the Confessor,5,20-99,10%,"End +(4-7), Int +(6-11), Per +(8-15), each weapon skill +(6-11), Ride +(8-15). Each character in the party whose virtue is below 20 has their virtue increased to","In interactions with nobility, this saint is sometimes helpful",
+St. Denis,38,25-99,20%,"heals Str 100%, Chr (15-44), SpkC +(25-49)",,heal
+St. Derfel Gadarn,57,20-60,45%,"heals End 70%, Str +(5-14), weapon currently in use skill +(20-59)",,heal
+St. Devota,26,20-65,10%,"heals End 100%, heals Str 20%, Chr +(15-29)",,heal
+St. Dismas,53,30-99,45%,"WdWs +(10-19), StrW +(20-39), Artf +(20-39), Agl +(10-19), Stlh +(10-19)",He may help a party escape from prison as an interaction option,escape-prison
+St. Dominic,29,20-99,15%,"Int +(10-19), SpkC +(10-19), SpkL +(10-19), R&W +(20-39)","He can help the party deal with some travelling clergy (friars, hermits, etc.)",interaction-clergy
+St. Dorothy of Montau,52,20-99,50%,"Chr +(10-19), Per +(6-11), Heal (skill) +(10-19)","If the person prayed for lacks an edged weapon, he or she receives a longsword",give-weapon
+St. Drogo,59,15-99,60%,"Per +(6-11), Heal (skill) +(10-19), WdWs +(20-39), and helps prevent ambushes for seven days",,prevent-fight
+St. Dunstan,45,30-60,60%,"Per +(6-11), Artf +(25-74), StrW +(6-11), Alch +(5-14), weapon currently in use skill +(6-11), armor thickness improves one against flame weapons",,flame-resistance
+St. Dymphna,21,20-75,10%,"heals End 30%, Agl +(4-7), Heal (skill) +(10-19), Stlh +(15-29)","The saint can sometimes weaken demons, but only during interactions before battle",heal|weaken-demons
+St. Edward the Confessor,5,20-99,10%,"End +(4-7), Int +(6-11), Per +(8-15), each weapon skill +(6-11), Ride +(8-15). Each character in the party whose virtue is below 20 has their virtue increased to","In interactions with nobility, this saint is sometimes helpful",interaction-noble
 St. Eligius,29,10-60,25%,"Artf +(25-74), Alch +(8-15)",(There are no weapon or armor improvements.),
-St. Emydius,31,20-99,55%,"SpkC +(20-39), Chr +(15-29)","During interaction, this saint may be able to purify certain evil sites",
+St. Emydius,31,20-99,55%,"SpkC +(20-39), Chr +(15-29)","During interaction, this saint may be able to purify certain evil sites",purify-evil-site
 St. Engelbert,40,15-99,30%,"Chr +(5-9), Ride +(10-19), SpkC +(6-11), WdWs +(10-19)",,
-St. Erasmus,32,15-50,40%,"Agl +(6-11), Per +(6-11), and armor becomes impenetrable to flame weapons",,
+St. Erasmus,32,15-50,40%,"Agl +(6-11), Per +(6-11), and armor becomes impenetrable to flame weapons",,flame-resistance
 St. Eric,42,20-99,25%,"Str +(8-15), Chr +(4-7), SpkC +(6-11), Ride +(6-11), weapon currently in use skill +(15-24)",,
 St. Eustace,41,30-99,30%,"wEdg +(6-11), wThr +(6-11), wBow +(6-11), Ride +(10-19), WdWs +(40-69)",,
-St. Felix of Nola,37,25-99,30%,"Agl +(8-15), Stlh +(40-99), WdWs +(10-19)","During interactions, this saint may help an imprisoned party escape",
+St. Felix of Nola,37,25-99,30%,"Agl +(8-15), Stlh +(40-99), WdWs +(10-19)","During interactions, this saint may help an imprisoned party escape",escape-prison
 St. Finbar,17,30-99,45%,"Chr +(8-15), Per +(6-11), SpkL +(10-19)",,
-St. Finnian,24,40-99,35%,"Agl +(8-15), Chr +(6-11), SpkC +(6-11), R&W +(6-11), StrW +(4-7). In addition, the party can cross impassable water for 24 hours",,
-St. Florian,17,25-99,35%,"Riding +(6-11), weapon currently in use skill +(6-11). If the nearest city is Austrian (Wien, Graz, Passau, Salzburg, Linz or Steyr) Local Rep +(15-25). In addition, the party can cross impassable water for 24 hours",,
-St. Francis of Assisi,10,10-60,1%,"heals End 30%, heals Str 10%, End +(6-11), Chr +(15-29), Per +(6-11), SpkC +(4-7), Heal (skill) +(10-19), Artf +(12-23), WdWs +(4-7)",,
-St. Gabriel,56,30-75,45%,"Int +(10-29), Per +(10-29)",This archangel and saint can sometimes clear the way of obstacles,
-St. Genevieve,73,40-99,75%,"heals End 30%, heals Str 20%, and helps prevent ambushes for seven days",,
+St. Finnian,24,40-99,35%,"Agl +(8-15), Chr +(6-11), SpkC +(6-11), R&W +(6-11), StrW +(4-7). In addition, the party can cross impassable water for 24 hours",,cross-water
+St. Florian,17,25-99,35%,"Riding +(6-11), weapon currently in use skill +(6-11). If the nearest city is Austrian (Wien, Graz, Passau, Salzburg, Linz or Steyr) Local Rep +(15-25). In addition, the party can cross impassable water for 24 hours",,cross-water|reputation-city-specific
+St. Francis of Assisi,10,10-60,1%,"heals End 30%, heals Str 10%, End +(6-11), Chr +(15-29), Per +(6-11), SpkC +(4-7), Heal (skill) +(10-19), Artf +(12-23), WdWs +(4-7)",,heal
+St. Gabriel,56,30-75,45%,"Int +(10-29), Per +(10-29)",This archangel and saint can sometimes clear the way of obstacles,clear-obstacles
+St. Genevieve,73,40-99,75%,"heals End 30%, heals Str 20%, and helps prevent ambushes for seven days",,heal|prevent-fight
 St. George,23,40-99,10%,"Str +(10-14), Agl +(5-9), each weapon skill +(25-49), Ride +(25-49)",,
-St. Gerlac,34,40-75,50%,"heals End 30%, heals Str 20%, Heal (skill) +(20-39), weapon currently in use skill +(15-24)",,
-St. Gertrude of Nivelles,26,35-99,30%,"Chr +(6-11), SpkL +(15-29), R&W +(15-29), WdWs +(15-29), Riding +(5-9)","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",
-St. Giles,45,35-99,15%,"heals End 40%, heals Str 10%, Agl -(4-7), weapon currently in use skill -(15-24), Stlh +(30-59), StrW +(50-89), WdWs +(5-9)",Note that St. Giles temporarily reduces agility and certain weapons skills,
-St. Giles of Portugal,64,15-99,60%,"Alch +(40-59), Artf +(10-19), Int +(5-9), Per +(15-24)","In addition, each prayer causes a -1 wound to strength, and -1 to virtue, which do or wear off after 24 hours",
-St. Godehard,39,15-99,55%,"heals End 30%, SpkL +(20-39), R&W +(25-49)",,
-St. Godfrey,55,25-99,40%,"heals End 20%, SpkC +(15-29), Artf +(10-19), and helps prevent ambushes for seven days",During interactions this saint may prevent fights with other people,
-St. Gottschalk,64,25-50,55%,"each weapon skill +(15-29), if nearest city is Wendish (Schleswig, Lübeck, Hamburg, Bremen, Rostock and Wismar) Local Rep +(20-40)",,
-St. Gregory Thaumaturgus,74,30-99,80%,"Chr +(8-15). Alch +(10-19), SpkC +(10-19), Artf +(20-39)",During interactions this saint may sometimes cause impressive miracles that solve desperate or difficult problems,
-St. Hedwig,16,15-75,10%,"Heal (skill) +(20-29), if nearest city is Silesian (Frankfurt an der Oder, Breslau, Olmütz and Teschen) Local Rep +(20-40)",During interactions this saint may help you perceive the thoughts of nobles or other leaders,
+St. Gerlac,34,40-75,50%,"heals End 30%, heals Str 20%, Heal (skill) +(20-39), weapon currently in use skill +(15-24)",,heal
+St. Gertrude of Nivelles,26,35-99,30%,"Chr +(6-11), SpkL +(15-29), R&W +(15-29), WdWs +(15-29), Riding +(5-9)","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",move-to-city
+St. Giles,45,35-99,15%,"heals End 40%, heals Str 10%, Agl -(4-7), weapon currently in use skill -(15-24), Stlh +(30-59), StrW +(50-89), WdWs +(5-9)",Note that St. Giles temporarily reduces agility and certain weapons skills,heal|negative-effect
+St. Giles of Portugal,64,15-99,60%,"Alch +(40-59), Artf +(10-19), Int +(5-9), Per +(15-24)","In addition, each prayer causes a -1 wound to strength, and -1 to virtue, which do or wear off after 24 hours",negative-effect
+St. Godehard,39,15-99,55%,"heals End 30%, SpkL +(20-39), R&W +(25-49)",,heal
+St. Godfrey,55,25-99,40%,"heals End 20%, SpkC +(15-29), Artf +(10-19), and helps prevent ambushes for seven days",During interactions this saint may prevent fights with other people,heal|prevent-fight
+St. Gottschalk,64,25-50,55%,"each weapon skill +(15-29), if nearest city is Wendish (Schleswig, Lübeck, Hamburg, Bremen, Rostock and Wismar) Local Rep +(20-40)",,reputation-city-specific
+St. Gregory Thaumaturgus,74,30-99,80%,"Chr +(8-15). Alch +(10-19), SpkC +(10-19), Artf +(20-39)",During interactions this saint may sometimes cause impressive miracles that solve desperate or difficult problems,interaction-miracle
+St. Hedwig,16,15-75,10%,"Heal (skill) +(20-29), if nearest city is Silesian (Frankfurt an der Oder, Breslau, Olmütz and Teschen) Local Rep +(20-40)",During interactions this saint may help you perceive the thoughts of nobles or other leaders,interaction-noble|interaction-read-thoughts|reputation-city-specific
 St. Henry,61,30-99,75%,"Int +(8-23), each weapon skill +(10-19)",,
-St. Heribert,30,20-99,35%,"Chr +(10-19), Str +(4-7)",During interactions this saint may help you perceive evil in peasants,
-St. Herve,47,15-99,40%,Per +(15-29),During interactions this saint may allow you to sense whether the other person is good or evil,
-St. Hildegard,13,25-99,25%,Per +(20-59),"In a few interaction situations, this saint allows you to glimpse something of the future",
-St. Hubert,34,50-99,50%,"wPol +(15-29), wThr +(15-29), wBow +(15-29), wMsD +(15-29), Stlh +(25-49), WdWs +(40-79)",This saint sometimes allows you to avoid trouble in woodland encounters,
+St. Heribert,30,20-99,35%,"Chr +(10-19), Str +(4-7)",During interactions this saint may help you perceive evil in peasants,interaction-peasant
+St. Herve,47,15-99,40%,Per +(15-29),During interactions this saint may allow you to sense whether the other person is good or evil,interaction-sense-alignment
+St. Hildegard,13,25-99,25%,Per +(20-59),"In a few interaction situations, this saint allows you to glimpse something of the future",interaction-glimpse-future
+St. Hubert,34,50-99,50%,"wPol +(15-29), wThr +(15-29), wBow +(15-29), wMsD +(15-29), Stlh +(25-49), WdWs +(40-79)",This saint sometimes allows you to avoid trouble in woodland encounters,interaction-woodland
 St. Illtyd,63,20-99,65%,"Chr +(15-29), SpkC +(10-19), Ride +(5-9), each weapon skill +(10-19)",,
-St. Isidore,21,10-99,35%,"Chr +(8-15), SpkC +(5-9), StrW +(10-19)",This saint may help interactions with farmers or peasants,
-St. Ita,85,10-99,70%,"heals End 50%, heals Str 100%, Chr +(8-15), Heal (skill) +(20-39)",,
-St. James the Greater,25,12-50,40%,"heals End 20%, heals Str 10%, Str +(4-7), End +(4-7), Chr +(3-5), Virt +(20-34)",,
-St. Januarius,66,35-75,66%,,In interactions with animals this saint may prevent an attack,
-St. John of Bridlington,36,10-99,15%,"If praying for a man, heals End 30% and heals Str 10%; if praying for a woman, heals End 100%, heals Str 20%, End +(5-9), Str +(4-7)",,
-St. John Chrysostom,37,10-50,25%,"Chr +(8-15), Per -(6-14), SpkC +(30-59), SpkL +(30-59)",Note that perception is actually reduced temporarily,
+St. Isidore,21,10-99,35%,"Chr +(8-15), SpkC +(5-9), StrW +(10-19)",This saint may help interactions with farmers or peasants,interaction-peasant
+St. Ita,85,10-99,70%,"heals End 50%, heals Str 100%, Chr +(8-15), Heal (skill) +(20-39)",,heal
+St. James the Greater,25,12-50,40%,"heals End 20%, heals Str 10%, Str +(4-7), End +(4-7), Chr +(3-5), Virt +(20-34)",,heal
+St. Januarius,66,35-75,66%,,In interactions with animals this saint may prevent an attack,prevent-animal-attack
+St. John of Bridlington,36,10-99,15%,"If praying for a man, heals End 30% and heals Str 10%; if praying for a woman, heals End 100%, heals Str 20%, End +(5-9), Str +(4-7)",,heal
+St. John Chrysostom,37,10-50,25%,"Chr +(8-15), Per -(6-14), SpkC +(30-59), SpkL +(30-59)",Note that perception is actually reduced temporarily,negative-effect
 St. John Climacus,20,40-99,30%,"each non-weapon skill increased by +(1-4), plus the target's current virtue/5",,
-St. John Nepomucen,22,15-60,30%,"Chr +(8-15), Int +(6-11), SpkC +(20-39), StrW +(4-7). If nearest city is Prag Local Rep +(35-55), if nearest city is another in Bohemia (St. Joachimsthal, Bürglitz, Kuttenberg, Brünn, Olmütz) Local Rep +(10-20)","During interactions, this saint may force people to tell the truth. This can be very helpful in a number of countryside encounters",
+St. John Nepomucen,22,15-60,30%,"Chr +(8-15), Int +(6-11), SpkC +(20-39), StrW +(4-7). If nearest city is Prag Local Rep +(35-55), if nearest city is another in Bohemia (St. Joachimsthal, Bürglitz, Kuttenberg, Brünn, Olmütz) Local Rep +(10-20)","During interactions, this saint may force people to tell the truth. This can be very helpful in a number of countryside encounters",interaction-truth|reputation-city-specific
 St. Joseph,27,35-99,35%,"Chr +(6-11), Artf +(30-59), StrW +(30-59)",,
 St. Jude,15,20-90,5%,"each attribute +(4-8). weapon currently in use skill +(13-24), each non-weapon skill +(6-11)",,
-St. Julian the Hospitaler,61,40-99,75%,"Ride +(6-11), WdWs +(20-39), Also, the party can cross impassable water for 24 hours",,
-St. Kessog,31,20-99,25%,"heals End 40%, heals Str 20%, Chr +(6-11), SpkC +(15-29), Heal (skill) +(10-19), Ride +(4-7)",,
+St. Julian the Hospitaler,61,40-99,75%,"Ride +(6-11), WdWs +(20-39), Also, the party can cross impassable water for 24 hours",,cross-water
+St. Kessog,31,20-99,25%,"heals End 40%, heals Str 20%, Chr +(6-11), SpkC +(15-29), Heal (skill) +(10-19), Ride +(4-7)",,heal
 St. Ladislaus,51,25-99,60%,"Str +(4-7), Agl +(3-5), SpkC +(6-11), Ride +(10-19)",,
-St. Lawrence,20,30-99,10%,"heals End 100%, Chr +(12-19), SpkC +(10-19), StrW +(10-19)",,
-St. Lazarus,80,50-99,60%,"heals End 30%, heals Str 100%",,
+St. Lawrence,20,30-99,10%,"heals End 100%, Chr +(12-19), SpkC +(10-19), StrW +(10-19)",,heal
+St. Lazarus,80,50-99,60%,"heals End 30%, heals Str 100%",,heal
 St. Longinius,49,30-99,45%,each weapon skill +(10-19),,
-St. Lucy,77,40-99,65%,"heals End 100%, heals Str 100%, Per +(6-11)",,
-St. Luke,17,20-99,35%,"heals End 50%, heals Str 30%, Heal (skill) +(20-39)",,
-St. Lutgardis,60,35-99,50%,"Chr +(6-11), Per +(8-15), Virt +(6-17), End +(5-9)","During some interactions, this saint may translate (fly) the party over obstacles such as walls",
-St. Margaret,46,25-75,45%,"heals End 100%, heals Str 50%, each attribute +(3-6), each non-weapon skill +(5-10)",,
-St. Margaret of Cortona,52,25-99,10%,"heals End 100%, heals Str 40%, Heal (skill) +(20-39), SpkC +(10-19)",,
+St. Lucy,77,40-99,65%,"heals End 100%, heals Str 100%, Per +(6-11)",,heal
+St. Luke,17,20-99,35%,"heals End 50%, heals Str 30%, Heal (skill) +(20-39)",,heal
+St. Lutgardis,60,35-99,50%,"Chr +(6-11), Per +(8-15), Virt +(6-17), End +(5-9)","During some interactions, this saint may translate (fly) the party over obstacles such as walls",levitate-walls
+St. Margaret,46,25-75,45%,"heals End 100%, heals Str 50%, each attribute +(3-6), each non-weapon skill +(5-10)",,heal
+St. Margaret of Cortona,52,25-99,10%,"heals End 100%, heals Str 40%, Heal (skill) +(20-39), SpkC +(10-19)",,heal
 St. Mark,35,25-99,40%,"Agl +(12-23), R&W +(15-29)",,
-St. Martin of Tours,69,25-99,65%,"heals End 30%, heals Str 30%, Chr +(8-15), Per +(12-19), SpkC +(25-49), Ride +(20-39)",During interactions this saint may allow you to sense whether the other person is good or evil,
+St. Martin of Tours,69,25-99,65%,"heals End 30%, heals Str 30%, Chr +(8-15), Per +(12-19), SpkC +(25-49), Ride +(20-39)",During interactions this saint may allow you to sense whether the other person is good or evil,heal|interaction-sense-alignment
 St. Matthew,26,20-80,25%,"Int +(8-15), SpkL +(15-29), R&W +(25-49)",,
 St. Maurice,81,30-50,70%,"wEdg +(20-39), Alch +(10-19)",,
 St. Michael,72,25-99,55%,"Heal (skill) +(20-39), Chr +(12-19), weapons currently in use +20",,
-St. Milburga,71,35-99,70%,"Heal (skill) +(20-39), Chr +(10-19), for the next 24 hours allows the party to move over impassable water",During some interactions this saint may translate (fly) the party over obstacles such as walls,
+St. Milburga,71,35-99,70%,"Heal (skill) +(20-39), Chr +(10-19), for the next 24 hours allows the party to move over impassable water",During some interactions this saint may translate (fly) the party over obstacles such as walls,cross-water|levitate-walls
 St. Moses the Black,66,10-99,65%,"each weapon skill +(15-29), Stlh +(20-39), WdWs +(10-19), StrW +(10-19)",,
-St. Nicholas,49,25-99,55%,"End +(4-8), Chr +(6-11), wFll +(15-29), Local Rep at nearest city +(10-20)",,
-St. Nicolas of Tolentino,31,25-60,23%,"heals End 50%, heals Str 100%, Relg +(8-15), Heal (skill) +(12-23)",,
-St. Odilia,25,20-99,40%,"Per +(6-11), If nearest city is in Alsace (Strassburg or Basel) then local Rep +(15-25)",,
+St. Nicholas,49,25-99,55%,"End +(4-8), Chr +(6-11), wFll +(15-29), Local Rep at nearest city +(10-20)",,reputation-general
+St. Nicolas of Tolentino,31,25-60,23%,"heals End 50%, heals Str 100%, Relg +(8-15), Heal (skill) +(12-23)",,heal
+St. Odilia,25,20-99,40%,"Per +(6-11), If nearest city is in Alsace (Strassburg or Basel) then local Rep +(15-25)",,reputation-city-specific
 St. Odo,47,30-99,60%,"Chr +(4-8), Per +(10-19), SpkC +(8-15), each weapon skill +(8-22)",,
-St. Olaf,18,15-99,20%,"heals End 30%, each weapon skill +(8-22)",,
-St. Pantaleon,56,25-99,20%,"heals End 30%, heals Str 30%, Chr +(6-11), Alch +(10-19), Heal (skill) +(15-29). Entire party armor thickness increased 10 against flame weapons","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city. In interactions with animals this saint may prevent an attack",
-St. Patrick,22,25-99,15%,"Chr +(15-24), Str +(12-19), wEdg +(15-29), wImp +(15-29), wPol +(15-29), SpkC +(15-29), SpkL +(15-29), R&W +(15-29), and armor thickness increased by 2 against flame weapons",,
-St. Paul the Simple,70,20-80,60%,"heals End 100%, heals Str 100%, Int halved (temporarily)","However, in some interactions, this saint may help you ""see into the mind"" of another",
+St. Olaf,18,15-99,20%,"heals End 30%, each weapon skill +(8-22)",,heal
+St. Pantaleon,56,25-99,20%,"heals End 30%, heals Str 30%, Chr +(6-11), Alch +(10-19), Heal (skill) +(15-29). Entire party armor thickness increased 10 against flame weapons","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city. In interactions with animals this saint may prevent an attack",heal|flame-resistance|move-to-city|prevent-animal-attack
+St. Patrick,22,25-99,15%,"Chr +(15-24), Str +(12-19), wEdg +(15-29), wImp +(15-29), wPol +(15-29), SpkC +(15-29), SpkL +(15-29), R&W +(15-29), and armor thickness increased by 2 against flame weapons",,flame-resistance
+St. Paul the Simple,70,20-80,60%,"heals End 100%, heals Str 100%, Int halved (temporarily)","However, in some interactions, this saint may help you ""see into the mind"" of another",heal|interaction-read-thoughts|negative-effect
 St. Paul the Apostle,19,27-52,35%,"Int +(12-23), SpkC +(12-26), SpkL +(12-26), R&W +(15-29), Heal (skill) +(10-19)",,
-St. Perpetua,16,40-99,10%,Chr +(15-29),In interactions with animals this saint may prevent an attack,
-St. Peter,58,25-75,55%,"Str +(12-19), Chr +(8-15), SpkC +(10-19), SpkL +(10-19), Heal (skill) +(10-19), wEdg +(15-29), but Per halved (temporarily)","If imprisoned, this saint may aid the party's escape",
-St. Peter of Atroa,62,25-99,50%,"Int +(6-11), Per +(6-11), Alch +(10-19), Stlh +(40-79), Ride +(10-19). However, Local Rep in nearest city -(1-5)",,
-St. Polycarp,19,10-75,20%,Improves armor thickness by 11 and adds 90 to armor quality of entire party when attacked by flame weapons,,
-St. Raphael,75,40-60,70%,"heals End 100%, heals Str 100%, Agl +(8-15), Per +(6-11), Heal (skill) +(50-99)",,
-St. Raymond Penafort,67,10-99,50%,"Int +(15-29), R&W +(30-89), In addition, the party can cross impassable water for 24 hours","The patron saint of lawyers, this saint's ability to argue religious law can be useful in a few encounters",
-St. Raymond Lull,29,10-99,35%,"Int +(12-19), Alch +(20-39), R&W +(30-59)","In addition, if End and/or Str are above 9, they are reduced to 9 (i.e. character receiving this benefit is also likely to suffer the equivalent of serious wounds)",
-St. Reinold,27,25-99,45%,"heals End 30%, Alch +(6-17), Artf +(35-69), Chr -(6-11)",This saint is frequently useful in scaling walls,
-St. Roch,19,40-90,45%,"heals End 20%, heals Str 20%, Heal (skill) +(10-19), Artf +(8-15)",This saint may help you cure the plague,
-St. Sabas the Goth,64,25-99,50%,"heals End 100%, heals Str 100%, Chr +(10-19)",,
-St. Sebastian,28,15-90,10%,"heals End 10%, heals Str 10%, Agl +(12-19), wBow +(20-39), Ride +(10-19)",This saint may help you cure the plague,
-St. Stanislaus,42,40-99,65%,"heals End 20%, heals Str 10%, Chr +(6-11), SpkC +(30-49), SpkL +(20-39)",,
-St. Stephen,27,20-99,30%,"Chr +(6-11), Int +(8-15), SpkC +(6-11), Ride +(10-19), weapon currently in use skill +(15-29), if party is in Pressburg Local Rep +(15-25)",,
-St. Swithbert,50,30-99,30%,"heals End 20%, heals Str 10%, Chr +(10-19), SpkC +(25-49)",,
-St. Tarachus,50,40-99,30%,"heals End 40%, heals Str 20%, Chr +(6-11)",In interactions with animals this saint may prevent an attack,
-"St. Thalelaeus ""the Merciful""",62,10-99,65%,"heals End 40%, heals Str 20%, Heal (skill) +(30-59)",,
+St. Perpetua,16,40-99,10%,Chr +(15-29),In interactions with animals this saint may prevent an attack,prevent-animal-attack
+St. Peter,58,25-75,55%,"Str +(12-19), Chr +(8-15), SpkC +(10-19), SpkL +(10-19), Heal (skill) +(10-19), wEdg +(15-29), but Per halved (temporarily)","If imprisoned, this saint may aid the party's escape",escape-prison|negative-effect
+St. Peter of Atroa,62,25-99,50%,"Int +(6-11), Per +(6-11), Alch +(10-19), Stlh +(40-79), Ride +(10-19). However, Local Rep in nearest city -(1-5)",,negative-effect
+St. Polycarp,19,10-75,20%,Improves armor thickness by 11 and adds 90 to armor quality of entire party when attacked by flame weapons,,flame-resistance
+St. Raphael,75,40-60,70%,"heals End 100%, heals Str 100%, Agl +(8-15), Per +(6-11), Heal (skill) +(50-99)",,heal
+St. Raymond Penafort,67,10-99,50%,"Int +(15-29), R&W +(30-89), In addition, the party can cross impassable water for 24 hours","The patron saint of lawyers, this saint's ability to argue religious law can be useful in a few encounters",cross-water
+St. Raymond Lull,29,10-99,35%,"Int +(12-19), Alch +(20-39), R&W +(30-59)","In addition, if End and/or Str are above 9, they are reduced to 9 (i.e. character receiving this benefit is also likely to suffer the equivalent of serious wounds)",negative-effect
+St. Reinold,27,25-99,45%,"heals End 30%, Alch +(6-17), Artf +(35-69), Chr -(6-11)",This saint is frequently useful in scaling walls,heal|levitate-walls|negative-effect
+St. Roch,19,40-90,45%,"heals End 20%, heals Str 20%, Heal (skill) +(10-19), Artf +(8-15)",This saint may help you cure the plague,heal|cure-plague
+St. Sabas the Goth,64,25-99,50%,"heals End 100%, heals Str 100%, Chr +(10-19)",,heal
+St. Sebastian,28,15-90,10%,"heals End 10%, heals Str 10%, Agl +(12-19), wBow +(20-39), Ride +(10-19)",This saint may help you cure the plague,heal|cure-plague
+St. Stanislaus,42,40-99,65%,"heals End 20%, heals Str 10%, Chr +(6-11), SpkC +(30-49), SpkL +(20-39)",,heal
+St. Stephen,27,20-99,30%,"Chr +(6-11), Int +(8-15), SpkC +(6-11), Ride +(10-19), weapon currently in use skill +(15-29), if party is in Pressburg Local Rep +(15-25)",,reputation-city-specific
+St. Swithbert,50,30-99,30%,"heals End 20%, heals Str 10%, Chr +(10-19), SpkC +(25-49)",,heal
+St. Tarachus,50,40-99,30%,"heals End 40%, heals Str 20%, Chr +(6-11)",In interactions with animals this saint may prevent an attack,heal|prevent-animal-attack
+"St. Thalelaeus ""the Merciful""",62,10-99,65%,"heals End 40%, heals Str 20%, Heal (skill) +(30-59)",,heal
 St. Theodore Tiro,38,25-99,40%,"Chr +(6-11), End +(4-8), wFll +(15-29), weapon currently in use skill +(15-24)",,
 St. Thomas the Apostle,24,10-65,24%,"Str +(4-8), End +(4-8), SpkC +(4-8), Heal (skill) +(10-19), Artf +(12-23), WdWs +(4-7)",,
 St. Thomas Aquinas,68,15-99,65%,"Int +(12-23), SpkC +(12-26), SpkL +(12-26), R&W +(15-29), Heal (skill) +(10-19)",,
-St. Valentine,48,10-50,45%,"heals End 10%, heals Str 10%, Chr +(10-19), Stlh +(6-11), Heal (skill) +(6-11), SpkC +(6-11)",,
-St. Victor of Marseilles,65,30-80,40%,"heals End 100%, heals Str 20%, Chr +(8-15), SpkC +(10-19), weapon currently in use skill +(15-24)",,
-St. Vitus,48,40-99,65%,"Chr +(10-19), Agl +(12-23)","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",
-St. Wenceslaus,44,35-99,60%,"Str +(6-11), Int +(8-13), Per +(6-11), Ride +(8-15), weapon currently in use skill +(8-15). If nearest city is in Bohemia (Prag, St. Joachimsthal, Bürglitz, Kuttenberg, Brünn, Olmütz) Local Rep +(15-24)",,
-St. Wilfrid,25,15-65,15%,"heals End 20%, Chr +(6-11), SpkC +(20-39), Artf +(6-11), and helps prevent ambushes for seven days",,
-St. Willehad,35,20-99,35%,"Agl +(8-15), Ride +(10-19), WdWs +(8-15), and helps prevent ambushes for seven days",,
+St. Valentine,48,10-50,45%,"heals End 10%, heals Str 10%, Chr +(10-19), Stlh +(6-11), Heal (skill) +(6-11), SpkC +(6-11)",,heal
+St. Victor of Marseilles,65,30-80,40%,"heals End 100%, heals Str 20%, Chr +(8-15), SpkC +(10-19), weapon currently in use skill +(15-24)",,heal
+St. Vitus,48,40-99,65%,"Chr +(10-19), Agl +(12-23)","If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",move-to-city
+St. Wenceslaus,44,35-99,60%,"Str +(6-11), Int +(8-13), Per +(6-11), Ride +(8-15), weapon currently in use skill +(8-15). If nearest city is in Bohemia (Prag, St. Joachimsthal, Bürglitz, Kuttenberg, Brünn, Olmütz) Local Rep +(15-24)",,reputation-city-specific
+St. Wilfrid,25,15-65,15%,"heals End 20%, Chr +(6-11), SpkC +(20-39), Artf +(6-11), and helps prevent ambushes for seven days",,heal|prevent-fight
+St. Willehad,35,20-99,35%,"Agl +(8-15), Ride +(10-19), WdWs +(8-15), and helps prevent ambushes for seven days",,prevent-fight
 St. Willibald,50,25-99,55%,"Chr +(10-19), SpkC +(25-49), WdWs +(6-11)",,
 St. Willibrord,43,15-50,55%,"Chr +(10-19), SpkC +(20-39), WdWs +(8-15)",,
 St. Wolfgang,24,20-99,35%,"Chr +(8-15), Int +(6-11), SpkC +(20-39), Ride +(6-11), WdWs +(6-11)",,
-St. Zita,23,10-65,15%,"heals End 20%, heals Str 5%, Per +(6-11), StrW +(6-11)","During interactions with servants, this saint may help you gain additional information",
+St. Zita,23,10-65,15%,"heals End 20%, heals Str 5%, Per +(6-11), StrW +(6-11)","During interactions with servants, this saint may help you gain additional information",heal|interaction-servant

@@ -8,7 +8,25 @@
       "PowerShell(wsl bash -c '/home/morgan/go/bin/bd ready 2>&1')",
       "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd dolt start 2>&1')",
       "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd ready 2>&1')",
-      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd bootstrap 2>&1')"
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && /home/morgan/go/bin/bd bootstrap 2>&1')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd ready')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd ready --project darklands_util' and other bd commands)",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd show hq-6d8 -C /mnt/d/programming/darklands_util')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd show hq-cmg -C /mnt/d/programming/darklands_util')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd prime 2>&1' | Select-Object -First 50)",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd prime 2>&1' | Select-Object -First 5)",
+      "PowerShell(wsl bash -c 'cat /etc/wsl.conf 2>/dev/null || echo \"\\(no wsl.conf found\\)\"')",
+      "PowerShell(wsl bash -c 'cat /etc/wsl.conf')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd prime' 2>&1)",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd ready' 2>&1; wsl bash -c '/home/morgan/go/bin/bd doctor' 2>&1)",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd prime -C /mnt/d/programming/darklands_util' 2>&1 | Select-Object -First 10)",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd show hq-6d8')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd -C /mnt/d/programming/darklands_util list --status=open')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --oneline --format=\"%h %ai %s\" -10')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --format=\"%h %ci %s\" -10')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --pretty=format:\"%h %cd %s\" --date=short -10')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --oneline --decorate -10 2>&1')",
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git show 7200a88 --stat && echo \"---\" && git show a6ec4e8 --stat')"
     ]
   }
 }
