@@ -327,7 +327,8 @@
         }, { d: Infinity, city: null });
         const hit = nearest.d < 25 ? nearest.city : null;
         console.log(`px:${px}, py:${py}  →  ${hit ? `${hit.name} (${hit.id})` : 'null'}`);
-      }, [cities]);
+        if (hit) onSelectCity(hit.id);
+      }, [cities, onSelectCity]);
 
       const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
@@ -399,8 +400,12 @@
 
       const handleSelect = useCallback((id) => {
         setSelectedId(id);
-        const listEl = listRef.current && listRef.current.querySelector(`[data-city-id="${id}"]`);
-        if (listEl) listEl.scrollIntoView({ block: 'center' });
+        const el = listRef.current && listRef.current.querySelector(`[data-city-id="${id}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.outline = '2px solid orange';
+          setTimeout(() => { el.style.outline = ''; }, 1500);
+        }
       }, []);
 
       return (
