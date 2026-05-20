@@ -82,6 +82,32 @@
 
     .city-item.selected .grid-ref { color: #8a7040; }
 
+    /* ── Dev banner ── */
+    .dev-banner {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      padding: 6px 12px;
+      background: rgba(20, 16, 6, 0.88);
+      border-bottom: 1px solid #5a4010;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: #c89030;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .dev-banner .dev-label {
+      color: #e0a020;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .dev-banner .dev-city {
+      color: #f0d060;
+    }
+
     /* ── Map panel ── */
     .map-panel {
       flex: 1;
@@ -166,8 +192,8 @@
       {id:"frankfurt-am-main", name:"Frankfurt am Main",     grid:"B6", size:5, cath:true,  univ:false, px:258, py:659},
       {id:"frankfurt-an-der-oder", name:"Frankfurt an der Oder", grid:"F4", size:5, cath:true, univ:false, px:706, py:407},
       {id:"freiberg",          name:"Freiberg",              grid:"E5", size:5, cath:true,  univ:true,  px:613, py:578},
-      {id:"freiberg-im-breisgau", name:"Freiberg-im-Breisgau", grid:"B8", size:5, cath:true, univ:true, px:225, py:855},
-      {id:"fulda",             name:"Fulda",                 grid:"C5", size:4, cath:false, univ:false, px:325, py:510},
+      {id:"freiberg-im-breisgau", name:"Freiberg-im-Breisgau", grid:"B8", size:5, cath:true, univ:true, px:176, py:911},
+      {id:"fulda",             name:"Fulda",                 grid:"C5", size:4, cath:false, univ:false, px:340, py:608},
       {id:"furstenberg",       name:"Fürstenberg",           grid:"E3", size:4, cath:false, univ:false, px:610, py:280},
       {id:"gorlitz",           name:"Görlitz",               grid:"F5", size:5, cath:false, univ:false, px:680, py:545},
       {id:"goslar",            name:"Goslar",                grid:"C4", size:4, cath:true,  univ:false, px:360, py:395},
@@ -283,11 +309,40 @@
         pt.x = e.clientX;
         pt.y = e.clientY;
         const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
-        console.log(`px: ${Math.round(x)}, py: ${Math.round(y)}`);
-      }, []);
+        const px = Math.round(x);
+        const py = Math.round(y);
+
+        if (!selectedId) {
+          console.log(`px:${px}, py:${py} — select a city first`);
+          return;
+        }
+
+        fetch('/update-city', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cityId: selectedId, px, py }),
+        })
+          .then(r => r.json())
+          .then(d => {
+            if (d.ok) console.log(`✓ ${d.cityId}: px=${d.px}, py=${d.py}`);
+            else console.error(`✗ ${d.error}`);
+          })
+          .catch(err => console.error('update-city failed:', err));
+      }, [selectedId]);
+
+      const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
       return (
         <div className="map-panel">
+          {devMode && (
+            <div className="dev-banner">
+              <span className="dev-label">Dev</span>
+              {selectedCity
+                ? <><span>Pinning:</span><span className="dev-city">{selectedCity.name}</span><span>— click map to place</span></>
+                : <span>Select a city from the list, then click the map to pin it</span>
+              }
+            </div>
+          )}
           <div className="map-container">
             <img
               ref={imgRef}
