@@ -321,8 +321,13 @@
         const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
         const px = Math.round(x);
         const py = Math.round(y);
-        console.log(selectedId ? `${selectedId}  px:${px}, py:${py}` : `px:${px}, py:${py}`);
-      }, [selectedId]);
+        const nearest = cities.reduce((best, city) => {
+          const d = Math.hypot(city.px - px, city.py - py);
+          return d < best.d ? { d, city } : best;
+        }, { d: Infinity, city: null });
+        const hit = nearest.d < 25 ? nearest.city : null;
+        console.log(`px:${px}, py:${py}  →  ${hit ? `${hit.name} (${hit.id})` : 'null'}`);
+      }, [cities]);
 
       const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
