@@ -289,7 +289,6 @@
     }
 
     function MapPanel({ cities, selectedId, onSelectCity, devMode }) {
-      const panelRef = useRef(null);
       const imgRef = useRef(null);
       const svgRef = useRef(null);
       const [imgSize, setImgSize] = useState(null);
@@ -300,21 +299,8 @@
       }, []);
 
       useEffect(() => {
-        // Catch cases where image was already cached and onLoad already fired
         if (imgRef.current && imgRef.current.complete) handleImgLoad();
       }, [handleImgLoad]);
-
-      // Scroll map panel to center on selected city marker
-      useEffect(() => {
-        if (!selectedId || !panelRef.current) return;
-        const marker = panelRef.current.querySelector(`[data-marker-id="${selectedId}"] circle`);
-        if (!marker) return;
-        const mRect = marker.getBoundingClientRect();
-        const pRect = panelRef.current.getBoundingClientRect();
-        const panel = panelRef.current;
-        panel.scrollLeft += (mRect.left + mRect.width / 2) - (pRect.left + pRect.width / 2);
-        panel.scrollTop  += (mRect.top  + mRect.height / 2) - (pRect.top  + pRect.height / 2);
-      }, [selectedId, imgSize]);
 
       const handleSvgClick = useCallback((e) => {
         if (!svgRef.current) return;
@@ -330,7 +316,7 @@
       const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
       return (
-        <div className="map-panel" ref={panelRef}>
+        <div className="map-panel">
           {devMode && (
             <div className="dev-banner">
               <span className="dev-label">Dev</span>
@@ -397,10 +383,10 @@
 
       const handleSelect = useCallback((id) => {
         setSelectedId(id);
-        if (listRef.current) {
-          const el = listRef.current.querySelector(`[data-city-id="${id}"]`);
-          if (el) el.scrollIntoView({ block: "center" });
-        }
+        const listEl = listRef.current && listRef.current.querySelector(`[data-city-id="${id}"]`);
+        if (listEl) listEl.scrollIntoView({ block: 'center' });
+        const markerEl = document.querySelector(`[data-marker-id="${id}"]`);
+        if (markerEl) markerEl.scrollIntoView({ block: 'center', inline: 'center' });
       }, []);
 
       return (
