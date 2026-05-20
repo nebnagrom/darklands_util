@@ -375,6 +375,16 @@
       }, [handleImgLoad]);
 
       useEffect(() => {
+        const img = imgRef.current;
+        if (!img) return;
+        const observer = new ResizeObserver(() => {
+          setImgSize({ w: img.offsetWidth, h: img.offsetHeight });
+        });
+        observer.observe(img);
+        return () => observer.disconnect();
+      }, []);
+
+      useEffect(() => {
         if (!selectedId || !panelRef.current || !imgRef.current) return;
         const city = cities.find(c => c.id === selectedId);
         if (!city) return;
