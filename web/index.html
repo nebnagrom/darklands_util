@@ -311,11 +311,9 @@
         if (!marker) return;
         const mRect = marker.getBoundingClientRect();
         const pRect = panelRef.current.getBoundingClientRect();
-        panelRef.current.scrollBy({
-          left: (mRect.left + mRect.width / 2) - (pRect.left + pRect.width / 2),
-          top:  (mRect.top  + mRect.height / 2) - (pRect.top  + pRect.height / 2),
-          behavior: 'smooth',
-        });
+        const panel = panelRef.current;
+        panel.scrollLeft += (mRect.left + mRect.width / 2) - (pRect.left + pRect.width / 2);
+        panel.scrollTop  += (mRect.top  + mRect.height / 2) - (pRect.top  + pRect.height / 2);
       }, [selectedId, imgSize]);
 
       const handleSvgClick = useCallback((e) => {
@@ -401,7 +399,7 @@
         setSelectedId(id);
         if (listRef.current) {
           const el = listRef.current.querySelector(`[data-city-id="${id}"]`);
-          if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          if (el) el.scrollIntoView({ block: "center" });
         }
       }, []);
 
