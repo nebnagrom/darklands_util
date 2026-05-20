@@ -151,6 +151,76 @@
       r: 7.5px;
       animation: city-pulse 1.8s ease-in-out infinite;
     }
+
+    /* ── Detail panel ── */
+    .detail-panel {
+      width: 220px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #3a3020;
+      background: #0b0a08;
+      overflow-y: auto;
+    }
+    .detail-panel::-webkit-scrollbar { width: 6px; }
+    .detail-panel::-webkit-scrollbar-track { background: #0b0a08; }
+    .detail-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+    .detail-empty {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #2a2010;
+    }
+    .detail-header {
+      padding: 14px 12px 10px;
+      border-bottom: 1px solid #3a3020;
+      flex-shrink: 0;
+    }
+    .detail-city-name {
+      font-size: 14px;
+      color: #f0d060;
+      margin-bottom: 3px;
+    }
+    .detail-city-meta {
+      font-size: 10px;
+      color: #5a4e30;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .detail-section {
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e1a0e;
+      flex-shrink: 0;
+    }
+    .detail-section-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #4a3e20;
+      margin-bottom: 6px;
+    }
+    .detail-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+    .detail-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border: 1px solid #3a3020;
+      color: #9a8050;
+      background: #111008;
+    }
+    .detail-table { width: 100%; border-collapse: collapse; }
+    .detail-table tr + tr td { border-top: 1px solid #1a1608; }
+    .detail-table td { padding: 3px 0; font-size: 12px; color: #a89060; }
+    .detail-table td.skill {
+      text-align: right;
+      font-family: monospace;
+      font-size: 11px;
+      color: #c8b882;
+    }
   </style>
 </head>
 <body>
@@ -167,6 +237,102 @@
         py: Math.round((row + 0.5) * (1048 / 8)),
       };
     }
+
+    // bs=blacksmith sw=swordsmith ar=armorer bw=bowyer ax=artificer cl=clothier slum leih=leihhaus
+    const CITY_DATA = {
+      aachen:              {bs:0, sw:28,ar:27,bw:26,ax:36,cl:30,slum:0,leih:1},
+      augsburg:            {bs:0, sw:27,ar:29,bw:24,ax:29,cl:29,slum:1,leih:1},
+      bamberg:             {bs:0, sw:29,ar:27,bw:25,ax:25,cl:25,slum:1,leih:0},
+      basel:               {bs:0, sw:26,ar:31,bw:26,ax:29,cl:28,slum:1,leih:1},
+      berlin:              {bs:24,sw:0, ar:0, bw:24,ax:23,cl:23,slum:0,leih:0},
+      brandenburg:         {bs:0, sw:29,ar:25,bw:24,ax:25,cl:26,slum:1,leih:1},
+      braunschweig:        {bs:0, sw:24,ar:23,bw:22,ax:25,cl:25,slum:1,leih:1},
+      bremen:              {bs:0, sw:25,ar:27,bw:29,ax:27,cl:27,slum:1,leih:1},
+      breslau:             {bs:0, sw:25,ar:28,bw:32,ax:25,cl:26,slum:1,leih:1},
+      bromberg:            {bs:20,sw:0, ar:0, bw:0, ax:22,cl:22,slum:0,leih:0},
+      brunn:               {bs:0, sw:24,ar:22,bw:25,ax:24,cl:25,slum:1,leih:0},
+      burglitz:            {bs:0, sw:32,ar:25,bw:23,ax:25,cl:23,slum:0,leih:0},
+      danzig:              {bs:0, sw:26,ar:25,bw:25,ax:29,cl:26,slum:1,leih:1},
+      deventer:            {bs:23,sw:0, ar:0, bw:0, ax:25,cl:38,slum:0,leih:0},
+      dortmund:            {bs:24,sw:0, ar:0, bw:22,ax:24,cl:22,slum:0,leih:1},
+      dresden:             {bs:0, sw:26,ar:34,bw:25,ax:39,cl:27,slum:1,leih:1},
+      duisberg:            {bs:0, sw:29,ar:26,bw:24,ax:25,cl:24,slum:1,leih:1},
+      elburg:              {bs:23,sw:0, ar:0, bw:36,ax:25,cl:35,slum:0,leih:0},
+      erfurt:              {bs:25,sw:0, ar:0, bw:24,ax:29,cl:25,slum:1,leih:1},
+      flensburg:           {bs:22,sw:0, ar:0, bw:0, ax:21,cl:23,slum:0,leih:0},
+      "frankfurt-am-main": {bs:0, sw:24,ar:27,bw:24,ax:26,cl:24,slum:1,leih:1},
+      "frankfurt-an-der-oder":{bs:0,sw:27,ar:27,bw:28,ax:27,cl:27,slum:1,leih:1},
+      freiberg:            {bs:27,sw:0, ar:0, bw:0, ax:33,cl:23,slum:1,leih:1},
+      "freiberg-im-breisgau":{bs:0,sw:36,ar:24,bw:24,ax:24,cl:23,slum:0,leih:0},
+      fulda:               {bs:22,sw:0, ar:0, bw:0, ax:24,cl:24,slum:1,leih:1},
+      furstenberg:         {bs:23,sw:0, ar:0, bw:0, ax:23,cl:23,slum:0,leih:0},
+      gorlitz:             {bs:22,sw:0, ar:25,bw:0, ax:23,cl:21,slum:0,leih:0},
+      goslar:              {bs:22,sw:0, ar:0, bw:0, ax:25,cl:24,slum:0,leih:0},
+      graz:                {bs:0, sw:24,ar:29,bw:26,ax:24,cl:25,slum:1,leih:0},
+      groningen:           {bs:19,sw:0, ar:0, bw:25,ax:20,cl:25,slum:0,leih:1},
+      hall:                {bs:22,sw:0, ar:0, bw:24,ax:23,cl:21,slum:0,leih:0},
+      hamburg:             {bs:0, sw:27,ar:27,bw:31,ax:28,cl:31,slum:1,leih:1},
+      hannover:            {bs:0, sw:27,ar:24,bw:24,ax:25,cl:25,slum:1,leih:1},
+      heidelberg:          {bs:0, sw:26,ar:23,bw:23,ax:25,cl:25,slum:1,leih:1},
+      kassel:              {bs:0, sw:27,ar:25,bw:24,ax:27,cl:26,slum:1,leih:1},
+      kempen:              {bs:24,sw:0, ar:0, bw:0, ax:25,cl:25,slum:1,leih:1},
+      koblenz:             {bs:0, sw:29,ar:25,bw:25,ax:26,cl:27,slum:1,leih:1},
+      koln:                {bs:0, sw:35,ar:28,bw:27,ax:38,cl:31,slum:1,leih:1},
+      konstanz:            {bs:22,sw:0, ar:0, bw:0, ax:24,cl:27,slum:1,leih:1},
+      kufstein:            {bs:26,sw:31,ar:0, bw:0, ax:32,cl:22,slum:0,leih:0},
+      kuttenberg:          {bs:26,sw:0, ar:0, bw:20,ax:34,cl:22,slum:1,leih:1},
+      leer:                {bs:23,sw:0, ar:0, bw:28,ax:23,cl:26,slum:0,leih:0},
+      leipzig:             {bs:0, sw:29,ar:29,bw:28,ax:37,cl:29,slum:1,leih:1},
+      linz:                {bs:22,sw:0, ar:0, bw:0, ax:24,cl:24,slum:0,leih:0},
+      lubeck:              {bs:0, sw:28,ar:28,bw:25,ax:29,cl:28,slum:1,leih:1},
+      luneburg:            {bs:24,sw:0, ar:0, bw:0, ax:25,cl:23,slum:1,leih:1},
+      luxemburg:           {bs:0, sw:26,ar:28,bw:23,ax:27,cl:31,slum:1,leih:1},
+      magdeburg:           {bs:0, sw:34,ar:28,bw:26,ax:28,cl:26,slum:1,leih:1},
+      mainz:               {bs:0, sw:27,ar:27,bw:24,ax:27,cl:26,slum:1,leih:1},
+      marienburg:          {bs:0, sw:30,ar:33,bw:26,ax:28,cl:28,slum:0,leih:0},
+      munchen:             {bs:0, sw:29,ar:25,bw:23,ax:25,cl:26,slum:1,leih:1},
+      munster:             {bs:0, sw:25,ar:25,bw:23,ax:25,cl:23,slum:1,leih:0},
+      nancy:               {bs:0, sw:24,ar:36,bw:24,ax:24,cl:23,slum:1,leih:0},
+      naskskov:            {bs:21,sw:30,ar:0, bw:0, ax:21,cl:21,slum:0,leih:0},
+      nordlingen:          {bs:0, sw:33,ar:23,bw:24,ax:27,cl:25,slum:1,leih:1},
+      nurnberg:            {bs:0, sw:37,ar:37,bw:25,ax:35,cl:27,slum:0,leih:0},
+      nymwegen:            {bs:23,sw:0, ar:0, bw:0, ax:34,cl:27,slum:0,leih:0},
+      olmutz:              {bs:0, sw:23,ar:21,bw:37,ax:23,cl:25,slum:1,leih:0},
+      osnabruck:           {bs:0, sw:24,ar:27,bw:23,ax:25,cl:26,slum:1,leih:1},
+      paderborn:           {bs:0, sw:38,ar:23,bw:22,ax:26,cl:25,slum:0,leih:0},
+      passau:              {bs:0, sw:23,ar:24,bw:24,ax:24,cl:26,slum:1,leih:1},
+      posen:               {bs:0, sw:25,ar:26,bw:33,ax:25,cl:27,slum:1,leih:0},
+      prag:                {bs:0, sw:28,ar:28,bw:27,ax:29,cl:30,slum:1,leih:1},
+      prenzlau:            {bs:0, sw:24,ar:24,bw:23,ax:24,cl:23,slum:1,leih:0},
+      pressburg:           {bs:0, sw:25,ar:25,bw:35,ax:24,cl:28,slum:1,leih:1},
+      regensburg:          {bs:0, sw:25,ar:26,bw:25,ax:28,cl:26,slum:1,leih:0},
+      rostock:             {bs:0, sw:25,ar:24,bw:23,ax:27,cl:25,slum:1,leih:1},
+      rottweil:            {bs:22,sw:0, ar:0, bw:28,ax:23,cl:22,slum:0,leih:1},
+      salzburg:            {bs:0, sw:24,ar:32,bw:27,ax:26,cl:27,slum:1,leih:1},
+      schleswig:           {bs:0, sw:24,ar:25,bw:23,ax:25,cl:24,slum:1,leih:0},
+      soest:               {bs:0, sw:22,ar:35,bw:21,ax:23,cl:21,slum:0,leih:1},
+      speyer:              {bs:0, sw:24,ar:30,bw:24,ax:25,cl:25,slum:1,leih:1},
+      "st-joachimsthal":   {bs:24,sw:0, ar:0, bw:0, ax:31,cl:22,slum:0,leih:1},
+      stettin:             {bs:0, sw:24,ar:24,bw:27,ax:23,cl:22,slum:1,leih:1},
+      steyr:               {bs:22,sw:29,ar:0, bw:25,ax:24,cl:23,slum:1,leih:0},
+      stralsund:           {bs:23,sw:0, ar:0, bw:0, ax:23,cl:22,slum:1,leih:1},
+      strassburg:          {bs:0, sw:27,ar:27,bw:25,ax:25,cl:27,slum:1,leih:1},
+      stuttgart:           {bs:0, sw:25,ar:33,bw:26,ax:24,cl:26,slum:1,leih:1},
+      teschen:             {bs:23,sw:0, ar:0, bw:39,ax:22,cl:24,slum:1,leih:0},
+      thorn:               {bs:0, sw:27,ar:25,bw:32,ax:24,cl:25,slum:0,leih:0},
+      trier:               {bs:0, sw:33,ar:24,bw:25,ax:28,cl:28,slum:1,leih:1},
+      ulm:                 {bs:0, sw:28,ar:31,bw:26,ax:28,cl:28,slum:1,leih:1},
+      vordingborg:         {bs:21,sw:0, ar:0, bw:0, ax:21,cl:21,slum:0,leih:1},
+      wesel:               {bs:24,sw:0, ar:0, bw:0, ax:25,cl:25,slum:0,leih:1},
+      wien:                {bs:0, sw:35,ar:27,bw:25,ax:35,cl:30,slum:1,leih:1},
+      wismar:              {bs:0, sw:24,ar:26,bw:22,ax:24,cl:23,slum:0,leih:1},
+      wittenberg:          {bs:0, sw:25,ar:25,bw:25,ax:25,cl:25,slum:0,leih:1},
+      worms:               {bs:0, sw:27,ar:26,bw:24,ax:33,cl:29,slum:1,leih:1},
+      wurzburg:            {bs:24,sw:0, ar:32,bw:0, ax:25,cl:25,slum:0,leih:0},
+      xanten:              {bs:0, sw:24,ar:24,bw:23,ax:26,cl:32,slum:1,leih:0},
+      zurich:              {bs:0, sw:26,ar:25,bw:29,ax:32,cl:24,slum:1,leih:1},
+      zwolle:              {bs:23,sw:0, ar:0, bw:0, ax:25,cl:36,slum:0,leih:0},
+    };
 
     const CITIES = [
       {id:"aachen",            name:"Aachen",               grid:"A5", size:5, cath:true,  univ:false, px:69, py:566},
@@ -261,7 +427,7 @@
       {id:"xanten",            name:"Xanten",                grid:"A4", size:5, cath:true,  univ:false, px:103, py:462},
       {id:"zurich",            name:"Zürich",                grid:"B8", size:5, cath:true,  univ:false, px:222, py:982},
       {id:"zwolle",            name:"Zwolle",                grid:"A3", size:3, cath:false, univ:false, px:89, py:356},
-    ].map(c => ({ ...gridToPixel(c.grid), ...c }));
+    ].map(c => ({ ...gridToPixel(c.grid), ...c, ...(CITY_DATA[c.id] || {}) }));
   </script>
 
   <script type="text/babel">
@@ -394,6 +560,60 @@
       );
     }
 
+    function CityDetail({ city }) {
+      if (!city) {
+        return <div className="detail-panel"><div className="detail-empty">No city selected</div></div>;
+      }
+
+      const trades = [
+        { label: 'Blacksmith', val: city.bs },
+        { label: 'Swordsmith', val: city.sw },
+        { label: 'Armorer',    val: city.ar },
+        { label: 'Bowyer',     val: city.bw },
+        { label: 'Artificer',  val: city.ax },
+        { label: 'Clothier',   val: city.cl },
+      ].filter(t => t.val);
+
+      const features = [
+        city.cath && 'Cathedral',
+        city.univ && 'University',
+        city.leih && 'Leihhaus',
+        city.slum && 'Slum',
+      ].filter(Boolean);
+
+      return (
+        <div className="detail-panel">
+          <div className="detail-header">
+            <div className="detail-city-name">{city.name}</div>
+            <div className="detail-city-meta">Grid {city.grid} · Size {city.size}</div>
+          </div>
+          {features.length > 0 && (
+            <div className="detail-section">
+              <div className="detail-section-title">Features</div>
+              <div className="detail-badges">
+                {features.map(f => <span key={f} className="detail-badge">{f}</span>)}
+              </div>
+            </div>
+          )}
+          {trades.length > 0 && (
+            <div className="detail-section">
+              <div className="detail-section-title">Trades</div>
+              <table className="detail-table">
+                <tbody>
+                  {trades.map(t => (
+                    <tr key={t.label}>
+                      <td>{t.label}</td>
+                      <td className="skill">{t.val}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      );
+    }
+
     function App() {
       const [selectedId, setSelectedId] = useState(null);
       const listRef = useRef(null);
@@ -407,6 +627,8 @@
           setTimeout(() => { el.style.outline = ''; }, 1500);
         }
       }, []);
+
+      const selectedCity = selectedId ? CITIES.find(c => c.id === selectedId) : null;
 
       return (
         <div className="app">
@@ -422,6 +644,7 @@
             onSelectCity={handleSelect}
             devMode={DEV}
           />
+          <CityDetail city={selectedCity} />
         </div>
       );
     }
