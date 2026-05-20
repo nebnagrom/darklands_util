@@ -289,6 +289,7 @@
     }
 
     function MapPanel({ cities, selectedId, onSelectCity, devMode }) {
+      const panelRef = useRef(null);
       const imgRef = useRef(null);
       const svgRef = useRef(null);
       const [imgSize, setImgSize] = useState(null);
@@ -301,6 +302,16 @@
       useEffect(() => {
         if (imgRef.current && imgRef.current.complete) handleImgLoad();
       }, [handleImgLoad]);
+
+      useEffect(() => {
+        if (!selectedId || !panelRef.current || !imgRef.current) return;
+        const city = cities.find(c => c.id === selectedId);
+        if (!city) return;
+        const img = imgRef.current;
+        const panel = panelRef.current;
+        panel.scrollLeft = city.px * (img.offsetWidth  / 1070) - panel.clientWidth  / 2;
+        panel.scrollTop  = city.py * (img.offsetHeight / 1048) - panel.clientHeight / 2;
+      }, [selectedId, cities]);
 
       const handleSvgClick = useCallback((e) => {
         if (!svgRef.current) return;
@@ -316,7 +327,7 @@
       const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
       return (
-        <div className="map-panel">
+        <div className="map-panel" ref={panelRef}>
           {devMode && (
             <div className="dev-banner">
               <span className="dev-label">Dev</span>
@@ -385,8 +396,6 @@
         setSelectedId(id);
         const listEl = listRef.current && listRef.current.querySelector(`[data-city-id="${id}"]`);
         if (listEl) listEl.scrollIntoView({ block: 'center' });
-        const markerEl = document.querySelector(`[data-marker-id="${id}"]`);
-        if (markerEl) markerEl.scrollIntoView({ block: 'center', inline: 'center' });
       }, []);
 
       return (
