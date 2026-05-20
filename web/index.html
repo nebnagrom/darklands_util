@@ -289,6 +289,7 @@
     }
 
     function MapPanel({ cities, selectedId, onSelectCity, devMode }) {
+      const panelRef = useRef(null);
       const imgRef = useRef(null);
       const svgRef = useRef(null);
       const [imgSize, setImgSize] = useState(null);
@@ -303,6 +304,20 @@
         if (imgRef.current && imgRef.current.complete) handleImgLoad();
       }, [handleImgLoad]);
 
+      // Scroll map panel to center on selected city marker
+      useEffect(() => {
+        if (!selectedId || !panelRef.current) return;
+        const marker = panelRef.current.querySelector(`[data-marker-id="${selectedId}"] circle`);
+        if (!marker) return;
+        const mRect = marker.getBoundingClientRect();
+        const pRect = panelRef.current.getBoundingClientRect();
+        panelRef.current.scrollBy({
+          left: (mRect.left + mRect.width / 2) - (pRect.left + pRect.width / 2),
+          top:  (mRect.top  + mRect.height / 2) - (pRect.top  + pRect.height / 2),
+          behavior: 'smooth',
+        });
+      }, [selectedId, imgSize]);
+
       const handleSvgClick = useCallback((e) => {
         if (!svgRef.current) return;
         const pt = svgRef.current.createSVGPoint();
@@ -311,29 +326,13 @@
         const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
         const px = Math.round(x);
         const py = Math.round(y);
-
-        if (!selectedId) {
-          console.log(`px:${px}, py:${py} — select a city first`);
-          return;
-        }
-
-        fetch('/update-city', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cityId: selectedId, px, py }),
-        })
-          .then(r => r.json())
-          .then(d => {
-            if (d.ok) console.log(`✓ ${d.cityId}: px=${d.px}, py=${d.py}`);
-            else console.error(`✗ ${d.error}`);
-          })
-          .catch(err => console.error('update-city failed:', err));
+        console.log(selectedId ? `${selectedId}  px:${px}, py:${py}` : `px:${px}, py:${py}`);
       }, [selectedId]);
 
       const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
 
       return (
-        <div className="map-panel">
+        <div className="map-panel" ref={panelRef}>
           {devMode && (
             <div className="dev-banner">
               <span className="dev-label">Dev</span>
@@ -367,6 +366,7 @@
                 {cities.map(city => (
                   <g
                     key={city.id}
+                    data-marker-id={city.id}
                     className={"city-marker" + (selectedId === city.id ? " selected" : "")}
                     style={{ pointerEvents: 'all', cursor: devMode ? 'crosshair' : 'pointer' }}
                     onClick={(e) => {
