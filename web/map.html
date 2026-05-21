@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darklands — Map of Greater Germany</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
+      height: 100%;
+      background: #0e0d0a;
+      color: #c8b882;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── City list sidebar ── */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #3a3020;
+      background: #0b0a08;
+    }
+
+    .sidebar-header {
+      padding: 14px 12px 10px;
+      border-bottom: 1px solid #3a3020;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #8a7550;
+      margin-bottom: 5px;
+    }
+    .sidebar-nav {
+      font-size: 10px;
+      color: #3a3010;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.1s;
+    }
+    .sidebar-nav:hover { color: #7a6030; }
+
+    .city-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0;
+    }
+
+    .city-list::-webkit-scrollbar { width: 6px; }
+    .city-list::-webkit-scrollbar-track { background: #0b0a08; }
+    .city-list::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+    .city-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding: 3px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #a89060;
+      transition: background 0.1s;
+    }
+
+    .city-item:hover { background: #1a1810; color: #d4b870; }
+
+    .city-item.selected {
+      background: #2a2210;
+      color: #f0d060;
+    }
+
+    .city-item .grid-ref {
+      font-size: 10px;
+      color: #5a4e30;
+      min-width: 22px;
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .city-item.selected .grid-ref { color: #8a7040; }
+
+    /* ── Dev banner ── */
+    .dev-banner {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      padding: 6px 12px;
+      background: rgba(20, 16, 6, 0.88);
+      border-bottom: 1px solid #5a4010;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: #c89030;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .dev-banner .dev-label {
+      color: #e0a020;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .dev-banner .dev-city {
+      color: #f0d060;
+    }
+
+    /* ── Map panel ── */
+    .map-panel {
+      flex: 1;
+      overflow: auto;
+      position: relative;
+      background: #0a0908;
+    }
+
+    .map-panel::-webkit-scrollbar { width: 8px; height: 8px; }
+    .map-panel::-webkit-scrollbar-track { background: #0a0908; }
+    .map-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 4px; }
+
+    .map-container {
+      position: relative;
+      display: inline-block;
+      line-height: 0;
+    }
+
+    .map-container img {
+      display: block;
+      max-width: none;
+    }
+
+    /* ── SVG overlay ── */
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    @keyframes city-pulse {
+      0%, 100% { r: 7.5px; }
+      50%       { r: 9.5px; }
+    }
+
+    .city-marker { cursor: pointer; }
+    .city-marker circle { transition: fill 0.1s; }
+    .city-marker:hover circle { fill: #d4a820; }
+    .city-marker.selected circle {
+      fill: #f0d060;
+      r: 7.5px;
+      animation: city-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* ── Detail panel ── */
+    .detail-panel {
+      width: 220px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #3a3020;
+      background: #0b0a08;
+      overflow-y: auto;
+    }
+    .detail-panel::-webkit-scrollbar { width: 6px; }
+    .detail-panel::-webkit-scrollbar-track { background: #0b0a08; }
+    .detail-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+    .detail-empty {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #2a2010;
+    }
+    .detail-header {
+      padding: 14px 12px 10px;
+      border-bottom: 1px solid #3a3020;
+      flex-shrink: 0;
+    }
+    .detail-city-name {
+      font-size: 14px;
+      color: #f0d060;
+      margin-bottom: 3px;
+    }
+    .detail-city-meta {
+      font-size: 10px;
+      color: #5a4e30;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .detail-section {
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e1a0e;
+      flex-shrink: 0;
+    }
+    .detail-section-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #4a3e20;
+      margin-bottom: 6px;
+    }
+    .detail-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+    .detail-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border: 1px solid #3a3020;
+      color: #9a8050;
+      background: #111008;
+    }
+    .detail-table { width: 100%; border-collapse: collapse; }
+    .detail-table tr + tr td { border-top: 1px solid #1a1608; }
+    .detail-table td { padding: 3px 0; font-size: 12px; color: #a89060; }
+    .detail-table td.skill {
+      text-align: right;
+      font-family: monospace;
+      font-size: 11px;
+      color: #c8b882;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const DEV = location.search.includes('dev');
+
+    function gridToPixel(grid) {
+      const col = grid.charCodeAt(0) - 65; // A=0 … H=7
+      const row = parseInt(grid[1]) - 1;   // 1=0 … 8=7
+      return {
+        px: Math.round((col + 0.5) * (1070 / 8)),
+        py: Math.round((row + 0.5) * (1048 / 8)),
+      };
+    }
+
+    // bs=blacksmith sw=swordsmith ar=armorer bw=bowyer ax=artificer cl=clothier slum leih=leihhaus
+    const CITIES = [
+      {id:"aachen",                name:"Aachen",               grid:"A5", size:5, cath:true,  univ:false, px:69,   py:566,  bs:0, sw:28,ar:27,bw:26,ax:36,cl:30,slum:0,leih:1},
+      {id:"augsburg",              name:"Augsburg",              grid:"D7", size:6, cath:true,  univ:false, px:422,  py:876,  bs:0, sw:27,ar:29,bw:24,ax:29,cl:29,slum:1,leih:1},
+      {id:"bamberg",               name:"Bamberg",               grid:"D6", size:5, cath:true,  univ:false, px:421,  py:695,  bs:0, sw:29,ar:27,bw:25,ax:25,cl:25,slum:1,leih:0},
+      {id:"basel",                 name:"Basel",                 grid:"A8", size:5, cath:true,  univ:true,  px:146,  py:964,  bs:0, sw:26,ar:31,bw:26,ax:29,cl:28,slum:1,leih:1},
+      {id:"berlin",                name:"Berlin",                grid:"E3", size:4, cath:false, univ:false, px:618,  py:380,  bs:24,sw:0, ar:0, bw:24,ax:23,cl:23,slum:0,leih:0},
+      {id:"brandenburg",           name:"Brandenburg",           grid:"E4", size:4, cath:true,  univ:false, px:561,  py:401,  bs:0, sw:29,ar:25,bw:24,ax:25,cl:26,slum:1,leih:1},
+      {id:"braunschweig",          name:"Braunschweig",          grid:"C4", size:5, cath:true,  univ:false, px:404,  py:409,  bs:0, sw:24,ar:23,bw:22,ax:25,cl:25,slum:1,leih:1},
+      {id:"bremen",                name:"Bremen",                grid:"C3", size:6, cath:true,  univ:false, px:295,  py:301,  bs:0, sw:25,ar:27,bw:29,ax:27,cl:27,slum:1,leih:1},
+      {id:"breslau",               name:"Breslau",               grid:"G5", size:5, cath:true,  univ:false, px:896,  py:552,  bs:0, sw:25,ar:28,bw:32,ax:25,cl:26,slum:1,leih:1},
+      {id:"bromberg",              name:"Bromberg",              grid:"H3", size:5, cath:false, univ:false, px:929,  py:301,  bs:20,sw:0, ar:0, bw:0, ax:22,cl:22,slum:0,leih:0},
+      {id:"brunn",                 name:"Brünn",                 grid:"G7", size:4, cath:true,  univ:false, px:878,  py:775,  bs:0, sw:24,ar:22,bw:25,ax:24,cl:25,slum:1,leih:0},
+      {id:"burglitz",              name:"Bürglitz",              grid:"E6", size:4, cath:false, univ:false, px:653,  py:678,  bs:0, sw:32,ar:25,bw:23,ax:25,cl:23,slum:0,leih:0},
+      {id:"danzig",                name:"Danzig",                grid:"H1", size:7, cath:true,  univ:false, px:996,  py:151,  bs:0, sw:26,ar:25,bw:25,ax:29,cl:26,slum:1,leih:1},
+      {id:"deventer",              name:"Deventer",              grid:"A3", size:4, cath:false, univ:false, px:89,   py:386,  bs:23,sw:0, ar:0, bw:0, ax:25,cl:38,slum:0,leih:0},
+      {id:"dortmund",              name:"Dortmund",              grid:"B4", size:4, cath:false, univ:false, px:183,  py:486,  bs:24,sw:0, ar:0, bw:22,ax:24,cl:22,slum:0,leih:1},
+      {id:"dresden",               name:"Dresden",               grid:"E5", size:6, cath:true,  univ:false, px:643,  py:561,  bs:0, sw:26,ar:34,bw:25,ax:39,cl:27,slum:1,leih:1},
+      {id:"duisberg",              name:"Duisberg",              grid:"A4", size:5, cath:false, univ:false, px:129,  py:499,  bs:0, sw:29,ar:26,bw:24,ax:25,cl:24,slum:1,leih:1},
+      {id:"elburg",                name:"Elburg",                grid:"A3", size:5, cath:false, univ:false, px:65,   py:371,  bs:23,sw:0, ar:0, bw:36,ax:25,cl:35,slum:0,leih:0},
+      {id:"erfurt",                name:"Erfurt",                grid:"D5", size:5, cath:true,  univ:true,  px:443,  py:567,  bs:25,sw:0, ar:0, bw:24,ax:29,cl:25,slum:1,leih:1},
+      {id:"flensburg",             name:"Flensburg",             grid:"C1", size:3, cath:false, univ:false, px:351,  py:101,  bs:22,sw:0, ar:0, bw:0, ax:21,cl:23,slum:0,leih:0},
+      {id:"frankfurt-am-main",     name:"Frankfurt am Main",     grid:"B6", size:5, cath:true,  univ:false, px:258,  py:659,  bs:0, sw:24,ar:27,bw:24,ax:26,cl:24,slum:1,leih:1},
+      {id:"frankfurt-an-der-oder", name:"Frankfurt an der Oder", grid:"F4", size:5, cath:true,  univ:false, px:706,  py:407,  bs:0, sw:27,ar:27,bw:28,ax:27,cl:27,slum:1,leih:1},
+      {id:"freiberg",              name:"Freiberg",              grid:"E5", size:5, cath:true,  univ:true,  px:613,  py:578,  bs:27,sw:0, ar:0, bw:0, ax:33,cl:23,slum:1,leih:1},
+      {id:"freiberg-im-breisgau",  name:"Freiberg-im-Breisgau", grid:"B8", size:5, cath:true,  univ:true,  px:176,  py:911,  bs:0, sw:36,ar:24,bw:24,ax:24,cl:23,slum:0,leih:0},
+      {id:"fulda",                 name:"Fulda",                 grid:"C5", size:4, cath:false, univ:false, px:340,  py:608,  bs:22,sw:0, ar:0, bw:0, ax:24,cl:24,slum:1,leih:1},
+      {id:"furstenberg",           name:"Fürstenberg",           grid:"E3", size:4, cath:false, univ:false, px:613,  py:331,  bs:23,sw:0, ar:0, bw:0, ax:23,cl:23,slum:0,leih:0},
+      {id:"gorlitz",               name:"Görlitz",               grid:"F5", size:5, cath:false, univ:false, px:749,  py:547,  bs:22,sw:0, ar:25,bw:0, ax:23,cl:21,slum:0,leih:0},
+      {id:"goslar",                name:"Goslar",                grid:"C4", size:4, cath:true,  univ:false, px:403,  py:451,  bs:22,sw:0, ar:0, bw:0, ax:25,cl:24,slum:0,leih:0},
+      {id:"graz",                  name:"Graz",                  grid:"G8", size:5, cath:true,  univ:false, px:826,  py:997,  bs:0, sw:24,ar:29,bw:26,ax:24,cl:25,slum:1,leih:0},
+      {id:"groningen",             name:"Groningen",             grid:"A2", size:3, cath:false, univ:false, px:132,  py:273,  bs:19,sw:0, ar:0, bw:25,ax:20,cl:25,slum:0,leih:1},
+      {id:"hall",                  name:"Hall",                  grid:"C7", size:4, cath:false, univ:false, px:334,  py:785,  bs:22,sw:0, ar:0, bw:24,ax:23,cl:21,slum:0,leih:0},
+      {id:"hamburg",               name:"Hamburg",               grid:"C2", size:7, cath:true,  univ:false, px:389,  py:252,  bs:0, sw:27,ar:27,bw:31,ax:28,cl:31,slum:1,leih:1},
+      {id:"hannover",              name:"Hannover",              grid:"C3", size:5, cath:false, univ:false, px:351,  py:385,  bs:0, sw:27,ar:24,bw:24,ax:25,cl:25,slum:1,leih:1},
+      {id:"heidelberg",            name:"Heidelberg",            grid:"B6", size:5, cath:false, univ:true,  px:256,  py:746,  bs:0, sw:26,ar:23,bw:23,ax:25,cl:25,slum:1,leih:1},
+      {id:"kassel",                name:"Kassel",                grid:"C5", size:5, cath:false, univ:false, px:324,  py:523,  bs:0, sw:27,ar:25,bw:24,ax:27,cl:26,slum:1,leih:1},
+      {id:"kempen",                name:"Kempen",                grid:"A4", size:4, cath:false, univ:false, px:99,   py:511,  bs:24,sw:0, ar:0, bw:0, ax:25,cl:25,slum:1,leih:1},
+      {id:"koblenz",               name:"Koblenz",               grid:"B5", size:4, cath:false, univ:false, px:177,  py:627,  bs:0, sw:29,ar:25,bw:25,ax:26,cl:27,slum:1,leih:1},
+      {id:"koln",                  name:"Köln",                  grid:"A5", size:8, cath:true,  univ:true,  px:134,  py:550,  bs:0, sw:35,ar:28,bw:27,ax:38,cl:31,slum:1,leih:1},
+      {id:"konstanz",              name:"Konstanz",              grid:"B8", size:4, cath:true,  univ:false, px:276,  py:962,  bs:22,sw:0, ar:0, bw:0, ax:24,cl:27,slum:1,leih:1},
+      {id:"kufstein",              name:"Kufstein",              grid:"D8", size:4, cath:false, univ:false, px:514,  py:986,  bs:26,sw:31,ar:0, bw:0, ax:32,cl:22,slum:0,leih:0},
+      {id:"kuttenberg",            name:"Kuttenberg",            grid:"F6", size:3, cath:false, univ:false, px:769,  py:686,  bs:26,sw:0, ar:0, bw:20,ax:34,cl:22,slum:1,leih:1},
+      {id:"leer",                  name:"Leer",                  grid:"B2", size:3, cath:false, univ:false, px:198,  py:278,  bs:23,sw:0, ar:0, bw:28,ax:23,cl:26,slum:0,leih:0},
+      {id:"leipzig",               name:"Leipzig",               grid:"E4", size:6, cath:true,  univ:true,  px:543,  py:522,  bs:0, sw:29,ar:29,bw:28,ax:37,cl:29,slum:1,leih:1},
+      {id:"linz",                  name:"Linz",                  grid:"F7", size:4, cath:false, univ:false, px:698,  py:898,  bs:22,sw:0, ar:0, bw:0, ax:24,cl:24,slum:0,leih:0},
+      {id:"lubeck",                name:"Lübeck",                grid:"D2", size:7, cath:true,  univ:false, px:436,  py:213,  bs:0, sw:28,ar:28,bw:25,ax:29,cl:28,slum:1,leih:1},
+      {id:"luneburg",              name:"Lüneburg",              grid:"C3", size:5, cath:false, univ:false, px:409,  py:290,  bs:24,sw:0, ar:0, bw:0, ax:25,cl:23,slum:1,leih:1},
+      {id:"luxemburg",             name:"Luxemburg",             grid:"A6", size:5, cath:true,  univ:false, px:54,   py:707,  bs:0, sw:26,ar:28,bw:23,ax:27,cl:31,slum:1,leih:1},
+      {id:"magdeburg",             name:"Magdeburg",             grid:"D4", size:5, cath:true,  univ:false, px:487,  py:428,  bs:0, sw:34,ar:28,bw:26,ax:28,cl:26,slum:1,leih:1},
+      {id:"mainz",                 name:"Mainz",                 grid:"B6", size:6, cath:true,  univ:false, px:224,  py:673,  bs:0, sw:27,ar:27,bw:24,ax:27,cl:26,slum:1,leih:1},
+      {id:"marienburg",            name:"Marienburg",            grid:"H2", size:5, cath:false, univ:false, px:1024, py:188,  bs:0, sw:30,ar:33,bw:26,ax:28,cl:28,slum:0,leih:0},
+      {id:"munchen",               name:"München",               grid:"D8", size:6, cath:true,  univ:false, px:471,  py:907,  bs:0, sw:29,ar:25,bw:23,ax:25,cl:26,slum:1,leih:1},
+      {id:"munster",               name:"Münster",               grid:"B4", size:5, cath:true,  univ:false, px:193,  py:427,  bs:0, sw:25,ar:25,bw:23,ax:25,cl:23,slum:1,leih:0},
+      {id:"nancy",                 name:"Nancy",                 grid:"A7", size:5, cath:false, univ:false, px:43,   py:817,  bs:0, sw:24,ar:36,bw:24,ax:24,cl:23,slum:1,leih:0},
+      {id:"naskskov",              name:"Naskskov",              grid:"D1", size:3, cath:false, univ:false, px:468,  py:97,   bs:21,sw:30,ar:0, bw:0, ax:21,cl:21,slum:0,leih:0},
+      {id:"nordlingen",            name:"Nördlingen",            grid:"C7", size:5, cath:true,  univ:false, px:393,  py:820,  bs:0, sw:33,ar:23,bw:24,ax:27,cl:25,slum:1,leih:1},
+      {id:"nurnberg",              name:"Nürnberg",              grid:"D6", size:7, cath:false, univ:false, px:441,  py:743,  bs:0, sw:37,ar:37,bw:25,ax:35,cl:27,slum:0,leih:0},
+      {id:"nymwegen",              name:"Nymwegen",              grid:"A4", size:4, cath:false, univ:false, px:66,   py:439,  bs:23,sw:0, ar:0, bw:0, ax:34,cl:27,slum:0,leih:0},
+      {id:"olmutz",                name:"Olmütz",                grid:"H6", size:4, cath:false, univ:false, px:920,  py:725,  bs:0, sw:23,ar:21,bw:37,ax:23,cl:25,slum:1,leih:0},
+      {id:"osnabruck",             name:"Osnabrück",             grid:"B3", size:5, cath:true,  univ:false, px:229,  py:396,  bs:0, sw:24,ar:27,bw:23,ax:25,cl:26,slum:1,leih:1},
+      {id:"paderborn",             name:"Paderborn",             grid:"B4", size:4, cath:true,  univ:false, px:274,  py:474,  bs:0, sw:38,ar:23,bw:22,ax:26,cl:25,slum:0,leih:0},
+      {id:"passau",                name:"Passau",                grid:"E7", size:5, cath:false, univ:false, px:614,  py:861,  bs:0, sw:23,ar:24,bw:24,ax:24,cl:26,slum:1,leih:1},
+      {id:"posen",                 name:"Posen",                 grid:"G3", size:4, cath:false, univ:false, px:879,  py:392,  bs:0, sw:25,ar:26,bw:33,ax:25,cl:27,slum:1,leih:0},
+      {id:"prag",                  name:"Prag",                  grid:"F6", size:6, cath:true,  univ:true,  px:707,  py:676,  bs:0, sw:28,ar:28,bw:27,ax:29,cl:30,slum:1,leih:1},
+      {id:"prenzlau",              name:"Prenzlau",              grid:"E3", size:5, cath:false, univ:false, px:649,  py:284,  bs:0, sw:24,ar:24,bw:23,ax:24,cl:23,slum:1,leih:0},
+      {id:"pressburg",             name:"Pressburg",             grid:"H8", size:5, cath:true,  univ:true,  px:921,  py:898,  bs:0, sw:25,ar:25,bw:35,ax:24,cl:28,slum:1,leih:1},
+      {id:"regensburg",            name:"Regensburg",            grid:"D7", size:6, cath:true,  univ:false, px:514,  py:806,  bs:0, sw:25,ar:26,bw:25,ax:28,cl:26,slum:1,leih:0},
+      {id:"rostock",               name:"Rostock",               grid:"D2", size:5, cath:false, univ:true,  px:524,  py:187,  bs:0, sw:25,ar:24,bw:23,ax:27,cl:25,slum:1,leih:1},
+      {id:"rottweil",              name:"Rottweil",              grid:"B7", size:4, cath:false, univ:false, px:238,  py:891,  bs:22,sw:0, ar:0, bw:28,ax:23,cl:22,slum:0,leih:1},
+      {id:"salzburg",              name:"Salzburg",              grid:"E8", size:5, cath:true,  univ:false, px:587,  py:946,  bs:0, sw:24,ar:32,bw:27,ax:26,cl:27,slum:1,leih:1},
+      {id:"schleswig",             name:"Schleswig",             grid:"C1", size:5, cath:true,  univ:false, px:363,  py:142,  bs:0, sw:24,ar:25,bw:23,ax:25,cl:24,slum:1,leih:0},
+      {id:"soest",                 name:"Soest",                 grid:"B4", size:3, cath:true,  univ:false, px:229,  py:482,  bs:0, sw:22,ar:35,bw:21,ax:23,cl:21,slum:0,leih:1},
+      {id:"speyer",                name:"Speyer",                grid:"B6", size:5, cath:true,  univ:false, px:231,  py:753,  bs:0, sw:24,ar:30,bw:24,ax:25,cl:25,slum:1,leih:1},
+      {id:"st-joachimsthal",       name:"St. Joachimsthal",      grid:"E5", size:3, cath:false, univ:false, px:583,  py:644,  bs:24,sw:0, ar:0, bw:0, ax:31,cl:22,slum:0,leih:1},
+      {id:"stettin",               name:"Stettin",               grid:"F2", size:3, cath:false, univ:false, px:708,  py:274,  bs:0, sw:24,ar:24,bw:27,ax:23,cl:22,slum:1,leih:1},
+      {id:"steyr",                 name:"Steyr",                 grid:"F8", size:4, cath:false, univ:false, px:705,  py:917,  bs:22,sw:29,ar:0, bw:25,ax:24,cl:23,slum:1,leih:0},
+      {id:"stralsund",             name:"Stralsund",             grid:"E2", size:5, cath:false, univ:false, px:593,  py:165,  bs:23,sw:0, ar:0, bw:0, ax:23,cl:22,slum:1,leih:1},
+      {id:"strassburg",            name:"Strassburg",            grid:"B7", size:7, cath:true,  univ:false, px:173,  py:841,  bs:0, sw:27,ar:27,bw:25,ax:25,cl:27,slum:1,leih:1},
+      {id:"stuttgart",             name:"Stuttgart",             grid:"C7", size:5, cath:true,  univ:false, px:287,  py:823,  bs:0, sw:25,ar:33,bw:26,ax:24,cl:26,slum:1,leih:1},
+      {id:"teschen",               name:"Teschen",               grid:"H6", size:4, cath:false, univ:false, px:1009, py:724,  bs:23,sw:0, ar:0, bw:39,ax:22,cl:24,slum:1,leih:0},
+      {id:"thorn",                 name:"Thorn",                 grid:"H3", size:5, cath:true,  univ:false, px:999,  py:310,  bs:0, sw:27,ar:25,bw:32,ax:24,cl:25,slum:0,leih:0},
+      {id:"trier",                 name:"Trier",                 grid:"A6", size:6, cath:true,  univ:false, px:102,  py:693,  bs:0, sw:33,ar:24,bw:25,ax:28,cl:28,slum:1,leih:1},
+      {id:"ulm",                   name:"Ulm",                   grid:"C7", size:7, cath:true,  univ:false, px:344,  py:872,  bs:0, sw:28,ar:31,bw:26,ax:28,cl:28,slum:1,leih:1},
+      {id:"vordingborg",           name:"Vordingborg",           grid:"D1", size:3, cath:false, univ:false, px:518,  py:74,   bs:21,sw:0, ar:0, bw:0, ax:21,cl:21,slum:0,leih:1},
+      {id:"wesel",                 name:"Wesel",                 grid:"A4", size:4, cath:false, univ:false, px:123,  py:462,  bs:24,sw:0, ar:0, bw:0, ax:25,cl:25,slum:0,leih:1},
+      {id:"wien",                  name:"Wien",                  grid:"G8", size:6, cath:true,  univ:true,  px:859,  py:897,  bs:0, sw:35,ar:27,bw:25,ax:35,cl:30,slum:1,leih:1},
+      {id:"wismar",                name:"Wismar",                grid:"D2", size:4, cath:false, univ:false, px:487,  py:214,  bs:0, sw:24,ar:26,bw:22,ax:24,cl:23,slum:0,leih:1},
+      {id:"wittenberg",            name:"Wittenberg",            grid:"E4", size:5, cath:false, univ:true,  px:563,  py:458,  bs:0, sw:25,ar:25,bw:25,ax:25,cl:25,slum:0,leih:1},
+      {id:"worms",                 name:"Worms",                 grid:"B6", size:6, cath:true,  univ:false, px:228,  py:715,  bs:0, sw:27,ar:26,bw:24,ax:33,cl:29,slum:1,leih:1},
+      {id:"wurzburg",              name:"Würzburg",              grid:"C6", size:5, cath:true,  univ:true,  px:353,  py:701,  bs:24,sw:0, ar:32,bw:0, ax:25,cl:25,slum:0,leih:0},
+      {id:"xanten",                name:"Xanten",                grid:"A4", size:5, cath:true,  univ:false, px:103,  py:462,  bs:0, sw:24,ar:24,bw:23,ax:26,cl:32,slum:1,leih:0},
+      {id:"zurich",                name:"Zürich",                grid:"B8", size:5, cath:true,  univ:false, px:222,  py:982,  bs:0, sw:26,ar:25,bw:29,ax:32,cl:24,slum:1,leih:1},
+      {id:"zwolle",                name:"Zwolle",                grid:"A3", size:3, cath:false, univ:false, px:89,   py:356,  bs:23,sw:0, ar:0, bw:0, ax:25,cl:36,slum:0,leih:0},
+    ].map(c => ({ ...gridToPixel(c.grid), ...c }));
+  </script>
+
+  <script type="text/babel">
+    const { useState, useRef, useCallback, useEffect } = React;
+
+    function CityList({ cities, selectedId, onSelect, listRef }) {
+      return (
+        <div className="sidebar">
+          <div className="sidebar-header">
+            <div className="sidebar-title">Index of Cities</div>
+            <a href="index.html" className="sidebar-nav">← Home</a>
+          </div>
+          <div className="city-list" ref={listRef}>
+            {cities.map(city => (
+              <div
+                key={city.id}
+                className={"city-item" + (selectedId === city.id ? " selected" : "")}
+                data-city-id={city.id}
+                onClick={() => onSelect(city.id)}
+              >
+                <span>{city.name}</span>
+                <span className="grid-ref">{city.grid}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function MapPanel({ cities, selectedId, onSelectCity, devMode }) {
+      const panelRef = useRef(null);
+      const imgRef = useRef(null);
+      const svgRef = useRef(null);
+      const [imgSize, setImgSize] = useState(null);
+
+      const handleImgLoad = useCallback(() => {
+        const img = imgRef.current;
+        if (img) setImgSize({ w: img.offsetWidth, h: img.offsetHeight });
+      }, []);
+
+      useEffect(() => {
+        if (imgRef.current && imgRef.current.complete) handleImgLoad();
+      }, [handleImgLoad]);
+
+      useEffect(() => {
+        const img = imgRef.current;
+        if (!img) return;
+        const observer = new ResizeObserver(() => {
+          setImgSize({ w: img.offsetWidth, h: img.offsetHeight });
+        });
+        observer.observe(img);
+        return () => observer.disconnect();
+      }, []);
+
+      useEffect(() => {
+        if (!selectedId || !panelRef.current || !imgRef.current) return;
+        const city = cities.find(c => c.id === selectedId);
+        if (!city) return;
+        const img = imgRef.current;
+        const panel = panelRef.current;
+        panel.scrollLeft = city.px * (img.offsetWidth  / 1070) - panel.clientWidth  / 2;
+        panel.scrollTop  = city.py * (img.offsetHeight / 1048) - panel.clientHeight / 2;
+      }, [selectedId, cities]);
+
+      const handleSvgClick = useCallback((e) => {
+        if (!svgRef.current) return;
+        const pt = svgRef.current.createSVGPoint();
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+        const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
+        const px = Math.round(x);
+        const py = Math.round(y);
+        const nearest = cities.reduce((best, city) => {
+          const d = Math.hypot(city.px - px, city.py - py);
+          return d < best.d ? { d, city } : best;
+        }, { d: Infinity, city: null });
+        const hit = nearest.d < 25 ? nearest.city : null;
+        console.log(`px:${px}, py:${py}  →  ${hit ? `${hit.name} (${hit.id})` : 'null'}`);
+        if (hit) onSelectCity(hit.id);
+      }, [cities, onSelectCity]);
+
+      const selectedCity = selectedId ? cities.find(c => c.id === selectedId) : null;
+
+      return (
+        <div className="map-panel" ref={panelRef}>
+          {devMode && (
+            <div className="dev-banner">
+              <span className="dev-label">Dev</span>
+              {selectedCity
+                ? <><span>Pinning:</span><span className="dev-city">{selectedCity.name}</span><span>— click map to place</span></>
+                : <span>Select a city from the list, then click the map to pin it</span>
+              }
+            </div>
+          )}
+          <div className="map-container">
+            <img
+              ref={imgRef}
+              src="../src/main/resources/darklands_map_only.png"
+              alt="Darklands — Map of Greater Germany"
+              style={{ width: '120%', height: 'auto' }}
+              onLoad={handleImgLoad}
+            />
+            {imgSize && (
+              <svg
+                ref={svgRef}
+                className="map-overlay"
+                viewBox="0 0 1070 1048"
+                width={imgSize.w}
+                height={imgSize.h}
+                style={{
+                  pointerEvents: devMode ? 'all' : 'none',
+                  cursor: devMode ? 'crosshair' : 'default',
+                }}
+                onClick={devMode ? handleSvgClick : undefined}
+              >
+                {cities.map(city => (
+                  <g
+                    key={city.id}
+                    data-marker-id={city.id}
+                    className={"city-marker" + (selectedId === city.id ? " selected" : "")}
+                    style={{ pointerEvents: 'all', cursor: devMode ? 'crosshair' : 'pointer' }}
+                    onClick={(e) => {
+                      if (devMode) return;
+                      e.stopPropagation();
+                      onSelectCity(city.id);
+                    }}
+                  >
+                    <title>{city.name}</title>
+                    <circle
+                      cx={city.px}
+                      cy={city.py}
+                      r={selectedId === city.id ? 7.5 : 5}
+                      fill={selectedId === city.id ? '#f0d060' : '#a08040'}
+                      stroke="#0e0d0a"
+                      strokeWidth="1.5"
+                    />
+                  </g>
+                ))}
+              </svg>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function CityDetail({ city }) {
+      if (!city) {
+        return <div className="detail-panel"><div className="detail-empty">No city selected</div></div>;
+      }
+
+      const trades = [
+        { label: 'Blacksmith', val: city.bs },
+        { label: 'Swordsmith', val: city.sw },
+        { label: 'Armorer',    val: city.ar },
+        { label: 'Bowyer',     val: city.bw },
+        { label: 'Artificer',  val: city.ax },
+        { label: 'Clothier',   val: city.cl },
+      ].filter(t => t.val);
+
+      const features = [
+        city.cath && 'Cathedral',
+        city.univ && 'University',
+        city.leih && 'Leihhaus',
+        city.slum && 'Slum',
+      ].filter(Boolean);
+
+      return (
+        <div className="detail-panel">
+          <div className="detail-header">
+            <div className="detail-city-name">{city.name}</div>
+            <div className="detail-city-meta">Grid {city.grid} · Size {city.size}</div>
+          </div>
+          {features.length > 0 && (
+            <div className="detail-section">
+              <div className="detail-section-title">Features</div>
+              <div className="detail-badges">
+                {features.map(f => <span key={f} className="detail-badge">{f}</span>)}
+              </div>
+            </div>
+          )}
+          {trades.length > 0 && (
+            <div className="detail-section">
+              <div className="detail-section-title">Trades</div>
+              <table className="detail-table">
+                <tbody>
+                  {trades.map(t => (
+                    <tr key={t.label}>
+                      <td>{t.label}</td>
+                      <td className="skill">{t.val}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      const [selectedId, setSelectedId] = useState(null);
+      const listRef = useRef(null);
+
+      const handleSelect = useCallback((id) => {
+        setSelectedId(id);
+        const el = listRef.current && listRef.current.querySelector(`[data-city-id="${id}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.outline = '2px solid orange';
+          setTimeout(() => { el.style.outline = ''; }, 1500);
+        }
+      }, []);
+
+      const selectedCity = selectedId ? CITIES.find(c => c.id === selectedId) : null;
+
+      return (
+        <div className="app">
+          <CityList
+            cities={CITIES}
+            selectedId={selectedId}
+            onSelect={handleSelect}
+            listRef={listRef}
+          />
+          <MapPanel
+            cities={CITIES}
+            selectedId={selectedId}
+            onSelectCity={handleSelect}
+            devMode={DEV}
+          />
+          <CityDetail city={selectedCity} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
