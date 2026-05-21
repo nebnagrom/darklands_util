@@ -7,6 +7,7 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -241,6 +242,55 @@
     .ttag.rep    { border-color: #504010; color: #c0a020; }
     .ttag.special{ border-color: #1a3858; color: #4090c8; }
     .ttag.neg    { border-color: #581818; color: #c04848; }
+
+    /* ── OCR paste zone ── */
+    .ocr-zone {
+      border: 1px dashed #252530;
+      padding: 12px 8px;
+      text-align: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .ocr-zone.ocr-active { border-color: #2a3848; background: #0d1018; }
+    .ocr-zone.ocr-busy   { border-color: #38381a; background: #0d0d08; }
+
+    .ocr-hint {
+      font-size: 10px;
+      color: #3a3848;
+      line-height: 1.55;
+      letter-spacing: 0.3px;
+    }
+    .ocr-status {
+      font-size: 10px;
+      color: #706a40;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .ocr-names { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+    .ocr-name-chip {
+      font-size: 10px;
+      padding: 2px 6px;
+      border: 1px solid #1a3040;
+      color: #4898c0;
+      background: #0d1418;
+      text-align: left;
+      line-height: 1.5;
+    }
+    .ocr-none { font-size: 10px; color: #585060; margin-top: 4px; }
+    .ocr-clear {
+      width: 100%;
+      margin-top: 8px;
+      padding: 3px 8px;
+      background: none;
+      border: 1px solid #222230;
+      color: #484858;
+      cursor: pointer;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.1s;
+    }
+    .ocr-clear:hover { border-color: #4a4858; color: #9a98a8; }
   </style>
 </head>
 <body>
@@ -461,17 +511,96 @@ const TAG_GROUPS = [
   { label: 'Special',           tags: ['cure-plague', 'survive-suffocation', 'knowledge-saint', 'purify-evil-site'] },
   { label: 'Drawbacks',         tags: ['negative-effect'] },
 ];
+
+async function _ocrLoadImage(src) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = rej;
+    img.src = src;
+  });
+}
+
+async function processOcrImage(blob) {
+  const url = URL.createObjectURL(blob);
+  const img = await _ocrLoadImage(url);
+  URL.revokeObjectURL(url);
+  const scale = 3;
+  const canvas = document.createElement('canvas');
+  canvas.width  = img.width  * scale;
+  canvas.height = img.height * scale;
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const id = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    d[i] = 255 - d[i]; d[i+1] = 255 - d[i+1]; d[i+2] = 255 - d[i+2];
+  }
+  ctx.putImageData(id, 0, 0);
+  return canvas;
+}
+
+async function runTesseract(canvas) {
+  const worker = await Tesseract.createWorker('eng', 1, { logger: () => {} });
+  await worker.setParameters({ tessedit_pageseg_mode: '6' });
+  const { data: { text } } = await worker.recognize(canvas);
+  await worker.terminate();
+  return text;
+}
+
+function parseSaintNames(ocrText) {
+  const lines = ocrText.split('\n').map(l => l.trim()).filter(Boolean);
+  const found = [];
+  for (const line of lines) {
+    const m = line.match(/^[Ss5][t]?[.,]?\s*([A-Za-z]+)/);
+    if (!m) continue;
+    const namePart = m[1];
+    const saint = SAINTS.find(s => {
+      const firstWord = s.name.replace(/^St\.\s+/, '').split(' ')[0];
+      return firstWord.toLowerCase() === namePart.toLowerCase();
+    });
+    if (saint && !found.includes(saint.name)) found.push(saint.name);
+  }
+  return found;
+}
 </script>
 
 <script type="text/babel">
-  const { useState, useMemo, useCallback } = React;
+  const { useState, useMemo, useCallback, useEffect } = React;
 
   function tagCls(tag) {
     return 'ttag ' + (TAG_CAT[tag] || '');
   }
 
-  function FilterSidebar({ nameFilter, setNameFilter, activeTags, toggleTag, clearFilters }) {
-    const hasFilters = nameFilter || activeTags.size > 0;
+  function OcrZone({ ocrNames, ocrStatus, onClear }) {
+    const busy   = ocrStatus === 'Processing…';
+    const active = ocrNames !== null;
+    const cls = 'ocr-zone' + (busy ? ' ocr-busy' : active ? ' ocr-active' : '');
+    return (
+      <div className="filter-section">
+        <div className="filter-label">Screenshot OCR</div>
+        <div className={cls}>
+          {!active && !busy && (
+            <div className="ocr-hint">Paste a game screenshot<br/>to filter by visible saints</div>
+          )}
+          {ocrStatus && <div className="ocr-status">{ocrStatus}</div>}
+          {active && ocrNames.length === 0 && !ocrStatus && (
+            <div className="ocr-none">No saints recognised</div>
+          )}
+          {active && ocrNames.length > 0 && (
+            <div className="ocr-names">
+              {ocrNames.map(n => <div key={n} className="ocr-name-chip">{n}</div>)}
+            </div>
+          )}
+          {active && <button className="ocr-clear" onClick={onClear}>Clear</button>}
+        </div>
+      </div>
+    );
+  }
+
+  function FilterSidebar({ nameFilter, setNameFilter, activeTags, toggleTag, clearFilters, ocrNames, ocrStatus, onOcrClear }) {
+    const hasFilters = nameFilter || activeTags.size > 0 || ocrNames !== null;
     return (
       <div className="sidebar">
         <div className="sidebar-header">
@@ -489,6 +618,8 @@ const TAG_GROUPS = [
             onChange={e => setNameFilter(e.target.value)}
           />
         </div>
+
+        <OcrZone ocrNames={ocrNames} ocrStatus={ocrStatus} onClear={onOcrClear} />
 
         <div className="filter-section">
           <div className="filter-label">Filter by effect</div>
@@ -582,6 +713,32 @@ const TAG_GROUPS = [
     const [selectedName, setSelected]   = useState(null);
     const [sortCol, setSortCol]         = useState('name');
     const [sortDir, setSortDir]         = useState('asc');
+    const [ocrNames, setOcrNames]       = useState(null);
+    const [ocrStatus, setOcrStatus]     = useState('');
+
+    useEffect(() => {
+      async function handlePaste(e) {
+        const items = Array.from(e.clipboardData?.items || []);
+        const imgItem = items.find(it => it.type.startsWith('image/'));
+        if (!imgItem) return;
+        e.preventDefault();
+        setOcrStatus('Processing…');
+        setOcrNames(null);
+        try {
+          const blob = imgItem.getAsFile();
+          const canvas = await processOcrImage(blob);
+          const text   = await runTesseract(canvas);
+          const names  = parseSaintNames(text);
+          setOcrNames(names);
+          setOcrStatus(names.length > 0 ? `${names.length} saint${names.length > 1 ? 's' : ''} found` : '');
+        } catch (_) {
+          setOcrStatus('OCR failed');
+          setOcrNames([]);
+        }
+      }
+      document.addEventListener('paste', handlePaste);
+      return () => document.removeEventListener('paste', handlePaste);
+    }, []);
 
     const toggleTag = useCallback((tag) => {
       setActiveTags(prev => {
@@ -594,6 +751,13 @@ const TAG_GROUPS = [
     const clearFilters = useCallback(() => {
       setNameFilter('');
       setActiveTags(new Set());
+      setOcrNames(null);
+      setOcrStatus('');
+    }, []);
+
+    const clearOcr = useCallback(() => {
+      setOcrNames(null);
+      setOcrStatus('');
     }, []);
 
     const onSort = useCallback((col) => {
@@ -610,15 +774,19 @@ const TAG_GROUPS = [
 
     const filtered = useMemo(() => {
       let list = SAINTS;
-      if (nameFilter.trim()) {
-        const q = nameFilter.trim().toLowerCase();
-        list = list.filter(s => s.name.toLowerCase().includes(q));
-      }
-      if (activeTags.size > 0) {
-        list = list.filter(s => s.tags.some(t => activeTags.has(t)));
+      if (ocrNames !== null) {
+        list = list.filter(s => ocrNames.includes(s.name));
+      } else {
+        if (nameFilter.trim()) {
+          const q = nameFilter.trim().toLowerCase();
+          list = list.filter(s => s.name.toLowerCase().includes(q));
+        }
+        if (activeTags.size > 0) {
+          list = list.filter(s => s.tags.some(t => activeTags.has(t)));
+        }
       }
       return list;
-    }, [nameFilter, activeTags]);
+    }, [nameFilter, activeTags, ocrNames]);
 
     const sorted = useMemo(() => {
       return [...filtered].sort((a, b) => {
@@ -641,11 +809,15 @@ const TAG_GROUPS = [
           activeTags={activeTags}
           toggleTag={toggleTag}
           clearFilters={clearFilters}
+          ocrNames={ocrNames}
+          ocrStatus={ocrStatus}
+          onOcrClear={clearOcr}
         />
         <div className="main-panel">
           <div className="result-bar">
             <strong>{sorted.length}</strong> of {SAINTS.length} saints
-            {activeTags.size > 0 && <strong style={{marginLeft: 8}}>· {activeTags.size} filter{activeTags.size > 1 ? 's' : ''} active</strong>}
+            {ocrNames !== null && <strong style={{marginLeft: 8}}>· OCR filter active</strong>}
+            {ocrNames === null && activeTags.size > 0 && <strong style={{marginLeft: 8}}>· {activeTags.size} filter{activeTags.size > 1 ? 's' : ''} active</strong>}
           </div>
           <div className="table-wrap">
             <SaintsTable
