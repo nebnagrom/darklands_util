@@ -543,24 +543,58 @@ async function processOcrImage(blob) {
 
 async function runTesseract(canvas) {
   const worker = await Tesseract.createWorker('eng', 1, { logger: () => {} });
-  await worker.setParameters({ tessedit_pageseg_mode: '6' });
+  await worker.setParameters({ tessedit_pageseg_mode: '4' });
   const { data: { text } } = await worker.recognize(canvas);
   await worker.terminate();
   return text;
+}
+
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const row = Array.from({length: n + 1}, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    let prev = row[0];
+    row[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const tmp = row[j];
+      row[j] = a[i-1] === b[j-1] ? prev : 1 + Math.min(prev, row[j], row[j-1]);
+      prev = tmp;
+    }
+  }
+  return row[n];
+}
+
+const FUZZY_THRESHOLD = 0.7;
+
+// Common OCR digit-for-letter substitutions in pixel fonts
+const DIGIT_SUB = {'0':'o','1':'i','3':'e','5':'s','8':'b','9':'g'};
+function normForMatch(s) {
+  return s.toLowerCase().replace(/[0-9]/g, d => DIGIT_SUB[d] ?? d);
 }
 
 function parseSaintNames(ocrText) {
   const lines = ocrText.split('\n').map(l => l.trim()).filter(Boolean);
   const found = [];
   for (const line of lines) {
-    const m = line.match(/^[Ss5][t]?[.,]?\s*([A-Za-z]+)/);
-    if (!m) continue;
-    const namePart = m[1];
-    const saint = SAINTS.find(s => {
-      const firstWord = s.name.replace(/^St\.\s+/, '').split(' ')[0];
-      return firstWord.toLowerCase() === namePart.toLowerCase();
-    });
-    if (saint && !found.includes(saint.name)) found.push(saint.name);
+    // Extract every alphanumeric token >= 3 chars; no S prefix required
+    const tokens = line.match(/[A-Za-z0-9]{3,}/g) ?? [];
+    if (tokens.length === 0) {
+      console.log(`[OCR line] "${line}" → no tokens`);
+      continue;
+    }
+    let best = null, bestScore = Infinity, bestToken = '';
+    for (const token of tokens) {
+      const norm = normForMatch(token);
+      for (const s of SAINTS) {
+        const firstWord = s.name.replace(/^St\.\s+/, '').split(' ')[0].toLowerCase();
+        const dist = levenshtein(norm, firstWord);
+        const score = dist / Math.max(norm.length, firstWord.length);
+        if (score < bestScore) { bestScore = score; best = s; bestToken = token; }
+      }
+    }
+    const matched = bestScore <= FUZZY_THRESHOLD ? best : null;
+    console.log(`[OCR line] "${line}" → token="${bestToken}" best="${best?.name}" score=${bestScore.toFixed(2)}${matched ? ' ✓' : ' ✗'}`);
+    if (matched && !found.includes(matched.name)) found.push(matched.name);
   }
   return found;
 }
@@ -717,6 +751,11 @@ function parseSaintNames(ocrText) {
     const [ocrStatus, setOcrStatus]     = useState('');
 
     useEffect(() => {
+      setSortCol('name');
+      setSortDir('asc');
+    }, [nameFilter, activeTags, ocrNames]);
+
+    useEffect(() => {
       async function handlePaste(e) {
         const items = Array.from(e.clipboardData?.items || []);
         const imgItem = items.find(it => it.type.startsWith('image/'));
@@ -728,7 +767,9 @@ function parseSaintNames(ocrText) {
           const blob = imgItem.getAsFile();
           const canvas = await processOcrImage(blob);
           const text   = await runTesseract(canvas);
+          console.log('[OCR] raw text:', text);
           const names  = parseSaintNames(text);
+          console.log('[OCR] saints found:', names);
           setOcrNames(names);
           setOcrStatus(names.length > 0 ? `${names.length} saint${names.length > 1 ? 's' : ''} found` : '');
         } catch (_) {
