@@ -12,8 +12,8 @@
 
     html, body, #root {
       height: 100%;
-      background: #0e0d0a;
-      color: #c8b882;
+      background: #0d0d10;
+      color: #ddd8cc;
       font-family: Georgia, 'Times New Roman', serif;
     }
 
@@ -29,62 +29,62 @@
       min-width: 240px;
       display: flex;
       flex-direction: column;
-      border-right: 1px solid #3a3020;
-      background: #0b0a08;
+      border-right: 1px solid #252530;
+      background: #111116;
       overflow-y: auto;
     }
     .sidebar::-webkit-scrollbar { width: 6px; }
-    .sidebar::-webkit-scrollbar-track { background: #0b0a08; }
-    .sidebar::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+    .sidebar::-webkit-scrollbar-track { background: #111116; }
+    .sidebar::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 3px; }
 
     .sidebar-header {
       padding: 14px 12px 10px;
-      border-bottom: 1px solid #3a3020;
+      border-bottom: 1px solid #252530;
       flex-shrink: 0;
     }
     .sidebar-title {
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #8a7550;
+      color: #706a58;
       margin-bottom: 5px;
     }
     .sidebar-nav {
       font-size: 10px;
-      color: #3a3010;
+      color: #484440;
       text-decoration: none;
       letter-spacing: 1px;
       transition: color 0.1s;
     }
-    .sidebar-nav:hover { color: #7a6030; }
+    .sidebar-nav:hover { color: #9a9080; }
 
     /* ── Filters ── */
     .filter-section {
       padding: 10px 12px;
-      border-bottom: 1px solid #1a1608;
+      border-bottom: 1px solid #1c1c24;
       flex-shrink: 0;
     }
     .filter-label {
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #4a3e20;
+      color: #525060;
       margin-bottom: 6px;
     }
 
     .search-input {
       width: 100%;
-      background: #111008;
-      border: 1px solid #2a2010;
-      color: #c8b882;
+      background: #0d0d12;
+      border: 1px solid #2a2a38;
+      color: #ddd8cc;
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 12px;
       padding: 5px 8px;
       outline: none;
       transition: border-color 0.1s;
     }
-    .search-input:focus { border-color: #7a6030; }
-    .search-input::placeholder { color: #2a2010; }
+    .search-input:focus { border-color: #6a6050; }
+    .search-input::placeholder { color: #323240; }
 
     .tag-group { margin-bottom: 8px; }
     .tag-group:last-child { margin-bottom: 0; }
@@ -92,7 +92,7 @@
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #302818;
+      color: #3a3848;
       margin-bottom: 4px;
     }
     .tag-chips { display: flex; flex-wrap: wrap; gap: 3px; }
@@ -100,23 +100,23 @@
     .tag-chip {
       font-size: 10px;
       padding: 2px 6px;
-      border: 1px solid #1e1808;
-      color: #4a4020;
-      background: #0d0b07;
+      border: 1px solid #222230;
+      color: #585666;
+      background: #0f0f16;
       cursor: pointer;
       user-select: none;
       transition: all 0.1s;
       line-height: 1.4;
     }
-    .tag-chip:hover { border-color: #4a3a18; color: #8a7040; }
-    .tag-chip.active { border-color: #8a6020; color: #d4a830; background: #181208; }
+    .tag-chip:hover  { border-color: #4a4858; color: #9a98a8; }
+    .tag-chip.active { border-color: #a08828; color: #e0c040; background: #141208; }
 
     .clear-btn {
       width: 100%;
       padding: 4px 8px;
       background: none;
-      border: 1px solid #1e1808;
-      color: #3a3010;
+      border: 1px solid #222230;
+      color: #484858;
       cursor: pointer;
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 10px;
@@ -124,7 +124,7 @@
       text-transform: uppercase;
       transition: all 0.1s;
     }
-    .clear-btn:hover { border-color: #4a3a18; color: #7a6030; }
+    .clear-btn:hover { border-color: #4a4858; color: #9a98a8; }
 
     /* ── Main panel ── */
     .main-panel {
@@ -136,150 +136,111 @@
 
     .result-bar {
       padding: 6px 14px;
-      border-bottom: 1px solid #1a1608;
+      border-bottom: 1px solid #1c1c24;
       font-size: 10px;
-      color: #3a3010;
+      color: #484858;
       text-transform: uppercase;
       letter-spacing: 1px;
       flex-shrink: 0;
-      background: #0b0a08;
+      background: #111116;
     }
-    .result-bar span { color: #7a6030; }
+    .result-bar strong { color: #a09880; font-weight: normal; }
 
     .table-wrap {
       flex: 1;
       overflow: auto;
     }
     .table-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
-    .table-wrap::-webkit-scrollbar-track { background: #0a0908; }
-    .table-wrap::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 4px; }
+    .table-wrap::-webkit-scrollbar-track { background: #0d0d10; }
+    .table-wrap::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 4px; }
 
     /* ── Saints table ── */
     .saints-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: auto;
     }
 
     .saints-table thead th {
       position: sticky;
       top: 0;
       z-index: 2;
-      background: #0e0c08;
+      background: #101016;
       padding: 8px 12px;
       text-align: left;
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #4a3e20;
-      border-bottom: 1px solid #2a2010;
+      color: #525060;
+      border-bottom: 1px solid #252530;
       white-space: nowrap;
       cursor: pointer;
       user-select: none;
       transition: color 0.1s;
     }
-    .saints-table thead th:hover { color: #8a7040; }
-    .saints-table thead th.sorted { color: #c8a030; }
-    .sort-arrow { margin-left: 3px; font-size: 8px; opacity: 0.7; }
+    .saints-table thead th:hover  { color: #9a98a8; }
+    .saints-table thead th.sorted { color: #c8a835; }
+    .sort-arrow { margin-left: 3px; font-size: 8px; opacity: 0.8; }
 
     .saints-table tbody tr.saint-row {
       cursor: pointer;
       transition: background 0.1s;
     }
-    .saints-table tbody tr.saint-row:hover { background: #111008; }
-    .saints-table tbody tr.saint-row.selected { background: #161208; }
+    .saints-table tbody tr.saint-row:hover    { background: #13131a; }
+    .saints-table tbody tr.saint-row.selected { background: #16161e; }
 
     .saints-table tbody td {
-      padding: 5px 12px;
+      padding: 7px 12px;
       font-size: 12px;
-      color: #9a8050;
-      border-bottom: 1px solid #111008;
-      vertical-align: middle;
+      color: #a09880;
+      border-bottom: 1px solid #181820;
+      vertical-align: top;
+      line-height: 1.55;
     }
 
     .cell-name {
-      color: #c8b882;
+      color: #ddd8cc;
       font-size: 13px;
       white-space: nowrap;
+      font-weight: normal;
     }
-    .saint-row.selected .cell-name { color: #f0d060; }
+    .saint-row.selected .cell-name { color: #e8c840; }
 
     .cell-num {
       font-family: monospace;
       font-size: 11px;
       white-space: nowrap;
       text-align: right;
+      color: #8a8878;
     }
 
+    .cell-text {
+      font-size: 11px;
+      color: #b8b4a8;
+      max-width: 320px;
+      min-width: 180px;
+    }
+    .cell-text.dim { color: #3a3848; font-style: italic; }
+
     /* inline tag chips in table */
-    .cell-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+    .cell-tags { display: flex; flex-wrap: wrap; gap: 3px; min-width: 140px; }
 
     .ttag {
       font-size: 9px;
       padding: 1px 5px;
-      border: 1px solid #1e1808;
-      color: #4a4020;
+      border: 1px solid #222230;
+      color: #585666;
       white-space: nowrap;
-      line-height: 1.5;
-    }
-    .ttag.heal   { border-color: #203818; color: #486838; }
-    .ttag.combat { border-color: #382010; color: #68441a; }
-    .ttag.fire   { border-color: #381808; color: #683810; }
-    .ttag.mob    { border-color: #183030; color: #306050; }
-    .ttag.int    { border-color: #281838; color: #504868; }
-    .ttag.rep    { border-color: #382800; color: #686010; }
-    .ttag.special{ border-color: #182838; color: #305068; }
-    .ttag.neg    { border-color: #381010; color: #683030; }
-
-    /* ── Expanded detail row ── */
-    .detail-row td {
-      padding: 0 !important;
-      border-bottom: 1px solid #2a2010;
-    }
-    .detail-inner {
-      padding: 10px 16px 12px 24px;
-      background: #0c0a06;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .detail-block-label {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #3a3010;
-      margin-bottom: 5px;
-    }
-    .detail-block-text {
-      font-size: 12px;
-      color: #9a8050;
       line-height: 1.6;
     }
-    .detail-block-text.none { color: #242010; font-style: italic; }
-
-    /* ── Stats strip in expanded row ── */
-    .detail-stats {
-      display: flex;
-      gap: 16px;
-      padding: 6px 16px 0 24px;
-      background: #0c0a06;
-    }
-    .detail-stat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-    .detail-stat-value {
-      font-family: monospace;
-      font-size: 14px;
-      color: #c8b060;
-    }
-    .detail-stat-label {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #3a3010;
-    }
+    .ttag.heal   { border-color: #2a5228; color: #68b060; }
+    .ttag.combat { border-color: #5a3a10; color: #c09040; }
+    .ttag.fire   { border-color: #582010; color: #c06038; }
+    .ttag.mob    { border-color: #1a4858; color: #40a8c0; }
+    .ttag.int    { border-color: #382858; color: #9070c0; }
+    .ttag.rep    { border-color: #504010; color: #c0a020; }
+    .ttag.special{ border-color: #1a3858; color: #4090c8; }
+    .ttag.neg    { border-color: #581818; color: #c04848; }
   </style>
 </head>
 <body>
@@ -576,51 +537,38 @@ const TAG_GROUPS = [
             {th('virtue',  'Min Virtue')}
             {th('favour',  'Divine Favour')}
             {th('success', 'Base Success')}
-            <th>Special Effects</th>
+            <th>Stat Bonuses</th>
+            <th>Special Ability</th>
+            <th>Effects</th>
           </tr>
         </thead>
         <tbody>
           {saints.map(saint => {
             const sel = selectedName === saint.name;
             return (
-              <React.Fragment key={saint.name}>
-                <tr
-                  className={'saint-row' + (sel ? ' selected' : '')}
-                  onClick={() => onSelect(saint.name)}
-                >
-                  <td className="cell-name">{saint.name}</td>
-                  <td className="cell-num">{saint.virtue}</td>
-                  <td className="cell-num">{saint.favour}</td>
-                  <td className="cell-num">{saint.success}%</td>
-                  <td>
-                    <div className="cell-tags">
-                      {saint.tags.map(t => (
-                        <span key={t} className={tagCls(t)}>{TAG_LABELS[t]}</span>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-                {sel && (
-                  <tr className="detail-row">
-                    <td colSpan={5}>
-                      <div className="detail-inner">
-                        <div>
-                          <div className="detail-block-label">Status Effects</div>
-                          <div className={'detail-block-text' + (saint.effects ? '' : ' none')}>
-                            {saint.effects || '—'}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="detail-block-label">Special Ability</div>
-                          <div className={'detail-block-text' + (saint.detail ? '' : ' none')}>
-                            {saint.detail || '—'}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
+              <tr
+                key={saint.name}
+                className={'saint-row' + (sel ? ' selected' : '')}
+                onClick={() => onSelect(saint.name)}
+              >
+                <td className="cell-name">{saint.name}</td>
+                <td className="cell-num">{saint.virtue}</td>
+                <td className="cell-num">{saint.favour}</td>
+                <td className="cell-num">{saint.success}%</td>
+                <td className={saint.effects ? 'cell-text' : 'cell-text dim'}>
+                  {saint.effects || '—'}
+                </td>
+                <td className={saint.detail ? 'cell-text' : 'cell-text dim'}>
+                  {saint.detail || '—'}
+                </td>
+                <td>
+                  <div className="cell-tags">
+                    {saint.tags.map(t => (
+                      <span key={t} className={tagCls(t)}>{TAG_LABELS[t]}</span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
             );
           })}
         </tbody>
@@ -696,8 +644,8 @@ const TAG_GROUPS = [
         />
         <div className="main-panel">
           <div className="result-bar">
-            <span>{sorted.length}</span> of {SAINTS.length} saints
-            {activeTags.size > 0 && <span style={{marginLeft: 8}}>· {activeTags.size} filter{activeTags.size > 1 ? 's' : ''} active</span>}
+            <strong>{sorted.length}</strong> of {SAINTS.length} saints
+            {activeTags.size > 0 && <strong style={{marginLeft: 8}}>· {activeTags.size} filter{activeTags.size > 1 ? 's' : ''} active</strong>}
           </div>
           <div className="table-wrap">
             <SaintsTable
