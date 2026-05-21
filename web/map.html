@@ -12,8 +12,8 @@
 
     html, body, #root {
       height: 100%;
-      background: #0e0d0a;
-      color: #c8b882;
+      background: #0d0d10;
+      color: #ddd8cc;
       font-family: Georgia, 'Times New Roman', serif;
     }
 
@@ -29,30 +29,30 @@
       min-width: 240px;
       display: flex;
       flex-direction: column;
-      border-right: 1px solid #3a3020;
-      background: #0b0a08;
+      border-right: 1px solid #252530;
+      background: #111116;
     }
 
     .sidebar-header {
       padding: 14px 12px 10px;
-      border-bottom: 1px solid #3a3020;
+      border-bottom: 1px solid #252530;
       flex-shrink: 0;
     }
     .sidebar-title {
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #8a7550;
+      color: #706a58;
       margin-bottom: 5px;
     }
     .sidebar-nav {
       font-size: 10px;
-      color: #3a3010;
+      color: #484440;
       text-decoration: none;
       letter-spacing: 1px;
       transition: color 0.1s;
     }
-    .sidebar-nav:hover { color: #7a6030; }
+    .sidebar-nav:hover { color: #9a9080; }
 
     .city-list {
       flex: 1;
@@ -61,8 +61,8 @@
     }
 
     .city-list::-webkit-scrollbar { width: 6px; }
-    .city-list::-webkit-scrollbar-track { background: #0b0a08; }
-    .city-list::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+    .city-list::-webkit-scrollbar-track { background: #111116; }
+    .city-list::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 3px; }
 
     .city-item {
       display: flex;
@@ -72,26 +72,26 @@
       cursor: pointer;
       font-size: 13px;
       line-height: 1.5;
-      color: #a89060;
+      color: #a09880;
       transition: background 0.1s;
     }
 
-    .city-item:hover { background: #1a1810; color: #d4b870; }
+    .city-item:hover { background: #13131a; color: #c8c0a8; }
 
     .city-item.selected {
-      background: #2a2210;
-      color: #f0d060;
+      background: #16161e;
+      color: #e8c840;
     }
 
     .city-item .grid-ref {
       font-size: 10px;
-      color: #5a4e30;
+      color: #484858;
       min-width: 22px;
       text-align: right;
       font-family: monospace;
     }
 
-    .city-item.selected .grid-ref { color: #8a7040; }
+    .city-item.selected .grid-ref { color: #706858; }
 
     /* ── Dev banner ── */
     .dev-banner {
@@ -99,11 +99,11 @@
       top: 0; left: 0; right: 0;
       z-index: 10;
       padding: 6px 12px;
-      background: rgba(20, 16, 6, 0.88);
-      border-bottom: 1px solid #5a4010;
+      background: rgba(13, 13, 16, 0.92);
+      border-bottom: 1px solid #383848;
       font-size: 11px;
       letter-spacing: 1px;
-      color: #c89030;
+      color: #9a9880;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -111,12 +111,12 @@
       user-select: none;
     }
     .dev-banner .dev-label {
-      color: #e0a020;
+      color: #c8a835;
       font-weight: bold;
       text-transform: uppercase;
     }
     .dev-banner .dev-city {
-      color: #f0d060;
+      color: #e8c840;
     }
 
     /* ── Map panel ── */
@@ -124,12 +124,12 @@
       flex: 1;
       overflow: auto;
       position: relative;
-      background: #0a0908;
+      background: #0d0d10;
     }
 
     .map-panel::-webkit-scrollbar { width: 8px; height: 8px; }
-    .map-panel::-webkit-scrollbar-track { background: #0a0908; }
-    .map-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 4px; }
+    .map-panel::-webkit-scrollbar-track { background: #0d0d10; }
+    .map-panel::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 4px; }
 
     .map-container {
       position: relative;
@@ -156,9 +156,9 @@
 
     .city-marker { cursor: pointer; }
     .city-marker circle { transition: fill 0.1s; }
-    .city-marker:hover circle { fill: #d4a820; }
+    .city-marker:hover circle { fill: #c8a835; }
     .city-marker.selected circle {
-      fill: #f0d060;
+      fill: #e8c840;
       r: 7.5px;
       animation: city-pulse 1.8s ease-in-out infinite;
     }
@@ -169,13 +169,13 @@
       min-width: 220px;
       display: flex;
       flex-direction: column;
-      border-left: 1px solid #3a3020;
-      background: #0b0a08;
+      border-left: 1px solid #252530;
+      background: #111116;
       overflow-y: auto;
     }
     .detail-panel::-webkit-scrollbar { width: 6px; }
-    .detail-panel::-webkit-scrollbar-track { background: #0b0a08; }
-    .detail-panel::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+    .detail-panel::-webkit-scrollbar-track { background: #111116; }
+    .detail-panel::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 3px; }
 
     .detail-empty {
       flex: 1;
@@ -185,52 +185,52 @@
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #2a2010;
+      color: #1e1e28;
     }
     .detail-header {
       padding: 14px 12px 10px;
-      border-bottom: 1px solid #3a3020;
+      border-bottom: 1px solid #252530;
       flex-shrink: 0;
     }
     .detail-city-name {
       font-size: 14px;
-      color: #f0d060;
+      color: #e8c840;
       margin-bottom: 3px;
     }
     .detail-city-meta {
       font-size: 10px;
-      color: #5a4e30;
+      color: #484858;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
     .detail-section {
       padding: 8px 12px;
-      border-bottom: 1px solid #1e1a0e;
+      border-bottom: 1px solid #1c1c24;
       flex-shrink: 0;
     }
     .detail-section-title {
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #4a3e20;
+      color: #525060;
       margin-bottom: 6px;
     }
     .detail-badges { display: flex; flex-wrap: wrap; gap: 4px; }
     .detail-badge {
       font-size: 10px;
       padding: 2px 7px;
-      border: 1px solid #3a3020;
-      color: #9a8050;
-      background: #111008;
+      border: 1px solid #252530;
+      color: #9a9880;
+      background: #111116;
     }
     .detail-table { width: 100%; border-collapse: collapse; }
-    .detail-table tr + tr td { border-top: 1px solid #1a1608; }
-    .detail-table td { padding: 3px 0; font-size: 12px; color: #a89060; }
+    .detail-table tr + tr td { border-top: 1px solid #181820; }
+    .detail-table td { padding: 3px 0; font-size: 12px; color: #a09880; }
     .detail-table td.skill {
       text-align: right;
       font-family: monospace;
       font-size: 11px;
-      color: #c8b882;
+      color: #ddd8cc;
     }
   </style>
 </head>
@@ -476,8 +476,8 @@
                       cx={city.px}
                       cy={city.py}
                       r={selectedId === city.id ? 7.5 : 5}
-                      fill={selectedId === city.id ? '#f0d060' : '#a08040'}
-                      stroke="#0e0d0a"
+                      fill={selectedId === city.id ? '#e8c840' : '#706858'}
+                      stroke="#0d0d10"
                       strokeWidth="1.5"
                     />
                   </g>
