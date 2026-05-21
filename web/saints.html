@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darklands — Saints of the Realm</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
+      height: 100%;
+      background: #0e0d0a;
+      color: #c8b882;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #3a3020;
+      background: #0b0a08;
+      overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: #0b0a08; }
+    .sidebar::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+
+    .sidebar-header {
+      padding: 14px 12px 10px;
+      border-bottom: 1px solid #3a3020;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #8a7550;
+      margin-bottom: 5px;
+    }
+    .sidebar-nav {
+      font-size: 10px;
+      color: #3a3010;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.1s;
+    }
+    .sidebar-nav:hover { color: #7a6030; }
+
+    /* ── Filters ── */
+    .filter-section {
+      padding: 10px 12px;
+      border-bottom: 1px solid #1a1608;
+      flex-shrink: 0;
+    }
+    .filter-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #4a3e20;
+      margin-bottom: 6px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #111008;
+      border: 1px solid #2a2010;
+      color: #c8b882;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 12px;
+      padding: 5px 8px;
+      outline: none;
+      transition: border-color 0.1s;
+    }
+    .search-input:focus { border-color: #7a6030; }
+    .search-input::placeholder { color: #2a2010; }
+
+    .tag-group { margin-bottom: 8px; }
+    .tag-group:last-child { margin-bottom: 0; }
+    .tag-group-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #302818;
+      margin-bottom: 4px;
+    }
+    .tag-chips { display: flex; flex-wrap: wrap; gap: 3px; }
+
+    .tag-chip {
+      font-size: 10px;
+      padding: 2px 6px;
+      border: 1px solid #1e1808;
+      color: #4a4020;
+      background: #0d0b07;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s;
+      line-height: 1.4;
+    }
+    .tag-chip:hover { border-color: #4a3a18; color: #8a7040; }
+    .tag-chip.active { border-color: #8a6020; color: #d4a830; background: #181208; }
+
+    .clear-btn {
+      width: 100%;
+      padding: 4px 8px;
+      background: none;
+      border: 1px solid #1e1808;
+      color: #3a3010;
+      cursor: pointer;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.1s;
+    }
+    .clear-btn:hover { border-color: #4a3a18; color: #7a6030; }
+
+    /* ── Main panel ── */
+    .main-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .result-bar {
+      padding: 6px 14px;
+      border-bottom: 1px solid #1a1608;
+      font-size: 10px;
+      color: #3a3010;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+      background: #0b0a08;
+    }
+    .result-bar span { color: #7a6030; }
+
+    .table-wrap {
+      flex: 1;
+      overflow: auto;
+    }
+    .table-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
+    .table-wrap::-webkit-scrollbar-track { background: #0a0908; }
+    .table-wrap::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 4px; }
+
+    /* ── Saints table ── */
+    .saints-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .saints-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #0e0c08;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #4a3e20;
+      border-bottom: 1px solid #2a2010;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.1s;
+    }
+    .saints-table thead th:hover { color: #8a7040; }
+    .saints-table thead th.sorted { color: #c8a030; }
+    .sort-arrow { margin-left: 3px; font-size: 8px; opacity: 0.7; }
+
+    .saints-table tbody tr.saint-row {
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .saints-table tbody tr.saint-row:hover { background: #111008; }
+    .saints-table tbody tr.saint-row.selected { background: #161208; }
+
+    .saints-table tbody td {
+      padding: 5px 12px;
+      font-size: 12px;
+      color: #9a8050;
+      border-bottom: 1px solid #111008;
+      vertical-align: middle;
+    }
+
+    .cell-name {
+      color: #c8b882;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .saint-row.selected .cell-name { color: #f0d060; }
+
+    .cell-num {
+      font-family: monospace;
+      font-size: 11px;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    /* inline tag chips in table */
+    .cell-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+
+    .ttag {
+      font-size: 9px;
+      padding: 1px 5px;
+      border: 1px solid #1e1808;
+      color: #4a4020;
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+    .ttag.heal   { border-color: #203818; color: #486838; }
+    .ttag.combat { border-color: #382010; color: #68441a; }
+    .ttag.fire   { border-color: #381808; color: #683810; }
+    .ttag.mob    { border-color: #183030; color: #306050; }
+    .ttag.int    { border-color: #281838; color: #504868; }
+    .ttag.rep    { border-color: #382800; color: #686010; }
+    .ttag.special{ border-color: #182838; color: #305068; }
+    .ttag.neg    { border-color: #381010; color: #683030; }
+
+    /* ── Expanded detail row ── */
+    .detail-row td {
+      padding: 0 !important;
+      border-bottom: 1px solid #2a2010;
+    }
+    .detail-inner {
+      padding: 10px 16px 12px 24px;
+      background: #0c0a06;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .detail-block-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #3a3010;
+      margin-bottom: 5px;
+    }
+    .detail-block-text {
+      font-size: 12px;
+      color: #9a8050;
+      line-height: 1.6;
+    }
+    .detail-block-text.none { color: #242010; font-style: italic; }
+
+    /* ── Stats strip in expanded row ── */
+    .detail-stats {
+      display: flex;
+      gap: 16px;
+      padding: 6px 16px 0 24px;
+      background: #0c0a06;
+    }
+    .detail-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .detail-stat-value {
+      font-family: monospace;
+      font-size: 14px;
+      color: #c8b060;
+    }
+    .detail-stat-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #3a3010;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+const SAINTS = [
+  { name: "St. Adrian",                virtue: 43, favour: "15-99", success: 15, effects: "End +(7-15), Chr +(6-11), each weapon skill +(15-29)",                                                                                                                                                          detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Agatha",                virtue: 24, favour: "20-80", success: 25, effects: "If praying for a man, End +(6-11). If praying for a woman, End +(12-23), Chr +(6-11)",                                                                                                                           detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Agnes",                 virtue: 19, favour: "10-99", success: 25, effects: "Chr +(10-29), Local Rep at nearest city +(10-20)",                                                                                                                                                                detail: "",                                                                                                                                                              tags: ["reputation-general"] },
+  { name: "St. Aidan",                 virtue: 23, favour: "15-99", success: 25, effects: "Woodwise +(25-29)",                                                                                                                                                                                              detail: "In interactions with animals, this saint may prevent attacks",                                                                                                 tags: ["prevent-animal-attack"] },
+  { name: "St. Albert the Great",      virtue: 39, favour: "25-99", success: 60, effects: "Int +(8-15), Per +(6-11), Alch +(30-44), SpkL +(15-29), R&W +(15-29)",                                                                                                                                          detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Alcuin",                virtue: 39, favour: "15-99", success: 60, effects: "Int +(6-11), SpkL +(20-39), R&W +(20-39)",                                                                                                                                                                       detail: "Prayers in encounters with government and/or nobles can improve chances of success",                                                                             tags: ["interaction-noble", "interaction-government"] },
+  { name: "St. Alexis",                virtue: 28, favour: "10-99", success: 40, effects: "Chr +(6-11), Local Rep at nearest city +(10-20). If party has less than 12pf, it receives 36-108pf",                                                                                                             detail: "",                                                                                                                                                              tags: ["reputation-general", "give-gold"] },
+  { name: "St. Andrew",                virtue: 14, favour: "5-50",  success: 20, effects: "End +(6-11), Chr +(8-15)",                                                                                                                                                                                       detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Andrew the Tribune",    virtue: 37, favour: "20-99", success: 15, effects: "wEdg +(15-29), wImp +(15-29), wPol +(15-29), wThr +(15-29), wBow +(15-29)",                                                                                                                                     detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Anthony",               virtue: 37, favour: "20-99", success: 15, effects: "End +(4-9), Str +(5-10), Chr +(1-10), SpkL +(10-19), R&W +(20-39)",                                                                                                                                             detail: "The saint can sometimes weaken demons, but only during interactions before battle",                                                                              tags: ["weaken-demons"] },
+  { name: "St. Anthony of Padua",      virtue: 59, favour: "10-99", success: 65, effects: "Str +(4-7), Per +(6-11), Chr +(15-24), wImp +(10-19), SpkC +(20-29), SpkL +(10-19)",                                                                                                                            detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Apollinarius",          virtue: 78, favour: "20-50", success: 70, effects: "Str +(2-4), End +(8-15)",                                                                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Arnulf",                virtue: 65, favour: "15-99", success: 65, effects: "Str +(4-7), Per +(6-11), Int +(4-7), each weapon skill +(10-19), SpkL +(6-11), R&W +(8-15), StrW +(6-11), Ride +(8-15)",                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Barbara",               virtue: 32, favour: "20-50", success: 40, effects: "Artf +(15-29), wMsD +(20-39)",                                                                                                                                                                                   detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Bathildis",             virtue: 21, favour: "15-60", success: 20, effects: "Int +(4-8), Per +(3-6)",                                                                                                                                                                                         detail: "This saint may help you escape from prison, but frequently it costs a large amount of money",                                                                   tags: ["escape-prison"] },
+  { name: "St. Boniface",              virtue: 25, favour: "10-90", success: 10, effects: "Chr +(8-15), SpkC +(8-15), each weapon skill +(10-19)",                                                                                                                                                          detail: "During interaction, this saint may be able to purify certain evil sites",                                                                                       tags: ["purify-evil-site"] },
+  { name: "St. Catherine of Alexandria", virtue: 46, favour: "30-70", success: 30, effects: "Chr +(8-15), Int +(8-15), SpkC +(40-99)",                                                                                                                                                                      detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Catherine of Siena",    virtue: 33, favour: "10-99", success: 25, effects: "Chr +(1-15), Per +(1-15), SpkC +(10-29)",                                                                                                                                                                        detail: "In interactions she may provide insights into the attitudes or feelings of others",                                                                              tags: ["interaction-read-thoughts"] },
+  { name: "St. Cecilia",               virtue: 41, favour: "25-99", success: 50, effects: "Chr +(3-10), if person praying has a musical instrument +(20-60) to local reputation",                                                                                                                           detail: "She can save a party from suffocation, or allow them to survive without breathing",                                                                              tags: ["reputation-general", "survive-suffocation"] },
+  { name: "St. Ceolwulf",              virtue: 23, favour: "15-99", success: 25, effects: "Per +(3-5), Str +(6-11), Int +(3-5), SpkL +(6-11), each weapon skill +(6-11)",                                                                                                                                   detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Charity",               virtue: 40, favour: "10-50", success: 50, effects: "wFll +(15-29), Chr +(6-11), Local Rep at nearest city +(10-20), armor thickness against flame weapons increased",                                                                                                detail: "",                                                                                                                                                              tags: ["reputation-general", "flame-resistance"] },
+  { name: "St. Christina the Astonishing", virtue: 54, favour: "50-99", success: 50, effects: "Agl +(8-15), Chr +(1-10)",                                                                                                                                                                                   detail: "In interactions she can sometimes levitate the party over obstacles or away from trouble, but she tends to send the party to deserted or relatively empty places", tags: ["levitate-walls", "negative-effect"] },
+  { name: "St. Christopher",           virtue: 31, favour: "15-99", success: 25, effects: "wBow +(6-11), StrW +(10-19), WdWs +(20-39), Ride +(25-74)",                                                                                                                                                     detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Clare",                 virtue: 33, favour: "30-70", success: 20, effects: "heals Str 95%, heals End 95%",                                                                                                                                                                                   detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Clotilda",              virtue: 22, favour: "10-99", success: 30, effects: "heals End 25%, heals Str 50%, Heal (skill) +(10-19), Chr +(6-11)",                                                                                                                                               detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Colman of Cloyne",      virtue: 34, favour: "15-99", success: 55, effects: "Chr +(8-15), SpkC +(30-89), SpkL +(6-11), R&W +(10-19)",                                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Columba",               virtue: 36, favour: "20-99", success: 60, effects: "End +(8-15), Str +(6-13), Chr +(4-7), Per -(5-9), weapon currently in use skill +(10-19)",                                                                                                                      detail: "Note that St. Columba temporarily reduces perception",                                                                                                          tags: ["negative-effect"] },
+  { name: "St. Cosmas",                virtue: 15, favour: "15-75", success: 30, effects: "heals End 10%, heals Str 10%, Heal (skill) +(40-79), Per +(4-7), and automatically gives knowledge of St. Damian",                                                                                               detail: "",                                                                                                                                                              tags: ["heal", "knowledge-saint"] },
+  { name: "St. Crispin",               virtue: 28, favour: "25-99", success: 35, effects: "Improves armor quality on both limbs and vitals",                                                                                                                                                                detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Cyprian",               virtue: 54, favour: "25-99", success: 50, effects: "Int +(6-12), Alch +(6-12)",                                                                                                                                                                                      detail: "The saint can sometimes weaken demons, but only during interactions before battle",                                                                              tags: ["weaken-demons"] },
+  { name: "St. Damian",                virtue: 30, favour: "25-80", success: 40, effects: "heals End 100%, heals Str 30%, and automatically gives knowledge of St. Cosmas",                                                                                                                                  detail: "",                                                                                                                                                              tags: ["heal", "knowledge-saint"] },
+  { name: "St. David",                 virtue: 30, favour: "10-75", success: 25, effects: "Int +(4-7), Chr +(1-6), Per +(6-11), Ride +(6-11), weapon currently in use skill +(8-15)",                                                                                                                       detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Denis",                 virtue: 38, favour: "25-99", success: 20, effects: "heals Str 100%, Chr +(15-44), SpkC +(25-49)",                                                                                                                                                                    detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Derfel Gadarn",         virtue: 57, favour: "20-60", success: 45, effects: "heals End 70%, Str +(5-14), weapon currently in use skill +(20-59)",                                                                                                                                             detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Devota",                virtue: 26, favour: "20-65", success: 10, effects: "heals End 100%, heals Str 20%, Chr +(15-29)",                                                                                                                                                                    detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Dismas",                virtue: 53, favour: "30-99", success: 45, effects: "WdWs +(10-19), StrW +(20-39), Artf +(20-39), Agl +(10-19), Stlh +(10-19)",                                                                                                                                      detail: "He may help a party escape from prison as an interaction option",                                                                                                tags: ["escape-prison"] },
+  { name: "St. Dominic",               virtue: 29, favour: "20-99", success: 15, effects: "Int +(10-19), SpkC +(10-19), SpkL +(10-19), R&W +(20-39)",                                                                                                                                                      detail: "He can help the party deal with some travelling clergy (friars, hermits, etc.)",                                                                                 tags: ["interaction-clergy"] },
+  { name: "St. Dorothy of Montau",     virtue: 52, favour: "20-99", success: 50, effects: "Chr +(10-19), Per +(6-11), Heal (skill) +(10-19)",                                                                                                                                                               detail: "If the person prayed for lacks an edged weapon, he or she receives a longsword",                                                                                 tags: ["give-weapon"] },
+  { name: "St. Drogo",                 virtue: 59, favour: "15-99", success: 60, effects: "Per +(6-11), Heal (skill) +(10-19), WdWs +(20-39), and helps prevent ambushes for seven days",                                                                                                                   detail: "",                                                                                                                                                              tags: ["prevent-fight"] },
+  { name: "St. Dunstan",               virtue: 45, favour: "30-60", success: 60, effects: "Per +(6-11), Artf +(25-74), StrW +(6-11), Alch +(5-14), weapon currently in use skill +(6-11), armor thickness improves one against flame weapons",                                                              detail: "",                                                                                                                                                              tags: ["flame-resistance"] },
+  { name: "St. Dymphna",               virtue: 21, favour: "20-75", success: 10, effects: "heals End 30%, Agl +(4-7), Heal (skill) +(10-19), Stlh +(15-29)",                                                                                                                                               detail: "The saint can sometimes weaken demons, but only during interactions before battle",                                                                              tags: ["heal", "weaken-demons"] },
+  { name: "St. Edward the Confessor",  virtue:  5, favour: "20-99", success: 10, effects: "End +(4-7), Int +(6-11), Per +(8-15), each weapon skill +(6-11), Ride +(8-15). Each character whose virtue is below 20 has their virtue increased",                                                              detail: "In interactions with nobility, this saint is sometimes helpful",                                                                                                 tags: ["interaction-noble"] },
+  { name: "St. Eligius",               virtue: 29, favour: "10-60", success: 25, effects: "Artf +(25-74), Alch +(8-15). There are no weapon or armor improvements",                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Emydius",               virtue: 31, favour: "20-99", success: 55, effects: "SpkC +(20-39), Chr +(15-29)",                                                                                                                                                                                    detail: "During interaction, this saint may be able to purify certain evil sites",                                                                                       tags: ["purify-evil-site"] },
+  { name: "St. Engelbert",             virtue: 40, favour: "15-99", success: 30, effects: "Chr +(5-9), Ride +(10-19), SpkC +(6-11), WdWs +(10-19)",                                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Erasmus",               virtue: 32, favour: "15-50", success: 40, effects: "Agl +(6-11), Per +(6-11), and armor becomes impenetrable to flame weapons",                                                                                                                                      detail: "",                                                                                                                                                              tags: ["flame-resistance"] },
+  { name: "St. Eric",                  virtue: 42, favour: "20-99", success: 25, effects: "Str +(8-15), Chr +(4-7), SpkC +(6-11), Ride +(6-11), weapon currently in use skill +(15-24)",                                                                                                                   detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Eustace",               virtue: 41, favour: "30-99", success: 30, effects: "wEdg +(6-11), wThr +(6-11), wBow +(6-11), Ride +(10-19), WdWs +(40-69)",                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Felix of Nola",         virtue: 37, favour: "25-99", success: 30, effects: "Agl +(8-15), Stlh +(40-99), WdWs +(10-19)",                                                                                                                                                                     detail: "During interactions, this saint may help an imprisoned party escape",                                                                                            tags: ["escape-prison"] },
+  { name: "St. Finbar",                virtue: 17, favour: "30-99", success: 45, effects: "Chr +(8-15), Per +(6-11), SpkL +(10-19)",                                                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Finnian",               virtue: 24, favour: "40-99", success: 35, effects: "Agl +(8-15), Chr +(6-11), SpkC +(6-11), R&W +(6-11), StrW +(4-7). In addition, the party can cross impassable water for 24 hours",                                                                              detail: "",                                                                                                                                                              tags: ["cross-water"] },
+  { name: "St. Florian",               virtue: 17, favour: "25-99", success: 35, effects: "Riding +(6-11), weapon currently in use skill +(6-11). If nearest city is Austrian (Wien, Graz, Passau, Salzburg, Linz or Steyr) Local Rep +(15-25). Party can cross impassable water for 24 hours",            detail: "",                                                                                                                                                              tags: ["cross-water", "reputation-city-specific"] },
+  { name: "St. Francis of Assisi",     virtue: 10, favour: "10-60", success:  1, effects: "heals End 30%, heals Str 10%, End +(6-11), Chr +(15-29), Per +(6-11), SpkC +(4-7), Heal (skill) +(10-19), Artf +(12-23), WdWs +(4-7)",                                                                          detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Gabriel",               virtue: 56, favour: "30-75", success: 45, effects: "Int +(10-29), Per +(10-29)",                                                                                                                                                                                     detail: "This archangel and saint can sometimes clear the way of obstacles",                                                                                             tags: ["clear-obstacles"] },
+  { name: "St. Genevieve",             virtue: 73, favour: "40-99", success: 75, effects: "heals End 30%, heals Str 20%, and helps prevent ambushes for seven days",                                                                                                                                        detail: "",                                                                                                                                                              tags: ["heal", "prevent-fight"] },
+  { name: "St. George",                virtue: 23, favour: "40-99", success: 10, effects: "Str +(10-14), Agl +(5-9), each weapon skill +(25-49), Ride +(25-49)",                                                                                                                                            detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Gerlac",                virtue: 34, favour: "40-75", success: 50, effects: "heals End 30%, heals Str 20%, Heal (skill) +(20-39), weapon currently in use skill +(15-24)",                                                                                                                    detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Gertrude of Nivelles",  virtue: 26, favour: "35-99", success: 30, effects: "Chr +(6-11), SpkL +(15-29), R&W +(15-29), WdWs +(15-29), Riding +(5-9)",                                                                                                                                        detail: "If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",                                                               tags: ["move-to-city"] },
+  { name: "St. Giles",                 virtue: 45, favour: "35-99", success: 15, effects: "heals End 40%, heals Str 10%, Agl -(4-7), weapon currently in use skill -(15-24), Stlh +(30-59), StrW +(50-89), WdWs +(5-9)",                                                                                   detail: "Note that St. Giles temporarily reduces agility and certain weapon skills",                                                                                      tags: ["heal", "negative-effect"] },
+  { name: "St. Giles of Portugal",     virtue: 64, favour: "15-99", success: 60, effects: "Alch +(40-59), Artf +(10-19), Int +(5-9), Per +(15-24)",                                                                                                                                                        detail: "Each prayer causes a -1 wound to strength and -1 to virtue, which wear off after 24 hours",                                                                     tags: ["negative-effect"] },
+  { name: "St. Godehard",              virtue: 39, favour: "15-99", success: 55, effects: "heals End 30%, SpkL +(20-39), R&W +(25-49)",                                                                                                                                                                     detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Godfrey",               virtue: 55, favour: "25-99", success: 40, effects: "heals End 20%, SpkC +(15-29), Artf +(10-19), and helps prevent ambushes for seven days",                                                                                                                         detail: "During interactions this saint may prevent fights with other people",                                                                                            tags: ["heal", "prevent-fight"] },
+  { name: "St. Gottschalk",            virtue: 64, favour: "25-50", success: 55, effects: "each weapon skill +(15-29), if nearest city is Wendish (Schleswig, Lübeck, Hamburg, Bremen, Rostock and Wismar) Local Rep +(20-40)",                                                                             detail: "",                                                                                                                                                              tags: ["reputation-city-specific"] },
+  { name: "St. Gregory Thaumaturgus",  virtue: 74, favour: "30-99", success: 80, effects: "Chr +(8-15), Alch +(10-19), SpkC +(10-19), Artf +(20-39)",                                                                                                                                                      detail: "During interactions this saint may sometimes cause impressive miracles that solve desperate or difficult problems",                                               tags: ["interaction-miracle"] },
+  { name: "St. Hedwig",                virtue: 16, favour: "15-75", success: 10, effects: "Heal (skill) +(20-29), if nearest city is Silesian (Frankfurt an der Oder, Breslau, Olmütz, Teschen) Local Rep +(20-40)",                                                                                        detail: "During interactions this saint may help you perceive the thoughts of nobles or other leaders",                                                                   tags: ["interaction-noble", "interaction-read-thoughts", "reputation-city-specific"] },
+  { name: "St. Henry",                 virtue: 61, favour: "30-99", success: 75, effects: "Int +(8-23), each weapon skill +(10-19)",                                                                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Heribert",              virtue: 30, favour: "20-99", success: 35, effects: "Chr +(10-19), Str +(4-7)",                                                                                                                                                                                       detail: "During interactions this saint may help you perceive evil in peasants",                                                                                          tags: ["interaction-peasant"] },
+  { name: "St. Herve",                 virtue: 47, favour: "15-99", success: 40, effects: "Per +(15-29)",                                                                                                                                                                                                   detail: "During interactions this saint may allow you to sense whether the other person is good or evil",                                                                 tags: ["interaction-sense-alignment"] },
+  { name: "St. Hildegard",             virtue: 13, favour: "25-99", success: 25, effects: "Per +(20-59)",                                                                                                                                                                                                   detail: "In a few interaction situations, this saint allows you to glimpse something of the future",                                                                      tags: ["interaction-glimpse-future"] },
+  { name: "St. Hubert",                virtue: 34, favour: "50-99", success: 50, effects: "wPol +(15-29), wThr +(15-29), wBow +(15-29), wMsD +(15-29), Stlh +(25-49), WdWs +(40-79)",                                                                                                                     detail: "This saint sometimes allows you to avoid trouble in woodland encounters",                                                                                        tags: ["interaction-woodland"] },
+  { name: "St. Illtyd",                virtue: 63, favour: "20-99", success: 65, effects: "Chr +(15-29), SpkC +(10-19), Ride +(5-9), each weapon skill +(10-19)",                                                                                                                                           detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Isidore",               virtue: 21, favour: "10-99", success: 35, effects: "Chr +(8-15), SpkC +(5-9), StrW +(10-19)",                                                                                                                                                                       detail: "This saint may help interactions with farmers or peasants",                                                                                                     tags: ["interaction-peasant"] },
+  { name: "St. Ita",                   virtue: 85, favour: "10-99", success: 70, effects: "heals End 50%, heals Str 100%, Chr +(8-15), Heal (skill) +(20-39)",                                                                                                                                              detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. James the Greater",     virtue: 25, favour: "12-50", success: 40, effects: "heals End 20%, heals Str 10%, Str +(4-7), End +(4-7), Chr +(3-5), Virt +(20-34)",                                                                                                                               detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Januarius",             virtue: 66, favour: "35-75", success: 66, effects: "",                                                                                                                                                                                                               detail: "In interactions with animals this saint may prevent an attack",                                                                                                 tags: ["prevent-animal-attack"] },
+  { name: "St. John of Bridlington",   virtue: 36, favour: "10-99", success: 15, effects: "If praying for a man, heals End 30% and heals Str 10%; if praying for a woman, heals End 100%, heals Str 20%, End +(5-9), Str +(4-7)",                                                                          detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. John Chrysostom",       virtue: 37, favour: "10-50", success: 25, effects: "Chr +(8-15), Per -(6-14), SpkC +(30-59), SpkL +(30-59)",                                                                                                                                                        detail: "Note that perception is actually reduced temporarily",                                                                                                           tags: ["negative-effect"] },
+  { name: "St. John Climacus",         virtue: 20, favour: "40-99", success: 30, effects: "each non-weapon skill increased by +(1-4), plus the target's current virtue/5",                                                                                                                                  detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. John Nepomucen",        virtue: 22, favour: "15-60", success: 30, effects: "Chr +(8-15), Int +(6-11), SpkC +(20-39), StrW +(4-7). If nearest city is Prag Local Rep +(35-55); if another Bohemian city Local Rep +(10-20)",                                                                  detail: "During interactions, this saint may force people to tell the truth",                                                                                             tags: ["interaction-truth", "reputation-city-specific"] },
+  { name: "St. Joseph",                virtue: 27, favour: "35-99", success: 35, effects: "Chr +(6-11), Artf +(30-59), StrW +(30-59)",                                                                                                                                                                      detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Jude",                  virtue: 15, favour: "20-90", success:  5, effects: "each attribute +(4-8), weapon currently in use skill +(13-24), each non-weapon skill +(6-11)",                                                                                                                   detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Julian the Hospitaler", virtue: 61, favour: "40-99", success: 75, effects: "Ride +(6-11), WdWs +(20-39). The party can cross impassable water for 24 hours",                                                                                                                                 detail: "",                                                                                                                                                              tags: ["cross-water"] },
+  { name: "St. Kessog",                virtue: 31, favour: "20-99", success: 25, effects: "heals End 40%, heals Str 20%, Chr +(6-11), SpkC +(15-29), Heal (skill) +(10-19), Ride +(4-7)",                                                                                                                   detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Ladislaus",             virtue: 51, favour: "25-99", success: 60, effects: "Str +(4-7), Agl +(3-5), SpkC +(6-11), Ride +(10-19)",                                                                                                                                                            detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Lawrence",              virtue: 20, favour: "30-99", success: 10, effects: "heals End 100%, Chr +(12-19), SpkC +(10-19), StrW +(10-19)",                                                                                                                                                     detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Lazarus",               virtue: 80, favour: "50-99", success: 60, effects: "heals End 30%, heals Str 100%",                                                                                                                                                                                  detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Longinius",             virtue: 49, favour: "30-99", success: 45, effects: "each weapon skill +(10-19)",                                                                                                                                                                                     detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Lucy",                  virtue: 77, favour: "40-99", success: 65, effects: "heals End 100%, heals Str 100%, Per +(6-11)",                                                                                                                                                                    detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Luke",                  virtue: 17, favour: "20-99", success: 35, effects: "heals End 50%, heals Str 30%, Heal (skill) +(20-39)",                                                                                                                                                            detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Lutgardis",             virtue: 60, favour: "35-99", success: 50, effects: "Chr +(6-11), Per +(8-15), Virt +(6-17), End +(5-9)",                                                                                                                                                             detail: "During some interactions, this saint may translate (fly) the party over obstacles such as walls",                                                                tags: ["levitate-walls"] },
+  { name: "St. Margaret",              virtue: 46, favour: "25-75", success: 45, effects: "heals End 100%, heals Str 50%, each attribute +(3-6), each non-weapon skill +(5-10)",                                                                                                                            detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Margaret of Cortona",   virtue: 52, favour: "25-99", success: 10, effects: "heals End 100%, heals Str 40%, Heal (skill) +(20-39), SpkC +(10-19)",                                                                                                                                           detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Mark",                  virtue: 35, favour: "25-99", success: 40, effects: "Agl +(12-23), R&W +(15-29)",                                                                                                                                                                                     detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Martin of Tours",       virtue: 69, favour: "25-99", success: 65, effects: "heals End 30%, heals Str 30%, Chr +(8-15), Per +(12-19), SpkC +(25-49), Ride +(20-39)",                                                                                                                         detail: "During interactions this saint may allow you to sense whether the other person is good or evil",                                                                 tags: ["heal", "interaction-sense-alignment"] },
+  { name: "St. Matthew",               virtue: 26, favour: "20-80", success: 25, effects: "Int +(8-15), SpkL +(15-29), R&W +(25-49)",                                                                                                                                                                      detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Maurice",               virtue: 81, favour: "30-50", success: 70, effects: "wEdg +(20-39), Alch +(10-19)",                                                                                                                                                                                   detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Michael",               virtue: 72, favour: "25-99", success: 55, effects: "Heal (skill) +(20-39), Chr +(12-19), weapons currently in use +20",                                                                                                                                              detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Milburga",              virtue: 71, favour: "35-99", success: 70, effects: "Heal (skill) +(20-39), Chr +(10-19), for the next 24 hours allows the party to move over impassable water",                                                                                                      detail: "During some interactions this saint may translate (fly) the party over obstacles such as walls",                                                                 tags: ["cross-water", "levitate-walls"] },
+  { name: "St. Moses the Black",       virtue: 66, favour: "10-99", success: 65, effects: "each weapon skill +(15-29), Stlh +(20-39), WdWs +(10-19), StrW +(10-19)",                                                                                                                                       detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Nicholas",              virtue: 49, favour: "25-99", success: 55, effects: "End +(4-8), Chr +(6-11), wFll +(15-29), Local Rep at nearest city +(10-20)",                                                                                                                                     detail: "",                                                                                                                                                              tags: ["reputation-general"] },
+  { name: "St. Nicolas of Tolentino",  virtue: 31, favour: "25-60", success: 23, effects: "heals End 50%, heals Str 100%, Relg +(8-15), Heal (skill) +(12-23)",                                                                                                                                            detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Odilia",                virtue: 25, favour: "20-99", success: 40, effects: "Per +(6-11). If nearest city is in Alsace (Strassburg or Basel) then local Rep +(15-25)",                                                                                                                        detail: "",                                                                                                                                                              tags: ["reputation-city-specific"] },
+  { name: "St. Odo",                   virtue: 47, favour: "30-99", success: 60, effects: "Chr +(4-8), Per +(10-19), SpkC +(8-15), each weapon skill +(8-22)",                                                                                                                                              detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Olaf",                  virtue: 18, favour: "15-99", success: 20, effects: "heals End 30%, each weapon skill +(8-22)",                                                                                                                                                                       detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Pantaleon",             virtue: 56, favour: "25-99", success: 20, effects: "heals End 30%, heals Str 30%, Chr +(6-11), Alch +(10-19), Heal (skill) +(15-29). Entire party armor thickness increased 10 against flame weapons",                                                               detail: "If the party is in the countryside, it is immediately moved to the nearest city. In interactions with animals this saint may prevent an attack",                  tags: ["heal", "flame-resistance", "move-to-city", "prevent-animal-attack"] },
+  { name: "St. Patrick",               virtue: 22, favour: "25-99", success: 15, effects: "Chr +(15-24), Str +(12-19), wEdg +(15-29), wImp +(15-29), wPol +(15-29), SpkC +(15-29), SpkL +(15-29), R&W +(15-29), armor thickness increased by 2 against flame weapons",                                    detail: "",                                                                                                                                                              tags: ["flame-resistance"] },
+  { name: "St. Paul the Apostle",      virtue: 19, favour: "27-52", success: 35, effects: "Int +(12-23), SpkC +(12-26), SpkL +(12-26), R&W +(15-29), Heal (skill) +(10-19)",                                                                                                                               detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Paul the Simple",       virtue: 70, favour: "20-80", success: 60, effects: "heals End 100%, heals Str 100%, Int halved (temporarily)",                                                                                                                                                       detail: 'In some interactions, this saint may help you "see into the mind" of another',                                                                                  tags: ["heal", "interaction-read-thoughts", "negative-effect"] },
+  { name: "St. Perpetua",              virtue: 16, favour: "40-99", success: 10, effects: "Chr +(15-29)",                                                                                                                                                                                                   detail: "In interactions with animals this saint may prevent an attack",                                                                                                 tags: ["prevent-animal-attack"] },
+  { name: "St. Peter",                 virtue: 58, favour: "25-75", success: 55, effects: "Str +(12-19), Chr +(8-15), SpkC +(10-19), SpkL +(10-19), Heal (skill) +(10-19), wEdg +(15-29), but Per halved (temporarily)",                                                                                   detail: "If imprisoned, this saint may aid the party's escape",                                                                                                          tags: ["escape-prison", "negative-effect"] },
+  { name: "St. Peter of Atroa",        virtue: 62, favour: "25-99", success: 50, effects: "Int +(6-11), Per +(6-11), Alch +(10-19), Stlh +(40-79), Ride +(10-19). However, Local Rep in nearest city -(1-5)",                                                                                              detail: "",                                                                                                                                                              tags: ["negative-effect"] },
+  { name: "St. Polycarp",              virtue: 19, favour: "10-75", success: 20, effects: "Improves armor thickness by 11 and adds 90 to armor quality of entire party when attacked by flame weapons",                                                                                                      detail: "",                                                                                                                                                              tags: ["flame-resistance"] },
+  { name: "St. Raphael",               virtue: 75, favour: "40-60", success: 70, effects: "heals End 100%, heals Str 100%, Agl +(8-15), Per +(6-11), Heal (skill) +(50-99)",                                                                                                                               detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Raymond Lull",          virtue: 29, favour: "10-99", success: 35, effects: "Int +(12-19), Alch +(20-39), R&W +(30-59)",                                                                                                                                                                      detail: "If End and/or Str are above 9, they are reduced to 9 — the equivalent of serious wounds",                                                                       tags: ["negative-effect"] },
+  { name: "St. Raymond Penafort",      virtue: 67, favour: "10-99", success: 50, effects: "Int +(15-29), R&W +(30-89). The party can cross impassable water for 24 hours",                                                                                                                                  detail: "The patron saint of lawyers — his ability to argue religious law can be useful in a few encounters",                                                             tags: ["cross-water"] },
+  { name: "St. Reinold",               virtue: 27, favour: "25-99", success: 45, effects: "heals End 30%, Alch +(6-17), Artf +(35-69), Chr -(6-11)",                                                                                                                                                       detail: "This saint is frequently useful in scaling walls",                                                                                                               tags: ["heal", "levitate-walls", "negative-effect"] },
+  { name: "St. Roch",                  virtue: 19, favour: "40-90", success: 45, effects: "heals End 20%, heals Str 20%, Heal (skill) +(10-19), Artf +(8-15)",                                                                                                                                              detail: "This saint may help you cure the plague",                                                                                                                       tags: ["heal", "cure-plague"] },
+  { name: "St. Sabas the Goth",        virtue: 64, favour: "25-99", success: 50, effects: "heals End 100%, heals Str 100%, Chr +(10-19)",                                                                                                                                                                   detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Sebastian",             virtue: 28, favour: "15-90", success: 10, effects: "heals End 10%, heals Str 10%, Agl +(12-19), wBow +(20-39), Ride +(10-19)",                                                                                                                                       detail: "This saint may help you cure the plague",                                                                                                                       tags: ["heal", "cure-plague"] },
+  { name: "St. Stanislaus",            virtue: 42, favour: "40-99", success: 65, effects: "heals End 20%, heals Str 10%, Chr +(6-11), SpkC +(30-49), SpkL +(20-39)",                                                                                                                                        detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Stephen",               virtue: 27, favour: "20-99", success: 30, effects: "Chr +(6-11), Int +(8-15), SpkC +(6-11), Ride +(10-19), weapon currently in use skill +(15-29). If party is in Pressburg, Local Rep +(15-25)",                                                                    detail: "",                                                                                                                                                              tags: ["reputation-city-specific"] },
+  { name: "St. Swithbert",             virtue: 50, favour: "30-99", success: 30, effects: "heals End 20%, heals Str 10%, Chr +(10-19), SpkC +(25-49)",                                                                                                                                                      detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Tarachus",              virtue: 50, favour: "40-99", success: 30, effects: "heals End 40%, heals Str 20%, Chr +(6-11)",                                                                                                                                                                       detail: "In interactions with animals this saint may prevent an attack",                                                                                                 tags: ["heal", "prevent-animal-attack"] },
+  { name: 'St. Thalelaeus "the Merciful"', virtue: 62, favour: "10-99", success: 65, effects: "heals End 40%, heals Str 20%, Heal (skill) +(30-59)",                                                                                                                                                        detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Theodore Tiro",         virtue: 38, favour: "25-99", success: 40, effects: "Chr +(6-11), End +(4-8), wFll +(15-29), weapon currently in use skill +(15-24)",                                                                                                                                 detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Thomas Aquinas",        virtue: 68, favour: "15-99", success: 65, effects: "Int +(12-23), SpkC +(12-26), SpkL +(12-26), R&W +(15-29), Heal (skill) +(10-19)",                                                                                                                               detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Thomas the Apostle",    virtue: 24, favour: "10-65", success: 24, effects: "Str +(4-8), End +(4-8), SpkC +(4-8), Heal (skill) +(10-19), Artf +(12-23), WdWs +(4-7)",                                                                                                                        detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Valentine",             virtue: 48, favour: "10-50", success: 45, effects: "heals End 10%, heals Str 10%, Chr +(10-19), Stlh +(6-11), Heal (skill) +(6-11), SpkC +(6-11)",                                                                                                                   detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Victor of Marseilles",  virtue: 65, favour: "30-80", success: 40, effects: "heals End 100%, heals Str 20%, Chr +(8-15), SpkC +(10-19), weapon currently in use skill +(15-24)",                                                                                                              detail: "",                                                                                                                                                              tags: ["heal"] },
+  { name: "St. Vitus",                 virtue: 48, favour: "40-99", success: 65, effects: "Chr +(10-19), Agl +(12-23)",                                                                                                                                                                                     detail: "If the party is in the countryside, it is immediately moved to the outskirts of the nearest city",                                                               tags: ["move-to-city"] },
+  { name: "St. Wenceslaus",            virtue: 44, favour: "35-99", success: 60, effects: "Str +(6-11), Int +(8-13), Per +(6-11), Ride +(8-15), weapon currently in use skill +(8-15). If nearest city is in Bohemia (Prag, St. Joachimsthal, Bürglitz, Kuttenberg, Brünn, Olmütz) Local Rep +(15-24)",   detail: "",                                                                                                                                                              tags: ["reputation-city-specific"] },
+  { name: "St. Wilfrid",               virtue: 25, favour: "15-65", success: 15, effects: "heals End 20%, Chr +(6-11), SpkC +(20-39), Artf +(6-11), and helps prevent ambushes for seven days",                                                                                                             detail: "",                                                                                                                                                              tags: ["heal", "prevent-fight"] },
+  { name: "St. Willehad",              virtue: 35, favour: "20-99", success: 35, effects: "Agl +(8-15), Ride +(10-19), WdWs +(8-15), and helps prevent ambushes for seven days",                                                                                                                            detail: "",                                                                                                                                                              tags: ["prevent-fight"] },
+  { name: "St. Willibald",             virtue: 50, favour: "25-99", success: 55, effects: "Chr +(10-19), SpkC +(25-49), WdWs +(6-11)",                                                                                                                                                                      detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Willibrord",            virtue: 43, favour: "15-50", success: 55, effects: "Chr +(10-19), SpkC +(20-39), WdWs +(8-15)",                                                                                                                                                                      detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Wolfgang",              virtue: 24, favour: "20-99", success: 35, effects: "Chr +(8-15), Int +(6-11), SpkC +(20-39), Ride +(6-11), WdWs +(6-11)",                                                                                                                                            detail: "",                                                                                                                                                              tags: [] },
+  { name: "St. Zita",                  virtue: 23, favour: "10-65", success: 15, effects: "heals End 20%, heals Str 5%, Per +(6-11), StrW +(6-11)",                                                                                                                                                         detail: "During interactions with servants, this saint may help you gain additional information",                                                                         tags: ["heal", "interaction-servant"] },
+];
+
+const TAG_LABELS = {
+  'heal':                      'Healing',
+  'weaken-demons':             'Weakens Demons',
+  'prevent-fight':             'Prevents Ambush',
+  'prevent-animal-attack':     'Prevents Animal Attack',
+  'flame-resistance':          'Flame Resistance',
+  'cross-water':               'Cross Water',
+  'levitate-walls':            'Levitate / Fly',
+  'move-to-city':              'Move to City',
+  'escape-prison':             'Prison Escape',
+  'clear-obstacles':           'Clear Obstacles',
+  'interaction-noble':         'With Nobles',
+  'interaction-government':    'With Government',
+  'interaction-clergy':        'With Clergy',
+  'interaction-peasant':       'With Peasants',
+  'interaction-servant':       'With Servants',
+  'interaction-woodland':      'Woodland',
+  'interaction-sense-alignment': 'Sense Alignment',
+  'interaction-read-thoughts': 'Read Thoughts',
+  'interaction-glimpse-future':'Glimpse Future',
+  'interaction-miracle':       'Miracles',
+  'interaction-truth':         'Force Truth',
+  'reputation-general':        'Reputation Boost',
+  'reputation-city-specific':  'City Reputation',
+  'give-gold':                 'Gives Gold',
+  'give-weapon':               'Gives Weapon',
+  'cure-plague':               'Cures Plague',
+  'survive-suffocation':       'Survive Suffocation',
+  'knowledge-saint':           'Saint Knowledge',
+  'purify-evil-site':          'Purify Evil Site',
+  'negative-effect':           'Has Drawback',
+};
+
+const TAG_CAT = {
+  'heal':                      'heal',
+  'weaken-demons':             'combat',
+  'prevent-fight':             'combat',
+  'prevent-animal-attack':     'combat',
+  'flame-resistance':          'fire',
+  'cross-water':               'mob',
+  'levitate-walls':            'mob',
+  'move-to-city':              'mob',
+  'escape-prison':             'mob',
+  'clear-obstacles':           'mob',
+  'interaction-noble':         'int',
+  'interaction-government':    'int',
+  'interaction-clergy':        'int',
+  'interaction-peasant':       'int',
+  'interaction-servant':       'int',
+  'interaction-woodland':      'int',
+  'interaction-sense-alignment': 'int',
+  'interaction-read-thoughts': 'int',
+  'interaction-glimpse-future':'int',
+  'interaction-miracle':       'int',
+  'interaction-truth':         'int',
+  'reputation-general':        'rep',
+  'reputation-city-specific':  'rep',
+  'give-gold':                 'rep',
+  'give-weapon':               'rep',
+  'cure-plague':               'special',
+  'survive-suffocation':       'special',
+  'knowledge-saint':           'special',
+  'purify-evil-site':          'special',
+  'negative-effect':           'neg',
+};
+
+const TAG_GROUPS = [
+  { label: 'Combat & Healing',  tags: ['heal', 'weaken-demons', 'prevent-fight', 'prevent-animal-attack', 'flame-resistance'] },
+  { label: 'Mobility',          tags: ['cross-water', 'levitate-walls', 'move-to-city', 'escape-prison', 'clear-obstacles'] },
+  { label: 'Interactions',      tags: ['interaction-noble', 'interaction-government', 'interaction-clergy', 'interaction-peasant', 'interaction-servant', 'interaction-woodland', 'interaction-sense-alignment', 'interaction-read-thoughts', 'interaction-glimpse-future', 'interaction-miracle', 'interaction-truth'] },
+  { label: 'Reputation & Gifts',tags: ['reputation-general', 'reputation-city-specific', 'give-gold', 'give-weapon'] },
+  { label: 'Special',           tags: ['cure-plague', 'survive-suffocation', 'knowledge-saint', 'purify-evil-site'] },
+  { label: 'Drawbacks',         tags: ['negative-effect'] },
+];
+</script>
+
+<script type="text/babel">
+  const { useState, useMemo, useCallback } = React;
+
+  function tagCls(tag) {
+    return 'ttag ' + (TAG_CAT[tag] || '');
+  }
+
+  function FilterSidebar({ nameFilter, setNameFilter, activeTags, toggleTag, clearFilters }) {
+    const hasFilters = nameFilter || activeTags.size > 0;
+    return (
+      <div className="sidebar">
+        <div className="sidebar-header">
+          <div className="sidebar-title">Saints of the Realm</div>
+          <a href="index.html" className="sidebar-nav">← Map of Germany</a>
+        </div>
+
+        <div className="filter-section">
+          <div className="filter-label">Search by name</div>
+          <input
+            className="search-input"
+            type="text"
+            placeholder="e.g. Anthony…"
+            value={nameFilter}
+            onChange={e => setNameFilter(e.target.value)}
+          />
+        </div>
+
+        <div className="filter-section">
+          <div className="filter-label">Filter by effect</div>
+          {TAG_GROUPS.map(group => (
+            <div key={group.label} className="tag-group">
+              <div className="tag-group-label">{group.label}</div>
+              <div className="tag-chips">
+                {group.tags.map(tag => (
+                  <span
+                    key={tag}
+                    className={'tag-chip' + (activeTags.has(tag) ? ' active' : '')}
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {TAG_LABELS[tag]}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {hasFilters && (
+          <div className="filter-section">
+            <button className="clear-btn" onClick={clearFilters}>Clear all filters</button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function SaintsTable({ saints, selectedName, onSelect, sortCol, sortDir, onSort }) {
+    function th(col, label) {
+      return (
+        <th className={sortCol === col ? 'sorted' : ''} onClick={() => onSort(col)}>
+          {label}
+          {sortCol === col && <span className="sort-arrow">{sortDir === 'asc' ? '▲' : '▼'}</span>}
+        </th>
+      );
+    }
+
+    return (
+      <table className="saints-table">
+        <thead>
+          <tr>
+            {th('name',    'Name')}
+            {th('virtue',  'Min Virtue')}
+            {th('favour',  'Divine Favour')}
+            {th('success', 'Base Success')}
+            <th>Special Effects</th>
+          </tr>
+        </thead>
+        <tbody>
+          {saints.map(saint => {
+            const sel = selectedName === saint.name;
+            return (
+              <React.Fragment key={saint.name}>
+                <tr
+                  className={'saint-row' + (sel ? ' selected' : '')}
+                  onClick={() => onSelect(saint.name)}
+                >
+                  <td className="cell-name">{saint.name}</td>
+                  <td className="cell-num">{saint.virtue}</td>
+                  <td className="cell-num">{saint.favour}</td>
+                  <td className="cell-num">{saint.success}%</td>
+                  <td>
+                    <div className="cell-tags">
+                      {saint.tags.map(t => (
+                        <span key={t} className={tagCls(t)}>{TAG_LABELS[t]}</span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+                {sel && (
+                  <tr className="detail-row">
+                    <td colSpan={5}>
+                      <div className="detail-inner">
+                        <div>
+                          <div className="detail-block-label">Status Effects</div>
+                          <div className={'detail-block-text' + (saint.effects ? '' : ' none')}>
+                            {saint.effects || '—'}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="detail-block-label">Special Ability</div>
+                          <div className={'detail-block-text' + (saint.detail ? '' : ' none')}>
+                            {saint.detail || '—'}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  }
+
+  function App() {
+    const [nameFilter, setNameFilter]   = useState('');
+    const [activeTags, setActiveTags]   = useState(new Set());
+    const [selectedName, setSelected]   = useState(null);
+    const [sortCol, setSortCol]         = useState('name');
+    const [sortDir, setSortDir]         = useState('asc');
+
+    const toggleTag = useCallback((tag) => {
+      setActiveTags(prev => {
+        const next = new Set(prev);
+        if (next.has(tag)) next.delete(tag); else next.add(tag);
+        return next;
+      });
+    }, []);
+
+    const clearFilters = useCallback(() => {
+      setNameFilter('');
+      setActiveTags(new Set());
+    }, []);
+
+    const onSort = useCallback((col) => {
+      setSortCol(prev => {
+        if (prev === col) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+        else { setSortDir('asc'); }
+        return col;
+      });
+    }, []);
+
+    const onSelect = useCallback((name) => {
+      setSelected(prev => prev === name ? null : name);
+    }, []);
+
+    const filtered = useMemo(() => {
+      let list = SAINTS;
+      if (nameFilter.trim()) {
+        const q = nameFilter.trim().toLowerCase();
+        list = list.filter(s => s.name.toLowerCase().includes(q));
+      }
+      if (activeTags.size > 0) {
+        list = list.filter(s => s.tags.some(t => activeTags.has(t)));
+      }
+      return list;
+    }, [nameFilter, activeTags]);
+
+    const sorted = useMemo(() => {
+      return [...filtered].sort((a, b) => {
+        let av, bv;
+        if      (sortCol === 'name')    { av = a.name;    bv = b.name; }
+        else if (sortCol === 'virtue')  { av = a.virtue;  bv = b.virtue; }
+        else if (sortCol === 'favour')  { av = parseInt(a.favour); bv = parseInt(b.favour); }
+        else if (sortCol === 'success') { av = a.success; bv = b.success; }
+        if (av < bv) return sortDir === 'asc' ? -1 : 1;
+        if (av > bv) return sortDir === 'asc' ?  1 : -1;
+        return 0;
+      });
+    }, [filtered, sortCol, sortDir]);
+
+    return (
+      <div className="app">
+        <FilterSidebar
+          nameFilter={nameFilter}
+          setNameFilter={setNameFilter}
+          activeTags={activeTags}
+          toggleTag={toggleTag}
+          clearFilters={clearFilters}
+        />
+        <div className="main-panel">
+          <div className="result-bar">
+            <span>{sorted.length}</span> of {SAINTS.length} saints
+            {activeTags.size > 0 && <span style={{marginLeft: 8}}>· {activeTags.size} filter{activeTags.size > 1 ? 's' : ''} active</span>}
+          </div>
+          <div className="table-wrap">
+            <SaintsTable
+              saints={sorted}
+              selectedName={selectedName}
+              onSelect={onSelect}
+              sortCol={sortCol}
+              sortDir={sortDir}
+              onSort={onSort}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
