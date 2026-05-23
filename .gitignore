@@ -1,0 +1,14 @@
+# Original game installation directory
+DARKLAND/
+
+# Build output
+target/
+
+# Runtime/temp files
+*.tmp
+*.log
+/.runtime/nudge_queue/hq-mayor/1778970175917127797-47681f56.json
+.runtime
+.idea
+.dolt
+daemon
