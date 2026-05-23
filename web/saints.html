@@ -647,7 +647,7 @@ function parseSaintNames(ocrText) {
           <input
             className="search-input"
             type="text"
-            placeholder="e.g. Anthony…"
+            placeholder="e.g. Anthony, Barbara…"
             value={nameFilter}
             onChange={e => setNameFilter(e.target.value)}
           />
@@ -819,8 +819,11 @@ function parseSaintNames(ocrText) {
         list = list.filter(s => ocrNames.includes(s.name));
       } else {
         if (nameFilter.trim()) {
-          const q = nameFilter.trim().toLowerCase();
-          list = list.filter(s => s.name.toLowerCase().includes(q));
+          const STOP = new Set(['the', 'of', 'de', 'la', 'von', 'van', 'st', 'saint']);
+          const terms = nameFilter.split(/[\s,\n]+/)
+            .map(t => t.replace(/\.$/, '').trim().toLowerCase())
+            .filter(t => t.length > 0 && !STOP.has(t));
+          list = list.filter(s => terms.some(t => s.name.toLowerCase().includes(t)));
         }
         if (activeTags.size > 0) {
           list = list.filter(s => s.tags.some(t => activeTags.has(t)));

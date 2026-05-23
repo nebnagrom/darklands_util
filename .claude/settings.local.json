@@ -26,7 +26,17 @@
       "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --format=\"%h %ci %s\" -10')",
       "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --pretty=format:\"%h %cd %s\" --date=short -10')",
       "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git log --oneline --decorate -10 2>&1')",
-      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git show 7200a88 --stat && echo \"---\" && git show a6ec4e8 --stat')"
+      "PowerShell(wsl bash -c 'cd /mnt/d/programming/darklands_util && git show 7200a88 --stat && echo \"---\" && git show a6ec4e8 --stat')",
+      "PowerShell(wsl bash -c '/home/morgan/go/bin/bd -C /mnt/d/programming/darklands_util show hq-6d8')",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(\"D:\\\\programming\\\\darklands_util\\\\src\\\\main\\\\resources\\\\darklands_map_only.png\"\\); \"$\\($img.Width\\) x $\\($img.Height\\)\"; $img.Dispose\\(\\))",
+      "PowerShell(wsl bash -c 'cat /mnt/d/programming/darklands_util/.git/hooks/post-checkout')",
+      "PowerShell(wsl bash -c 'cat /tmp/commitmsg && echo \"---\" && cd /mnt/d/programming/darklands_util && git log -1 --oneline')",
+      "PowerShell(wsl bash -c 'printf \"Add OCR screenshot search to saints page\\\\n\" > /tmp/commitmsg && cat /tmp/commitmsg && cd /mnt/d/programming/darklands_util && git commit --amend -F /tmp/commitmsg && git log -1 --oneline')",
+      "PowerShell(wsl bash -c 'echo test; echo test2')",
+      "PowerShell(wsl bash -c 'echo test > /tmp/t.txt; cat /tmp/t.txt')",
+      "PowerShell(wsl bash -c 'ls -la /mnt/d/programming/darklands_util/.git/hooks/')",
+      "PowerShell(wsl bash -c 'cat /mnt/d/programming/darklands_util/.git/COMMIT_EDITMSG')",
+      "PowerShell(wsl bash -c 'ls /mnt/d/programming/darklands_util/src/main/')"
     ]
   }
 }
