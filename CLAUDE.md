@@ -85,19 +85,30 @@ bd <command>
 - Hooks in `.claude/settings.json` use `wsl bash -c '/home/morgan/go/bin/bd prime -C /mnt/d/programming/darklands_util'` — required for Windows (PowerShell) sessions
 - `.beads/` directory should be `chmod 700` (WSL warns otherwise)
 
+## Local Project References
+
+Related projects on this machine. When the user pastes a path like `../vvendigo/darklands` or similar, these are the sibling directories they're referencing:
+
+| Path | What it is |
+|---|---|
+| `D:\programming\vvendigo\Darklands` | Community reverse-engineering research: Python parsers (`reader_lst.py`, `reader_map.py`, `format_cty.py`, etc.), LZW/RLE decompression, and community notes from bay12forums, olemars, quadko, up-to-date, and wallace.net subdirs |
+| `D:\programming\darklandscompanion` | Local copy of the [illusium77/darklandscompanion](https://github.com/illusium77/darklandscompanion) .NET solution — source of the saint prayer data used in `SaintData.kt` |
+| `D:\programming\darkland_reference` | Archive files: original patches, zip utilities, a few save games, and `project_analysis.md` |
+
+When the user pastes content from these paths, treat it as reference material for the Darklands binary format. The Python scripts in `vvendigo/Darklands` are especially useful as working format decoders to cross-reference against the Kotlin parsers in this project.
+
 ## Build & Test
 
-_Add your build and test commands here_
-
 ```bash
-# Example:
-# npm install
-# npm test
+# Maven (Kotlin)
+mvn compile
+mvn test
+mvn exec:java   # runs Main.kt
 ```
 
 ## Architecture Overview
 
-_Add a brief overview of your project architecture_
+Kotlin/Maven utility that parses 1992 DOS RPG *Darklands* binary files and exports to JSON. Entry point: `src/main/kotlin/bm/darkland/Main.kt`. Game binary files live in `DARKLAND/`. See `README.md` for full file format notes and parser status.
 
 ## Conventions & Patterns
 

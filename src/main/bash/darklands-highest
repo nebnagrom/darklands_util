@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+SCRIPT_DIR=/mnt/d/programming/darklands_util/src/main/python
+PYTHONPATH="$SCRIPT_DIR" python3 "$SCRIPT_DIR/highest_save_number.py" "${1:-.}"

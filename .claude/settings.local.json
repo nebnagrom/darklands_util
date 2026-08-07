@@ -36,7 +36,10 @@
       "PowerShell(wsl bash -c 'echo test > /tmp/t.txt; cat /tmp/t.txt')",
       "PowerShell(wsl bash -c 'ls -la /mnt/d/programming/darklands_util/.git/hooks/')",
       "PowerShell(wsl bash -c 'cat /mnt/d/programming/darklands_util/.git/COMMIT_EDITMSG')",
-      "PowerShell(wsl bash -c 'ls /mnt/d/programming/darklands_util/src/main/')"
+      "PowerShell(wsl bash -c 'ls /mnt/d/programming/darklands_util/src/main/')",
+      "PowerShell(wsl bash -c 'ls /mnt/d/programming/vvendigo/Darklands/file_formats/up-to-date/xml_formats/')",
+      "PowerShell(wsl bash -c \"/home/morgan/go/bin/bd update hq-e8g --title 'Inventory sorter: sort character items in DKSAVE save file by type, name, quality'\")",
+      "PowerShell(\\(Get-Content \"D:\\\\programming\\\\darklands_util\\\\src\\\\main\\\\kotlin\\\\bm\\\\darkland\\\\data\\\\SaintData.kt\" | Measure-Object -Line\\).Lines)"
     ]
   }
 }

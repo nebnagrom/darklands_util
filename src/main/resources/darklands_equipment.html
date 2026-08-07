@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darklands Equipment &amp; Combat</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2em 2.5em;
+    color: #1a1a1a;
+    background: #fdfaf4;
+    line-height: 1.6;
+}
+h1, h2, h3, h4 {
+    font-family: "Palatino Linotype", Palatino, Georgia, serif;
+    color: #2c1a00;
+    margin-top: 1.8em;
+    margin-bottom: 0.4em;
+}
+h1 { font-size: 2em; border-bottom: 2px solid #8b6914; padding-bottom: 0.2em; }
+h2 { font-size: 1.5em; border-bottom: 1px solid #c8a84b; padding-bottom: 0.15em; }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1em; font-style: italic; }
+p { margin: 0.7em 0; }
+hr { border: none; border-top: 1px solid #c8a84b; margin: 2em 0; }
+blockquote {
+    border-left: 3px solid #c8a84b;
+    margin: 1em 0;
+    padding: 0.3em 1em;
+    color: #555;
+    font-style: italic;
+    background: #f5eed8;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+    font-size: 0.9em;
+}
+th {
+    background: #3d2200;
+    color: #fdf0c8;
+    padding: 0.45em 0.7em;
+    text-align: left;
+    font-family: "Palatino Linotype", Palatino, Georgia, serif;
+}
+td {
+    padding: 0.35em 0.7em;
+    border-bottom: 1px solid #d4c080;
+    vertical-align: top;
+}
+tr:nth-child(even) td { background: #f5eed8; }
+tr:hover td { background: #ede0b0; }
+code {
+    background: #eee8d0;
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+pre {
+    background: #eee8d0;
+    padding: 1em;
+    overflow-x: auto;
+    border-radius: 4px;
+}
+pre code { background: none; padding: 0; }
+ul, ol { margin: 0.5em 0; padding-left: 1.8em; }
+li { margin: 0.2em 0; }
+a { color: #8b4000; }
+em { font-style: italic; }
+strong { font-weight: bold; color: #2c1a00; }
+
+</style>
+</head>
+<body>
+<h1>Darklands — Equipment &amp; Combat: Weapons &amp; Armour</h1>
+<p>Extracted from <code>darklands_cluebook.pdf</code>, pages 35–38 (the <em>Equipment &amp; Combat</em> section). Source: <em>Darklands</em> cluebook, MicroProse, 1992.</p>
+<p>Notes on this extraction:</p>
+<ul>
+<li>The cluebook PDF has a poor embedded text layer, so these tables were read</li>
+</ul>
+<p>from high-resolution page images rather than copied from the text layer.</p>
+<ul>
+<li>Weights (<code>WGT</code>) are given in pounds, exactly as stated in the cluebook.</li>
+</ul>
+<p>This is the game's own unit and has been left unconverted to preserve the raw data.</p>
+<ul>
+<li>The <code>††</code> marker on a weapon name indicates a two-handed weapon (see the</li>
+</ul>
+<p><code>WEAPON</code> column definition below).</p>
+<hr>
+<h2>Weaponry</h2>
+<h3>Column definitions</h3>
+<p>The weapons tables include the following information:</p>
+<p><strong>WEAPON:</strong> Name of the weapon. The <code>††</code> symbol indicates a two-handed weapon. While a character is using such a weapon, shields cannot be used (even if the character is armed with one).</p>
+<p><strong>SPEED:</strong> Weapon speed; the smaller the number, the faster the weapon.</p>
+<p><strong>PEN:</strong> Penetration value; the higher the number, the better the penetration.</p>
+<p><strong>DMG:</strong> Damage value; if the weapon penetrates, this is (approximately) the maximum endurance damage it could accomplish. Strength damage is less, sometimes much less.</p>
+<p><strong>SKILL:</strong> Minimum skill needed to use the weapon without incurring special penalties.</p>
+<p><strong>STR:</strong> Strength range for the weapon. If the character's strength is below the lower number, penalties may occur in both hit probability and damage. If the character's strength is above the higher number, bonuses may occur to hit probability and damage.</p>
+<p><strong>WGT:</strong> The weight, in pounds, of the weapon. Large, bulky weapons include an extra penalty in their weight (pikes, for example).</p>
+<p><strong>RARITY:</strong> The availability of the weapon. The higher the rarity, the less likely you are to find it for sale, especially in smaller cities.</p>
+<p><strong>PRICE:</strong> Typical price in a moderate-sized (5) city for an average quality (25) weapon. Larger cities may have slightly cheaper prices. Different quality can significantly affect prices. Finally, price is also influenced by random factors.</p>
+<h3>Weapon table</h3>
+<p>The cluebook presents weapons as a single table grouped into categories. The groupings are preserved below as separate tables; all share the same columns.</p>
+<h4>Edged Weapons</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Two-handed sword ††</td>
+<td>95</td>
+<td>4</td>
+<td>14</td>
+<td>19</td>
+<td>21–31</td>
+<td>10</td>
+<td>6</td>
+<td>660</td>
+</tr>
+<tr>
+<td>Longsword</td>
+<td>55</td>
+<td>3</td>
+<td>12</td>
+<td>18</td>
+<td>19–29</td>
+<td>6</td>
+<td>4</td>
+<td>270</td>
+</tr>
+<tr>
+<td>Falchion</td>
+<td>45</td>
+<td>2</td>
+<td>10</td>
+<td>14</td>
+<td>15–29</td>
+<td>4</td>
+<td>4</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Shortsword</td>
+<td>40</td>
+<td>4</td>
+<td>8</td>
+<td>16</td>
+<td>13–28</td>
+<td>3</td>
+<td>4</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Poniard</td>
+<td>30</td>
+<td>4</td>
+<td>5</td>
+<td>10</td>
+<td>12–27</td>
+<td>1</td>
+<td>4</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Dagger</td>
+<td>25</td>
+<td>3</td>
+<td>6</td>
+<td>8</td>
+<td>11–27</td>
+<td>1</td>
+<td>4</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Battleaxe ††</td>
+<td>100</td>
+<td>3</td>
+<td>15</td>
+<td>12</td>
+<td>22–30</td>
+<td>8</td>
+<td>6</td>
+<td>500</td>
+</tr>
+<tr>
+<td>Hand Axe</td>
+<td>45</td>
+<td>2</td>
+<td>9</td>
+<td>8</td>
+<td>15–29</td>
+<td>4</td>
+<td>4</td>
+<td>130</td>
+</tr>
+<tr>
+<td>Field Axe ††</td>
+<td>65</td>
+<td>1</td>
+<td>7</td>
+<td>8</td>
+<td>14–28</td>
+<td>5</td>
+<td>3</td>
+<td>30</td>
+</tr>
+<tr>
+<td>(small knife)</td>
+<td>25</td>
+<td>1</td>
+<td>4</td>
+<td>7</td>
+<td>10–75</td>
+<td>0</td>
+<td>–</td>
+<td>–</td>
+</tr>
+</tbody></table>
+<h4>Impact Weapons</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Great Hammer ††</td>
+<td>120</td>
+<td>6</td>
+<td>11</td>
+<td>20</td>
+<td>24–30</td>
+<td>9</td>
+<td>7</td>
+<td>740</td>
+</tr>
+<tr>
+<td>Giant Cudgel ††</td>
+<td>130</td>
+<td>5</td>
+<td>10</td>
+<td>10</td>
+<td>27–33</td>
+<td>15</td>
+<td>2</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Maul or Giant Mace ††</td>
+<td>90</td>
+<td>4</td>
+<td>12</td>
+<td>9</td>
+<td>25–32</td>
+<td>12</td>
+<td>3</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Military Hammer</td>
+<td>50</td>
+<td>5</td>
+<td>8</td>
+<td>12</td>
+<td>15–29</td>
+<td>3</td>
+<td>5</td>
+<td>330</td>
+</tr>
+<tr>
+<td>Mace</td>
+<td>40</td>
+<td>4</td>
+<td>9</td>
+<td>8</td>
+<td>14–29</td>
+<td>4</td>
+<td>3</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Club</td>
+<td>45</td>
+<td>3</td>
+<td>7</td>
+<td>4</td>
+<td>16–30</td>
+<td>5</td>
+<td>1</td>
+<td>20</td>
+</tr>
+</tbody></table>
+<h4>Flails</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Two-handed Flail ††</td>
+<td>130</td>
+<td>5</td>
+<td>12</td>
+<td>18</td>
+<td>20–35</td>
+<td>8</td>
+<td>4</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Military Flail</td>
+<td>70</td>
+<td>4</td>
+<td>10</td>
+<td>14</td>
+<td>17–99</td>
+<td>4</td>
+<td>6</td>
+<td>160</td>
+</tr>
+</tbody></table>
+<h4>Polearms</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Pike ††</td>
+<td>140</td>
+<td>4</td>
+<td>12</td>
+<td>21</td>
+<td>20–32</td>
+<td>17</td>
+<td>4</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Halberd ††</td>
+<td>105</td>
+<td>4</td>
+<td>15</td>
+<td>19</td>
+<td>23–31</td>
+<td>12</td>
+<td>5</td>
+<td>430</td>
+</tr>
+<tr>
+<td>Long Spear</td>
+<td>85</td>
+<td>3</td>
+<td>11</td>
+<td>12</td>
+<td>20–32</td>
+<td>9</td>
+<td>4</td>
+<td>130</td>
+</tr>
+<tr>
+<td>Short Spear</td>
+<td>70</td>
+<td>3</td>
+<td>9</td>
+<td>8</td>
+<td>17–33</td>
+<td>7</td>
+<td>3</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Quarterstaff ††</td>
+<td>40</td>
+<td>2</td>
+<td>5</td>
+<td>10</td>
+<td>16–33</td>
+<td>7</td>
+<td>1</td>
+<td>12</td>
+</tr>
+</tbody></table>
+<h4>Thrown Weapons</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Throwing Axe</td>
+<td>240</td>
+<td>2</td>
+<td>9</td>
+<td>19</td>
+<td>20–31</td>
+<td>3</td>
+<td>6</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Javelin</td>
+<td>240</td>
+<td>3</td>
+<td>8</td>
+<td>10</td>
+<td>18–29</td>
+<td>3</td>
+<td>5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Dart</td>
+<td>180</td>
+<td>3</td>
+<td>6</td>
+<td>11</td>
+<td>16–29</td>
+<td>1</td>
+<td>8</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Throwing Knife</td>
+<td>240</td>
+<td>2</td>
+<td>5</td>
+<td>30</td>
+<td>13–50</td>
+<td>1</td>
+<td>8</td>
+<td>40</td>
+</tr>
+</tbody></table>
+<h4>Bows</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Composite Bow ††</td>
+<td>210</td>
+<td>6</td>
+<td>5</td>
+<td>30</td>
+<td>22–32</td>
+<td>7</td>
+<td>12</td>
+<td>7600</td>
+</tr>
+<tr>
+<td>Longbow ††</td>
+<td>180</td>
+<td>6</td>
+<td>5</td>
+<td>25</td>
+<td>20–31</td>
+<td>8</td>
+<td>10</td>
+<td>1600</td>
+</tr>
+<tr>
+<td>Shortbow ††</td>
+<td>150</td>
+<td>4</td>
+<td>5</td>
+<td>20</td>
+<td>16–29</td>
+<td>6</td>
+<td>3</td>
+<td>230</td>
+</tr>
+</tbody></table>
+<h4>Missile Devices</h4>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Crossbow ††</td>
+<td>540</td>
+<td>6</td>
+<td>7</td>
+<td>14</td>
+<td>18–99</td>
+<td>9</td>
+<td>2</td>
+<td>270</td>
+</tr>
+<tr>
+<td>Arbalest ††</td>
+<td>660</td>
+<td>7</td>
+<td>8</td>
+<td>16</td>
+<td>20–99</td>
+<td>19</td>
+<td>5</td>
+<td>530</td>
+</tr>
+<tr>
+<td>Iron Handgun ††</td>
+<td>720</td>
+<td>5</td>
+<td>9</td>
+<td>12</td>
+<td>17–99</td>
+<td>14</td>
+<td>6</td>
+<td>740</td>
+</tr>
+<tr>
+<td>Brass Handgun ††</td>
+<td>780</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>16–99</td>
+<td>13</td>
+<td>9</td>
+<td>1650</td>
+</tr>
+</tbody></table>
+<h4>Shields</h4>
+<p>Shields have no Speed, Pen, Dmg, Skill or Str values.</p>
+<table>
+<thead><tr>
+<th>Weapon</th>
+<th>Speed</th>
+<th>Pen</th>
+<th>Dmg</th>
+<th>Skill</th>
+<th>Str</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Small</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>3</td>
+<td>3</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>6</td>
+<td>4</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Large</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>10</td>
+<td>5</td>
+<td>130</td>
+</tr>
+</tbody></table>
+<h3>Comments</h3>
+<p>Some players favor faster weapons for a greater number of hits. This tactic is especially useful for unskillful fighters, who otherwise might never score a hit.</p>
+<p>Others favor high-penetration weapons (value of 4 or 5), to insure penetrating hits. This is because non-penetrating hits do so little damage. For those who hate changing weapons, this is an ideal strategy. Unfortunately, most of these weapons are quite slow.</p>
+<p>Also bear in mind the weight of a weapon. Some weapons are cheap but heavy, which either restricts armor possible or slows the character in battle.</p>
+<p>Naturally, within the above considerations, the higher the damage value, the better. Because non-penetrating damage is 1/8th normal, rounded down, weapons that normally inflict 7 or fewer damage points may inflict none after rounding off a non-penetrating hit.</p>
+<p>Also note that certain weapons give no benefits to the very strong. This includes the military flail (wielding it with great strength usually breaks the weapon) and all missile devices.</p>
+<hr>
+<h2>Armour</h2>
+<h3>Column definitions</h3>
+<p>The armor table includes the following information:</p>
+<p><strong>AREA:</strong> Whether the armor covers vitals or limbs. For complete protection, a character needs armor in both areas.</p>
+<p><strong>ARMOR:</strong> The type of armor. Metal armor includes plate, brigandine, chainmail, and scale. The rest are considered non-metal armors.</p>
+<p><strong>THICKNESS:</strong> This is compared to penetration values. Higher thickness is better.</p>
+<p><strong>WGT:</strong> The weight in pounds. Bulky or stiff armors include a slight weight penalty.</p>
+<p><strong>RARITY:</strong> The availability of the armor. The higher the rarity, the less likely you are to find it for sale, especially in smaller cities.</p>
+<p><strong>PRICE:</strong> Typical price in a moderate-sized (5) city for average quality (25) armor. Larger cities may have slightly cheaper prices. Different quality can significantly affect prices. Finally, price is also influenced by random factors.</p>
+<h3>Armour table</h3>
+<table>
+<thead><tr>
+<th>Area</th>
+<th>Armor</th>
+<th>Thickness</th>
+<th>Wgt</th>
+<th>Rarity</th>
+<th>Price</th>
+</tr></thead><tbody>
+<tr>
+<td>Vitals</td>
+<td>Plate</td>
+<td>5</td>
+<td>28</td>
+<td>7</td>
+<td>2700</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Plate</td>
+<td>5</td>
+<td>31</td>
+<td>7</td>
+<td>2500</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Brigandine</td>
+<td>4</td>
+<td>27</td>
+<td>3</td>
+<td>930</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Brigandine</td>
+<td>4</td>
+<td>29</td>
+<td>4</td>
+<td>930</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Chainmail</td>
+<td>4</td>
+<td>23</td>
+<td>4</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Chainmail</td>
+<td>4</td>
+<td>26</td>
+<td>4</td>
+<td>1130</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Scale</td>
+<td>3</td>
+<td>21</td>
+<td>5</td>
+<td>900</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Scale</td>
+<td>3</td>
+<td>24</td>
+<td>6</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Cuirbouilli</td>
+<td>2</td>
+<td>6</td>
+<td>3</td>
+<td>450</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Cuirbouilli</td>
+<td>2</td>
+<td>8</td>
+<td>4</td>
+<td>460</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Studded Leather</td>
+<td>2</td>
+<td>8</td>
+<td>3</td>
+<td>330</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Studded Leather</td>
+<td>2</td>
+<td>10</td>
+<td>4</td>
+<td>370</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Leather</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Leather</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Vitals</td>
+<td>Padded</td>
+<td>1</td>
+<td>6</td>
+<td>2</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td>Padded</td>
+<td>1</td>
+<td>6</td>
+<td>2</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Either</td>
+<td>None</td>
+<td>0</td>
+<td>1</td>
+<td>–</td>
+<td>–</td>
+</tr>
+</tbody></table>
+</body>
+</html>

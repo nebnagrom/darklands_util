@@ -419,3 +419,5 @@
 {"id":"int-a7e605f6","kind":"field_change","created_at":"2026-05-21T11:16:30.369819305Z","actor":"bmorgan","issue_id":"hq-99t","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
 {"id":"int-d8d57261","kind":"field_change","created_at":"2026-05-21T11:16:30.422370148Z","actor":"bmorgan","issue_id":"darklands_util-aqx","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
 {"id":"int-93977155","kind":"field_change","created_at":"2026-05-23T01:32:23.747153005Z","actor":"bmorgan","issue_id":"hq-a4h","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
+{"id":"int-e3112320","kind":"field_change","created_at":"2026-05-23T02:02:23.969096256Z","actor":"bmorgan","issue_id":"hq-e8g","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
+{"id":"int-fdbd5d35","kind":"field_change","created_at":"2026-05-31T04:58:21.51823483Z","actor":"bmorgan","issue_id":"hq-8y0","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
