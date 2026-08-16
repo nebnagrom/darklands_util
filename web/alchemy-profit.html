@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darklands — Alchemy Profit Ranker</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="data/darklands-data.js"></script>
+  <script src="js/darklands-save.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
+      min-height: 100%;
+      background: #0d0d10;
+      color: #ddd8cc;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #525060;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .title {
+      font-size: 28px;
+      color: #e8c840;
+      font-weight: normal;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #706a58;
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    .rule {
+      width: 64px;
+      height: 1px;
+      background: #252530;
+      margin: 28px auto;
+    }
+    .nav-back {
+      display: block;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #484858;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .nav-back:hover { color: #9a98a8; }
+
+    /* ── Drop zone ── */
+    .drop-zone {
+      border: 1px dashed #252530;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone.active { border-color: #a08828; background: #141208; }
+    .drop-zone:hover { border-color: #4a4858; }
+    .drop-hint {
+      font-size: 12px;
+      color: #706a58;
+      line-height: 1.7;
+    }
+    .drop-hint strong { color: #c8a835; font-weight: normal; }
+    .drop-sub { font-size: 10px; color: #3a3848; margin-top: 8px; letter-spacing: 0.5px; }
+    input[type="file"] { display: none; }
+
+    .error-box {
+      margin-top: 16px;
+      border: 1px solid #582010;
+      background: #140c08;
+      color: #c06038;
+      font-size: 12px;
+      padding: 12px 14px;
+      line-height: 1.6;
+    }
+
+    .result-header {
+      margin-top: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #252530;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .result-file {
+      font-size: 13px;
+      color: #ddd8cc;
+    }
+    .result-meta {
+      font-size: 11px;
+      color: #706a58;
+      letter-spacing: 0.5px;
+    }
+    .reset-btn {
+      background: none;
+      border: 1px solid #222230;
+      color: #484858;
+      cursor: pointer;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      transition: all 0.1s;
+    }
+    .reset-btn:hover { border-color: #4a4858; color: #9a98a8; }
+
+    .empty-note {
+      margin-top: 24px;
+      text-align: center;
+      color: #525060;
+      font-size: 13px;
+    }
+
+    /* ── Character panel ── */
+    .char-panel {
+      margin-top: 28px;
+      border: 1px solid #1c1c24;
+      background: #111116;
+    }
+    .char-head {
+      padding: 12px 16px;
+      border-bottom: 1px solid #252530;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .char-name { font-size: 15px; color: #e8c840; }
+    .char-stats { font-size: 11px; color: #8a8878; letter-spacing: 0.3px; }
+    .char-stats strong { color: #a09880; font-weight: normal; }
+
+    .potion-table { width: 100%; border-collapse: collapse; }
+    .potion-table thead th {
+      padding: 6px 14px;
+      text-align: left;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #525060;
+      border-bottom: 1px solid #1c1c24;
+      white-space: nowrap;
+    }
+    .potion-table thead th.num { text-align: right; }
+    .potion-table tbody td {
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #b8b4a8;
+      border-bottom: 1px solid #181820;
+      white-space: nowrap;
+    }
+    .potion-table tbody td.num { text-align: right; font-family: monospace; }
+    .potion-table tbody tr:last-child td { border-bottom: none; }
+    .potion-name { color: #ddd8cc; }
+    .ep-pos { color: #68b060; }
+    .ep-neg { color: #c04848; }
+    .risk-low { color: #68b060; }
+    .risk-mod { color: #c8a835; }
+    .risk-high { color: #c06038; }
+
+    .section-label {
+      padding: 10px 16px 4px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #484858;
+    }
+    .impossible-td { color: #585666; }
+
+    .unmatched-note {
+      padding: 8px 16px 14px;
+      font-size: 11px;
+      color: #706a40;
+      line-height: 1.6;
+    }
+    .no-formulae {
+      padding: 16px;
+      font-size: 12px;
+      color: #525060;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useCallback, useRef, useMemo } = React;
+
+function buildPotionsMap() {
+  const map = new Map();
+  for (const p of ALCHEMY_POTIONS) {
+    map.set(`${p.key_prefix}|${p.key_quality}`, p);
+  }
+  return map;
+}
+
+function riskClass(risk) {
+  const r = (risk || '').toLowerCase();
+  if (r === 'low') return 'risk-low';
+  if (r === 'mod') return 'risk-mod';
+  if (r === 'high') return 'risk-high';
+  return '';
+}
+
+function fmtPf(n) {
+  const rounded = roundHalfEven(n);
+  const sign = rounded >= 0 ? '+' : '';
+  return `${sign}${rounded}pf`;
+}
+
+function DropZone({ onFile, busy }) {
+  const [active, setActive] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleFiles = useCallback((files) => {
+    if (files && files.length > 0) onFile(files[0]);
+  }, [onFile]);
+
+  return (
+    <div
+      className={`drop-zone${active ? ' active' : ''}`}
+      onClick={() => inputRef.current && inputRef.current.click()}
+      onDragOver={(e) => { e.preventDefault(); setActive(true); }}
+      onDragLeave={() => setActive(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setActive(false);
+        handleFiles(e.dataTransfer.files);
+      }}
+    >
+      <div className="drop-hint">
+        {busy ? 'Reading save file…' : <React.Fragment><strong>Click to choose</strong> or drag in a save file</React.Fragment>}
+      </div>
+      <div className="drop-sub">DKSAVE0.SAV … DKSAVE9.SAV — processed entirely in your browser, never uploaded</div>
+      <input
+        ref={inputRef}
+        type="file"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
+    </div>
+  );
+}
+
+function CharacterPanel({ char }) {
+  const hasAny = char.brewable.length > 0 || char.impossible.length > 0 || char.unmatched.length > 0;
+
+  return (
+    <div className="char-panel">
+      <div className="char-head">
+        <div className="char-name">{char.name}</div>
+        <div className="char-stats">
+          Alch <strong>{char.alchemy}</strong> · Int <strong>{char.intelligence}</strong> · Total <strong>{char.total}</strong>
+        </div>
+      </div>
+
+      {!hasAny && <div className="no-formulae">(no formulae known)</div>}
+
+      {char.brewable.length > 0 && (
+        <table className="potion-table">
+          <thead>
+            <tr>
+              <th>Potion</th>
+              <th className="num">Q</th>
+              <th className="num">Mag#</th>
+              <th className="num">Succ%</th>
+              <th className="num">Raw</th>
+              <th className="num">Exp/att</th>
+              <th>Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            {char.brewable.map((row, i) => {
+              const raw = row.pvalEff - row.p.cval;
+              return (
+                <tr key={i}>
+                  <td className="potion-name">{row.p.display}</td>
+                  <td className="num">{row.p.quality}</td>
+                  <td className="num">{row.p.magic}</td>
+                  <td className="num">{roundHalfEven(row.sr * 100)}%</td>
+                  <td className="num">{fmtPf(raw)}</td>
+                  <td className={`num ${row.ep >= 0 ? 'ep-pos' : 'ep-neg'}`}>{fmtPf(row.ep)}</td>
+                  <td className={riskClass(row.p.risk)}>{row.p.risk}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+
+      {char.impossible.length > 0 && (
+        <React.Fragment>
+          <div className="section-label">Impossible — need total ≥ {char.impossible[0].p.magic}</div>
+          <table className="potion-table">
+            <tbody>
+              {char.impossible.map((row, i) => {
+                const raw = row.pvalEff - row.p.cval;
+                return (
+                  <tr key={i}>
+                    <td className="impossible-td">{row.p.display}</td>
+                    <td className="num impossible-td">{row.p.quality}</td>
+                    <td className="num impossible-td">{row.p.magic}</td>
+                    <td className="num impossible-td">—</td>
+                    <td className="num impossible-td">{fmtPf(raw)}</td>
+                    <td className="num impossible-td">—</td>
+                    <td className="impossible-td">{row.p.risk}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </React.Fragment>
+      )}
+
+      {char.unmatched.length > 0 && (
+        <div className="unmatched-note">In save but not in reference data: {char.unmatched.join(', ')}</div>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const [fileName, setFileName] = useState(null);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const potionsMap = useMemo(buildPotionsMap, []);
+
+  const onFile = useCallback((file) => {
+    setError(null);
+    setResult(null);
+    setBusy(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = parseSaveAlchemy(reader.result, FORMULA_TABLE, FORMULA_TYPES, potionsMap);
+        setResult(parsed);
+        setFileName(file.name);
+      } catch (err) {
+        setError(`Could not read this file as a Darklands save: ${err.message}`);
+      } finally {
+        setBusy(false);
+      }
+    };
+    reader.onerror = () => {
+      setError('Could not read the file.');
+      setBusy(false);
+    };
+    reader.readAsArrayBuffer(file);
+  }, [potionsMap]);
+
+  const reset = () => { setResult(null); setError(null); setFileName(null); };
+
+  return (
+    <div className="page">
+      <a className="nav-back" href="index.html">← Reference</a>
+      <div className="eyebrow">Save Analysis</div>
+      <div className="title">Alchemy Profit Ranker</div>
+      <div className="subtitle">
+        Upload a DKSAVE*.SAV file to rank every formula each party member knows<br/>
+        by expected profit per attempt, using alchemy skill + intelligence + philosopher's stone.
+      </div>
+      <div className="rule"></div>
+
+      {!result && <DropZone onFile={onFile} busy={busy} />}
+      {error && <div className="error-box">{error}</div>}
+
+      {result && (
+        <React.Fragment>
+          <div className="result-header">
+            <div>
+              <div className="result-file">{fileName}</div>
+              <div className="result-meta">Philosopher's stone quality: {result.pstone}</div>
+            </div>
+            <button className="reset-btn" onClick={reset}>Load another save</button>
+          </div>
+
+          {result.characters.length === 0 ? (
+            <div className="empty-note">No characters with alchemy skill found.</div>
+          ) : (
+            result.characters.map((char, i) => <CharacterPanel char={char} key={i} />)
+          )}
+        </React.Fragment>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

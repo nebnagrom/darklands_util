@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darklands — Pending Quests</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="data/darklands-data.js"></script>
+  <script src="js/darklands-save.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
+      min-height: 100%;
+      background: #0d0d10;
+      color: #ddd8cc;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #525060;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .title {
+      font-size: 28px;
+      color: #e8c840;
+      font-weight: normal;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #706a58;
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    .rule {
+      width: 64px;
+      height: 1px;
+      background: #252530;
+      margin: 28px auto;
+    }
+    .nav-back {
+      display: block;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #484858;
+      text-decoration: none;
+      margin-bottom: 24px;
+    }
+    .nav-back:hover { color: #9a98a8; }
+
+    /* ── Drop zone ── */
+    .drop-zone {
+      border: 1px dashed #252530;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone.active { border-color: #a08828; background: #141208; }
+    .drop-zone:hover { border-color: #4a4858; }
+    .drop-hint {
+      font-size: 12px;
+      color: #706a58;
+      line-height: 1.7;
+    }
+    .drop-hint strong { color: #c8a835; font-weight: normal; }
+    .drop-sub { font-size: 10px; color: #3a3848; margin-top: 8px; letter-spacing: 0.5px; }
+    input[type="file"] { display: none; }
+
+    .error-box {
+      margin-top: 16px;
+      border: 1px solid #582010;
+      background: #140c08;
+      color: #c06038;
+      font-size: 12px;
+      padding: 12px 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Result header ── */
+    .result-header {
+      margin-top: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #252530;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .result-file {
+      font-size: 13px;
+      color: #ddd8cc;
+    }
+    .result-date {
+      font-size: 11px;
+      color: #706a58;
+      letter-spacing: 0.5px;
+    }
+    .reset-btn {
+      background: none;
+      border: 1px solid #222230;
+      color: #484858;
+      cursor: pointer;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      transition: all 0.1s;
+    }
+    .reset-btn:hover { border-color: #4a4858; color: #9a98a8; }
+
+    .quest-count {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #525060;
+      margin: 18px 0 4px;
+    }
+
+    .quest-list { margin-top: 12px; }
+    .quest-row {
+      padding: 14px 0;
+      border-bottom: 1px solid #181820;
+    }
+    .quest-row:last-child { border-bottom: none; }
+    .quest-num {
+      display: inline-block;
+      min-width: 26px;
+      color: #8a8878;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .quest-line1 {
+      font-size: 13px;
+      color: #ddd8cc;
+      line-height: 1.6;
+    }
+    .quest-line2 {
+      font-size: 12px;
+      color: #a09880;
+      margin-left: 34px;
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    .empty-note {
+      margin-top: 24px;
+      text-align: center;
+      color: #525060;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useCallback, useRef } = React;
+
+function DropZone({ onFile, busy }) {
+  const [active, setActive] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleFiles = useCallback((files) => {
+    if (files && files.length > 0) onFile(files[0]);
+  }, [onFile]);
+
+  return (
+    <div
+      className={`drop-zone${active ? ' active' : ''}`}
+      onClick={() => inputRef.current && inputRef.current.click()}
+      onDragOver={(e) => { e.preventDefault(); setActive(true); }}
+      onDragLeave={() => setActive(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setActive(false);
+        handleFiles(e.dataTransfer.files);
+      }}
+    >
+      <div className="drop-hint">
+        {busy ? 'Reading save file…' : <React.Fragment><strong>Click to choose</strong> or drag in a save file</React.Fragment>}
+      </div>
+      <div className="drop-sub">DKSAVE0.SAV … DKSAVE9.SAV — processed entirely in your browser, never uploaded</div>
+      <input
+        ref={inputRef}
+        type="file"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
+    </div>
+  );
+}
+
+function QuestList({ result, fileName }) {
+  const dateStr = `${result.year}/${String(result.month).padStart(2, '0')}/${String(result.day).padStart(2, '0')} hour ${result.hour}`;
+  return (
+    <div>
+      <div className="result-date" style={{textAlign: 'center', marginBottom: 4}}>{fileName} — {dateStr}</div>
+      <div className="quest-count">
+        {result.pending} pending quest{result.pending === 1 ? '' : 's'}
+      </div>
+      {result.pending === 0 ? (
+        <div className="empty-note">No pending quests found.</div>
+      ) : (
+        <div className="quest-list">
+          {result.quests.map((q) => (
+            <div className="quest-row" key={q.num}>
+              <div><span className="quest-num">{q.num}:</span><span className="quest-line1">{q.line1}</span></div>
+              {q.line2 && <div className="quest-line2">{q.line2}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const [fileName, setFileName] = useState(null);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  const onFile = useCallback((file) => {
+    setError(null);
+    setResult(null);
+    setBusy(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = parseSaveQuests(reader.result, LST_ITEMS);
+        setResult(parsed);
+        setFileName(file.name);
+      } catch (err) {
+        setError(`Could not read this file as a Darklands save: ${err.message}`);
+      } finally {
+        setBusy(false);
+      }
+    };
+    reader.onerror = () => {
+      setError('Could not read the file.');
+      setBusy(false);
+    };
+    reader.readAsArrayBuffer(file);
+  }, []);
+
+  const reset = () => { setResult(null); setError(null); setFileName(null); };
+
+  return (
+    <div className="page">
+      <a className="nav-back" href="index.html">← Reference</a>
+      <div className="eyebrow">Save Analysis</div>
+      <div className="title">Pending Quests</div>
+      <div className="subtitle">
+        Upload a DKSAVE*.SAV file to list every open quest — what to fetch or deliver,<br/>
+        who commissioned it, where, and by when.
+      </div>
+      <div className="rule"></div>
+
+      {!result && <DropZone onFile={onFile} busy={busy} />}
+      {error && <div className="error-box">{error}</div>}
+
+      {result && (
+        <React.Fragment>
+          <div className="result-header">
+            <button className="reset-btn" onClick={reset}>Load another save</button>
+          </div>
+          <QuestList result={result} fileName={fileName} />
+        </React.Fragment>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
